@@ -22,7 +22,6 @@ function MovingGrid() {
                     wireframe
                     transparent
                     opacity={0.6}
-                    linewidth={2}
                 />
             </Plane>
             {/* Second grid for seamless looping illusion if needed, but plane covers view */}

@@ -102,7 +102,7 @@ export function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-                    <div>&copy; 2026 AhiLight Inc. All rights reserved. v2.0</div>
+                    <div>&copy; 2026 AhiLight Inc. All rights reserved. v2.1</div>
                     <div className="flex items-center gap-6">
                         <span className="flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full bg-success-green animate-pulse" />
