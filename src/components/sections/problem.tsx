@@ -51,7 +51,7 @@ export function Problem() {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="relative py-32 px-4 bg-black overflow-hidden"
+            className="relative py-32 px-4 bg-transparent overflow-hidden"
         >
             {/* Background Elements */}
             <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:30px_30px] pointer-events-none" />

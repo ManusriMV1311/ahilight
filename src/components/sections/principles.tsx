@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/section"
 
 export function Principles() {
     return (
-        <Section background="navy-gradient" className="py-24">
+        <Section background="transparent" className="py-24">
             <div className="container mx-auto px-4 text-center mb-16">
                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Research-Backed. Engineering-Driven.</h2>
                 <p className="text-xl text-slate-400 max-w-2xl mx-auto">

@@ -1,3 +1,4 @@
+import { CyberFortressBackground } from "@/components/backgrounds/CyberFortressBackground";
 import { Hero } from "@/components/cyberfortress/sections/hero";
 import { TrustSignals } from "@/components/cyberfortress/sections/trust-signals";
 import { ProblemStatement } from "@/components/cyberfortress/sections/problem";
@@ -12,6 +13,7 @@ import { StickyCTA } from "@/components/layout/sticky-cta";
 export default function CyberFortressPage() {
     return (
         <div className="flex flex-col gap-0 relative">
+            <CyberFortressBackground />
             <div className="relative z-10">
                 <Hero />
                 <TrustSignals />

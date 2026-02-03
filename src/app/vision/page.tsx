@@ -1,5 +1,6 @@
 "use client";
 
+
 import { Section } from "@/components/ui/section";
 import { motion } from "framer-motion";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
@@ -7,6 +8,7 @@ import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 export default function VisionPage() {
     return (
         <div className="flex flex-col gap-0">
+
             {/* Hero Section */}
             <Section background="navy-gradient" className="min-h-[50vh] md:min-h-[60vh] flex items-center justify-center pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
                 <div className="text-center max-w-4xl mx-auto">

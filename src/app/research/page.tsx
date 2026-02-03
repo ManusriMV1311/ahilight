@@ -1,5 +1,6 @@
 "use client";
 
+import { ResearchBackground } from "@/components/backgrounds/ResearchBackground";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { FileText, Download } from "lucide-react";
@@ -9,6 +10,7 @@ import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 export default function ResearchPage() {
     return (
         <div className="flex flex-col gap-0">
+            <ResearchBackground />
             {/* Hero Section */}
             <Section background="navy-gradient" className="pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
                 <div className="text-center max-w-4xl mx-auto">

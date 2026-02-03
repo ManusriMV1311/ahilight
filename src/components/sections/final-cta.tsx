@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 export function FinalCTA() {
     return (
-        <Section background="navy-gradient" className="py-32 text-center">
+        <Section background="transparent" className="py-32 text-center">
             <div className="container mx-auto px-4 max-w-4xl">
                 <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
                     Build With AhiLight
