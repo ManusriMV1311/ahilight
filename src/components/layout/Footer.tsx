@@ -5,8 +5,16 @@ import { Box } from "lucide-react"
 
 export function Footer() {
     return (
-        <footer className="relative z-10 bg-deep-navy border-t border-white/10 pt-20 pb-10">
-            <div className="container mx-auto px-4">
+        <footer className="relative bg-deep-navy border-t border-white/10 pt-20 pb-10 overflow-hidden">
+            {/* Subtle radial glow background */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-teal-500/5 blur-[120px] rounded-full" />
+            </div>
+
+            {/* Subtle dotted grid background */}
+            <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.03] pointer-events-none" />
+
+            <div className="container mx-auto px-4 relative z-10">
 
                 {/* Top Section: Brand & Newsletter */}
                 <div className="flex flex-col lg:flex-row justify-between gap-12 mb-20">
@@ -32,17 +40,17 @@ export function Footer() {
 
                     <div className="w-full max-w-sm">
                         <h4 className="text-white font-bold mb-4">Stay Updated</h4>
-                        <div className="flex gap-2">
+                        <div className="relative group">
                             <input
                                 type="email"
-                                placeholder="Enter your email"
-                                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-electric-blue/50"
+                                placeholder="Your email address"
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all backdrop-blur-sm"
                             />
-                            <button className="bg-white/10 hover:bg-white/20 text-white font-medium px-6 rounded-lg transition-colors">
+                            <button className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-teal-500 text-white rounded-full font-semibold hover:bg-teal-400 transition-all hover:scale-105">
                                 Subscribe
                             </button>
                         </div>
-                        <p className="text-xs text-slate-600 mt-3">Research updates and product announcements.</p>
+                        <p className="text-xs text-slate-600 mt-3 pl-4">Research updates and product announcements.</p>
                     </div>
                 </div>
 

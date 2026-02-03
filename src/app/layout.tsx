@@ -22,6 +22,8 @@ export const metadata: Metadata = {
 };
 
 import { BackgroundFolds } from "@/components/ui/background-folds";
+import { CursorGlow } from "@/components/ui/cursor-glow";
+import PageWrapper from "@/components/layout/page-wrapper";
 
 export default function RootLayout({
   children,
@@ -31,16 +33,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased text-foreground bg-background font-sans`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased text-foreground bg-background font-sans relative`}
       >
+        <CursorGlow />
         <BackgroundFolds />
         <Navbar />
-        <main className="min-h-screen relative z-10">
-          {children}
-        </main>
+        <PageWrapper>
+          <main className="min-h-screen relative z-10">
+            {children}
+          </main>
+        </PageWrapper>
         <Footer />
       </body>
     </html>
   );
 }
-

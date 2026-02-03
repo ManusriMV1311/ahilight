@@ -17,7 +17,7 @@ export function FinalCTA() {
                     <Button size="lg" className="bg-electric-blue hover:bg-cyan-accent text-deep-navy font-bold rounded-full h-14 px-8 shadow-xl" onClick={() => window.location.href = '/products'}>
                         Explore Our Products
                     </Button>
-                    <Button size="lg" variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-full h-14 px-8" onClick={() => window.location.href = '/research'}>
+                    <Button size="lg" variant="outline" className="bg-transparent border-white/10 text-white hover:bg-white/5 hover:text-white rounded-full h-14 px-8" onClick={() => window.location.href = '/research'}>
                         View Our Research
                     </Button>
                 </div>

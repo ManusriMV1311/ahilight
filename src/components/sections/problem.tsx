@@ -1,67 +1,100 @@
-"use client"
+"use client";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { GlareCard } from "@/components/ui/glare-card";
+import { AlertCircle, Database, Zap } from "lucide-react";
 
-import { Section } from "@/components/ui/section"
-import { AlertCircle, Database, Zap } from "lucide-react"
+const problems = [
+    {
+        title: "Operational Complexity",
+        description: "Enterprise systems have evolved beyond human scale management. As operations grow more distributed, the overhead of manual coordination creates cascading inefficiency.",
+        icon: <AlertCircle className="w-8 h-8 text-red-500" />,
+    },
+    {
+        title: "Data Silos",
+        description: "Critical operational intelligence remains trapped in disconnected systems. Security, infrastructure, and logistics teams operate on fragmented data, preventing unified decision making.",
+        icon: <Database className="w-8 h-8 text-amber-500" />,
+    },
+    {
+        title: "Reactive Posture",
+        description: "Most enterprise systems wait for problems to occur before responding. Modern operations require proactive intelligence systems that predict, adapt, and act autonomously.",
+        icon: <Zap className="w-8 h-8 text-teal-400" />,
+    },
+];
 
 export function Problem() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" },
+        },
+    };
+
     return (
-        <Section background="transparent" className="py-24 relative">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row gap-16">
+        <motion.section
+            ref={ref}
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            className="relative py-32 px-4 bg-black overflow-hidden"
+        >
+            {/* Background Elements */}
+            <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:30px_30px] pointer-events-none" />
 
-                    {/* Headline */}
-                    <div className="w-full md:w-1/3">
-                        <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-8">
-                            The Fundamental Limit is <br />
-                            <span className="text-slate-500">Human Scale Operations</span>
-                        </h2>
-                        <p className="text-xl text-electric-blue font-medium mb-4">
-                            AhiLight builds autonomous software systems designed to operate at the scale and speed modern enterprises demand.
-                        </p>
-                    </div>
+            {/* Section headline */}
+            <motion.h2
+                variants={itemVariants}
+                className="text-4xl md:text-5xl font-bold text-center mb-6 text-white"
+            >
+                The Fundamental Limit is{" "}
+                <span className="text-teal-400">Human Scale Operations</span>
+            </motion.h2>
 
-                    {/* Problems List */}
-                    <div className="w-full md:w-2/3 space-y-12">
+            <motion.p
+                variants={itemVariants}
+                className="text-xl text-neutral-400 text-center mb-16 max-w-3xl mx-auto leading-relaxed"
+            >
+                AhiLight builds autonomous software systems designed to operate at the scale and speed modern enterprises demand.
+            </motion.p>
 
-                        <div className="flex gap-6">
-                            <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center shrink-0 text-red-500 mt-1">
-                                <AlertCircle className="w-6 h-6" />
-                            </div>
+            {/* Three problem cards with stagger */}
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                {problems.map((problem, index) => (
+                    <motion.div
+                        key={index}
+                        variants={itemVariants}
+                        className="group"
+                    >
+                        <GlareCard className="flex flex-col p-8 h-full min-h-[300px] justify-between bg-neutral-900 border-white/10">
                             <div>
-                                <h3 className="text-2xl font-bold text-white mb-3">Operational Complexity</h3>
-                                <p className="text-slate-400 text-lg leading-relaxed">
-                                    Enterprise systems have evolved beyond human scale management. As operations grow more distributed and interconnected, the overhead of manual coordination creates cascading inefficiency across teams and infrastructure.
-                                </p>
+                                <div className="mb-6 opacity-80">{problem.icon}</div>
+                                <h3 className="text-2xl font-bold mb-4 text-white">{problem.title}</h3>
+                                <p className="text-neutral-400 leading-relaxed text-base">{problem.description}</p>
                             </div>
-                        </div>
 
-                        <div className="flex gap-6">
-                            <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0 text-amber-500 mt-1">
-                                <Database className="w-6 h-6" />
+                            {/* Decorative element */}
+                            <div className="mt-8 pt-6 border-t border-white/10">
+                                <div className="h-1 w-16 bg-gradient-to-r from-teal-500 to-transparent rounded-full" />
                             </div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-white mb-3">Data Silos</h3>
-                                <p className="text-slate-400 text-lg leading-relaxed">
-                                    Critical operational intelligence remains trapped in disconnected systems. Security, infrastructure, and logistics teams operate on fragmented data, preventing unified decision making and automated response.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-6">
-                            <div className="w-12 h-12 rounded-full bg-electric-blue/10 flex items-center justify-center shrink-0 text-electric-blue mt-1">
-                                <Zap className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-white mb-3">Reactive Posture</h3>
-                                <p className="text-slate-400 text-lg leading-relaxed">
-                                    Most enterprise systems wait for problems to occur before responding. Modern operations require proactive intelligence, systems that predict, adapt, and act autonomously at machine speed.
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                        </GlareCard>
+                    </motion.div>
+                ))}
             </div>
-        </Section>
-    )
+        </motion.section>
+    );
 }

@@ -1,26 +1,31 @@
-"use client"
-
-import { Section } from "@/components/ui/section"
-import { motion } from "framer-motion"
+"use client";
+import React from "react";
+import { Section } from "@/components/ui/section";
+import { TracingBeam } from "@/components/ui/tracing-beam";
+import { motion } from "framer-motion";
 
 const quarters = [
     {
         quarter: "Q1 2026",
+        title: "Foundation & Compliance",
         items: ["Enhanced OT/ICS protocol support", "AWS GovCloud deployment option"],
         active: true
     },
     {
         quarter: "Q2 2026",
+        title: "Advanced Operations",
         items: ["Advanced threat hunting UI", "Kubernetes-native deployment"],
         active: false
     },
     {
         quarter: "Q3 2026",
+        title: "Quantum & Federal",
         items: ["Post-quantum cryptography module (ML-KEM) integration", "FedRAMP authorization pursuit begins"],
         active: false
     },
     {
         quarter: "Q4 2026",
+        title: "Next-Gen Autonomy",
         items: ["Hardware security module integration preview", "Next-generation honeypot adaptive learning v2"],
         active: false
     }
@@ -28,50 +33,38 @@ const quarters = [
 
 export function Roadmap() {
     return (
-        <Section background="navy-gradient" className="py-24">
-            <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">
-                    What&apos;s next. No surprises.
-                </h2>
-                <p className="text-slate-400 text-sm uppercase tracking-widest mt-4">Product Roadmap</p>
-            </div>
+        <Section background="navy-gradient" className="py-24 relative overflow-hidden">
+            {/* Grid Background */}
+            <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:30px_30px] pointer-events-none" />
 
-            <div className="max-w-4xl mx-auto">
-                <div className="relative border-l-2 border-white/10 ml-6 md:ml-0 md:border-l-0 md:border-t-2 md:grid md:grid-cols-4 md:gap-8 md:pt-10">
+            <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-20 relative z-10">
+                Where We're <span className="text-teal-400">Going</span>
+            </h2>
 
+            <TracingBeam className="px-6">
+                <div className="max-w-2xl mx-auto antialiased pt-4 pb-20 relative">
                     {quarters.map((q, idx) => (
-                        <motion.div
-                            key={q.quarter}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: idx * 0.15 }}
-                            className={`mb-10 md:mb-0 ml-10 md:ml-0 relative ${q.active ? "opacity-100" : "opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all"}`}
-                        >
-                            {/* Dot */}
-                            <div className={`absolute -left-[43px] md:-top-[46px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 rounded-full border-4 border-deep-navy ${q.active ? "bg-electric-blue shadow-[0_0_15px_rgba(6,182,212,0.5)]" : "bg-slate-700"}`} />
-
-                            <h3 className={`text-xl font-bold mb-4 ${q.active ? "text-electric-blue" : "text-white"}`}>
-                                {q.quarter}
-                            </h3>
-                            <ul className="space-y-3">
+                        <div key={idx} className="mb-12 relative group">
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className={`px-4 py-1 text-sm font-bold rounded-full border ${q.active ? "bg-teal-500/20 text-teal-400 border-teal-500/30" : "bg-gray-500/10 text-gray-500 border-gray-500/20"}`}>
+                                    {q.quarter}
+                                </span>
+                            </div>
+                            <h3 className={`text-2xl font-bold mb-4 ${q.active ? "text-white" : "text-gray-400 group-hover:text-gray-300 transition-colors"}`}>{q.title}</h3>
+                            <ul className="space-y-2 text-gray-400">
                                 {q.items.map((item, i) => (
-                                    <li key={i} className="text-slate-400 text-sm leading-relaxed border-l-2 border-white/5 pl-3">
+                                    <li key={i} className="flex items-start gap-2">
+                                        <svg className={`w-5 h-5 mt-0.5 flex-shrink-0 ${q.active ? "text-teal-500" : "text-gray-600"}`} fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                        </svg>
                                         {item}
                                     </li>
                                 ))}
                             </ul>
-                        </motion.div>
+                        </div>
                     ))}
-
                 </div>
-
-                <div className="text-center mt-16">
-                    <p className="text-slate-600 text-xs italic">
-                        Roadmap reflects planned priorities. Delivery is subject to ongoing evaluation.
-                    </p>
-                </div>
-            </div>
+            </TracingBeam>
         </Section>
-    )
+    );
 }
