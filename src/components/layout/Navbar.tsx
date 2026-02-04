@@ -9,7 +9,7 @@ const navItems = [
     {
         title: "About",
         icon: (
-            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+            <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400">
                 <Info className="h-5 w-5" />
                 <span className="text-sm font-medium">About</span>
             </div>
@@ -19,7 +19,7 @@ const navItems = [
     {
         title: "Vision",
         icon: (
-            <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
+            <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400">
                 <Eye className="h-5 w-5" />
                 <span className="text-sm font-medium">Vision</span>
             </div>
@@ -29,7 +29,7 @@ const navItems = [
     {
         title: "Products",
         icon: (
-            <div className="flex items-center gap-2 text-orange-600 dark:text-orange-400">
+            <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400">
                 <Package className="h-5 w-5" />
                 <span className="text-sm font-medium">Products</span>
             </div>
@@ -39,7 +39,7 @@ const navItems = [
     {
         title: "Technology",
         icon: (
-            <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
+            <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400">
                 <Cpu className="h-5 w-5" />
                 <span className="text-sm font-medium">Technology</span>
             </div>
@@ -49,7 +49,7 @@ const navItems = [
     {
         title: "Research",
         icon: (
-            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+            <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400">
                 <FlaskConical className="h-5 w-5" />
                 <span className="text-sm font-medium">Research</span>
             </div>
@@ -59,7 +59,7 @@ const navItems = [
     {
         title: "Careers",
         icon: (
-            <div className="flex items-center gap-2 text-pink-600 dark:text-pink-400">
+            <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400">
                 <Briefcase className="h-5 w-5" />
                 <span className="text-sm font-medium">Careers</span>
             </div>
