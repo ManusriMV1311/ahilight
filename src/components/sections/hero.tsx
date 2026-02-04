@@ -14,8 +14,8 @@ export function Hero() {
         { text: "the", className: "text-white" },
         { text: "Future", className: "text-white" },
         { text: "of", className: "text-white" },
-        { text: "Enterprise", className: "text-teal-400 dark:text-teal-400" },
-        { text: "Intelligence", className: "text-teal-400 dark:text-teal-400" },
+        { text: "Enterprise", className: "text-electric-blue dark:text-electric-blue" },
+        { text: "Intelligence", className: "text-electric-blue dark:text-electric-blue" },
     ];
 
     return (
@@ -23,32 +23,31 @@ export function Hero() {
             {/* Spotlight that follows content (or ambient) */}
             <Spotlight
                 className="-top-20 left-0 md:left-60 md:-top-20"
-                fill="rgba(0, 212, 170, 0.3)" // Teal spotlight
+                fill="rgba(125, 95, 255, 0.3)" // Cyber Purple spotlight
             />
 
             {/* Animated grid background */}
             <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px] pointer-events-none" />
 
             {/* Gradient overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-teal-950/20 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-deep-navy/80 pointer-events-none" />
 
             {/* Background Beams */}
             <BackgroundBeams className="absolute inset-0 z-0 opacity-40" />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
                 <div className="max-w-5xl mx-auto">
-                    {/* Animated headline */}
                     <div className="mb-8">
                         <TypewriterEffect
                             words={[
                                 { text: "Automating", className: "text-white" },
                                 { text: "the", className: "text-white" },
-                                { text: "Future", className: "text-teal-400 dark:text-teal-400" },
-                                { text: "of", className: "text-teal-400 dark:text-teal-400" },
-                                { text: "Enterprise", className: "text-teal-400 dark:text-teal-400" },
+                                { text: "Future", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "of", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "Enterprise", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
                             ]}
-                            className="text-4xl md:text-7xl font-bold"
-                            cursorClassName="bg-teal-500"
+                            className="text-4xl md:text-5xl lg:text-7xl font-bold text-center tracking-tight font-heading leading-tight"
+                            cursorClassName="bg-electric-blue"
                         />
                     </div>
 
@@ -64,11 +63,12 @@ export function Hero() {
                     <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                         {/* Primary CTA */}
                         <Button
-                            borderRadius="9999px" // Pull
-                            className="bg-black text-white border-none px-8 py-4 text-lg font-semibold"
-                            containerClassName="h-auto w-auto" // overrides default absolute positioning often used
-                            borderClassName="h-[calc(100%+4px)] w-[calc(100%+4px)] bg-[radial-gradient(var(--teal-500)_40%,transparent_60%)]"
+                            borderRadius="9999px"
+                            className="bg-gradient-to-r from-electric-blue to-cyan-accent text-white border-none px-8 py-4 text-lg font-semibold hover:shadow-xl hover:shadow-electric-blue/50 transition-all"
+                            containerClassName="h-auto w-auto"
+                            borderClassName="h-[calc(100%+4px)] w-[calc(100%+4px)] bg-[radial-gradient(var(--cyan-accent)_40%,transparent_60%)]"
                             duration={2000}
+                            onClick={() => window.location.href = '/research'}
                         >
                             <span className="flex items-center gap-2">
                                 Explore Our Research
@@ -78,7 +78,7 @@ export function Hero() {
 
                         {/* Secondary CTA */}
                         <Link href="/technology">
-                            <button className="px-8 py-4 text-lg font-semibold border border-white/20 rounded-full hover:bg-white/5 hover:border-teal-500/50 transition-all backdrop-blur-sm text-white flex items-center gap-2">
+                            <button className="px-8 py-4 text-lg font-semibold border-2 border-electric-blue/50 rounded-full bg-gradient-to-r from-electric-blue/10 to-cyan-accent/10 hover:from-electric-blue/20 hover:to-cyan-accent/20 hover:border-electric-blue transition-all backdrop-blur-sm text-white flex items-center gap-2 hover:shadow-lg hover:shadow-electric-blue/30">
                                 View Technologies
                             </button>
                         </Link>

@@ -41,8 +41,8 @@ function HexagonalShield() {
                 <mesh key={idx} position={hex.position}>
                     <cylinderGeometry args={[0.4, 0.4, 0.05, 6]} />
                     <meshStandardMaterial
-                        color="#00d4aa"
-                        emissive="#00d4aa"
+                        color="#7D5FFF"
+                        emissive="#5F9FFF"
                         emissiveIntensity={0.5 + Math.sin(hex.phase + idx * 0.1) * 0.3}
                         metalness={0.9}
                         roughness={0.1}
@@ -58,10 +58,12 @@ function HexagonalShield() {
 export function CyberFortressBackground() {
     return (
         <div className="fixed inset-0 z-[-1] bg-black">
+            {/* Shadow overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none" />
             <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
                 <color attach="background" args={['#000000']} />
                 <ambientLight intensity={0.3} />
-                <pointLight position={[0, 0, 5]} intensity={2} color="#00d4aa" />
+                <pointLight position={[0, 0, 5]} intensity={2} color="#7D5FFF" />
                 <HexagonalShield />
             </Canvas>
         </div>

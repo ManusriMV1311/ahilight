@@ -56,7 +56,7 @@ export function ValuePillars() {
 
                             {/* Label badge */}
                             <CardItem translateZ="50" className="mb-4">
-                                <span className="px-3 py-1 bg-teal-500/10 text-teal-400 rounded-full text-xs font-semibold border border-teal-500/20">
+                                <span className="px-3 py-1 bg-electric-blue/10 text-electric-blue rounded-full text-xs font-semibold border border-electric-blue/20">
                                     {pillar.label}
                                 </span>
                             </CardItem>

@@ -8,7 +8,7 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default: "bg-electric-blue text-white hover:bg-electric-blue/90 shadow-lg hover:shadow-electric-blue/20",
+                default: "bg-gradient-to-r from-electric-blue to-cyan-accent text-white hover:opacity-90 shadow-[0_0_20px_rgba(125,95,255,0.5)] transition-all duration-300",
                 secondary:
                     "bg-transparent border border-electric-blue text-electric-blue hover:bg-electric-blue/10",
                 ghost: "text-slate-gray hover:bg-slate-gray/10 hover:text-deep-navy dark:hover:text-white",

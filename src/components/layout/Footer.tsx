@@ -8,7 +8,7 @@ export function Footer() {
         <footer className="relative bg-deep-navy border-t border-white/10 pt-20 pb-10 overflow-hidden">
             {/* Subtle radial glow background */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-teal-500/5 blur-[120px] rounded-full" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-electric-blue/5 blur-[120px] rounded-full" />
             </div>
 
             {/* Subtle dotted grid background */}
@@ -20,8 +20,8 @@ export function Footer() {
                 <div className="flex flex-col lg:flex-row justify-between gap-12 mb-20">
                     <div className="max-w-md">
                         <div className="flex items-center gap-2 mb-6">
-                            <div className="bg-electric-blue p-1.5 rounded-lg">
-                                <Box className="w-6 h-6 text-deep-navy" />
+                            <div className="bg-gradient-to-br from-electric-blue to-cyan-accent p-1.5 rounded-lg">
+                                <Box className="w-6 h-6 text-white" />
                             </div>
                             <span className="text-2xl font-bold text-white tracking-tight">AhiLight</span>
                         </div>
@@ -44,9 +44,9 @@ export function Footer() {
                             <input
                                 type="email"
                                 placeholder="Your email address"
-                                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all backdrop-blur-sm"
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-electric-blue/50 focus:ring-2 focus:ring-electric-blue/20 transition-all backdrop-blur-sm"
                             />
-                            <button className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-teal-500 text-white rounded-full font-semibold hover:bg-teal-400 transition-all hover:scale-105">
+                            <button className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-electric-blue to-cyan-accent text-white rounded-full font-semibold hover:opacity-90 transition-all hover:scale-105">
                                 Subscribe
                             </button>
                         </div>

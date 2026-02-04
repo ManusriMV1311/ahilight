@@ -14,10 +14,15 @@ export function FinalCTA() {
                     Whether you&apos;re evaluating our platforms, exploring our research, or considering joining our team, we&apos;re here to collaborate with technical leaders solving hard problems.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mb-12">
-                    <Button size="lg" className="bg-electric-blue hover:bg-cyan-accent text-deep-navy font-bold rounded-full h-14 px-8 shadow-xl" onClick={() => window.location.href = '/products'}>
+                    <Button size="lg" className="bg-gradient-to-r from-electric-blue to-cyan-accent text-white font-bold rounded-full h-14 px-8 shadow-[0_0_20px_rgba(125,95,255,0.4)] hover:shadow-[0_0_30px_rgba(125,95,255,0.6)]" onClick={() => window.location.href = '/products'}>
                         Explore Our Products
                     </Button>
-                    <Button size="lg" variant="outline" className="bg-transparent border-white/10 text-white hover:bg-white/5 hover:text-white rounded-full h-14 px-8" onClick={() => window.location.href = '/research'}>
+                    <Button
+                        size="lg"
+                        variant="outline"
+                        className="border-2 border-electric-blue/50 bg-gradient-to-r from-electric-blue/10 to-cyan-accent/10 hover:from-electric-blue/20 hover:to-cyan-accent/20 hover:border-electric-blue text-white font-bold rounded-full h-14 px-8 hover:shadow-lg hover:shadow-electric-blue/30 transition-all"
+                        onClick={() => window.location.href = '/research'}
+                    >
                         View Our Research
                     </Button>
                 </div>

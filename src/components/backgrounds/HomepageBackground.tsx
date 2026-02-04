@@ -19,8 +19,8 @@ function NetworkNode({ position, connections }: { position: [number, number, num
             {/* Main node sphere */}
             <Sphere ref={meshRef} args={[0.1, 32, 32]}>
                 <meshStandardMaterial
-                    color="#00d4aa"
-                    emissive="#00d4aa"
+                    color="#7D5FFF"
+                    emissive="#5F9FFF"
                     emissiveIntensity={0.5}
                     metalness={0.8}
                     roughness={0.2}
@@ -32,7 +32,7 @@ function NetworkNode({ position, connections }: { position: [number, number, num
                 <Line
                     key={idx}
                     points={[position, targetPos]}
-                    color="#00d4aa"
+                    color="#7D5FFF"
                     lineWidth={1}
                     opacity={0.3}
                     transparent
@@ -75,7 +75,7 @@ function NetworkScene() {
     return (
         <>
             <ambientLight intensity={0.3} />
-            <pointLight position={[10, 10, 10]} intensity={1} color="#00d4aa" />
+            <pointLight position={[10, 10, 10]} intensity={1} color="#7D5FFF" />
 
             {nodes.map((node, idx) => (
                 <NetworkNode
@@ -100,6 +100,8 @@ function NetworkScene() {
 export function HomepageBackground() {
     return (
         <div className="fixed inset-0 z-[-1]">
+            {/* Shadow overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none z-10" />
             <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
                 <NetworkScene />
             </Canvas>

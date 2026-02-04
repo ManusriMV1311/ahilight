@@ -26,9 +26,9 @@ export function BackgroundFolds() {
                 }}
             />
 
-            {/* Moving Fold 2 - Cyan/Purple Accent */}
+            {/* Moving Fold 2 - Purple/Cyan Accent */}
             <motion.div
-                className="absolute top-[20%] right-[0%] w-[80%] h-[80%] rounded-[100%] bg-gradient-to-tl from-cyan-accent/5 to-purple-500/5 blur-[100px]"
+                className="absolute top-[20%] right-[0%] w-[80%] h-[80%] rounded-[100%] bg-gradient-to-tl from-electric-blue/5 to-cyan-accent/5 blur-[100px]"
                 animate={{
                     transform: [
                         "translate(0%, 0%) scale(1)",

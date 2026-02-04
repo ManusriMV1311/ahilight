@@ -19,11 +19,11 @@ export default function TechnologyPage() {
                             words={[
                                 { text: "Powered", className: "text-white" },
                                 { text: "by", className: "text-white" },
-                                { text: "Advanced", className: "text-transparent bg-clip-text bg-gradient-to-r from-[#00d4aa] to-[#0066FF] pb-2" },
-                                { text: "Research", className: "text-transparent bg-clip-text bg-gradient-to-r from-[#00d4aa] to-[#0066FF] pb-2" },
+                                { text: "Advanced", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent pb-2" },
+                                { text: "Research", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent pb-2" },
                             ]}
                             className="text-5xl md:text-7xl font-bold tracking-tight inline-block"
-                            cursorClassName="bg-[#0066FF]"
+                            cursorClassName="bg-electric-blue"
                         />
                     </div>
                     <motion.p

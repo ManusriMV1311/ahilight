@@ -18,7 +18,7 @@ const problems = [
     {
         title: "Reactive Posture",
         description: "Most enterprise systems wait for problems to occur before responding. Modern operations require proactive intelligence systems that predict, adapt, and act autonomously.",
-        icon: <Zap className="w-8 h-8 text-teal-400" />,
+        icon: <Zap className="w-8 h-8 text-electric-blue" />,
     },
 ];
 
@@ -62,7 +62,7 @@ export function Problem() {
                 className="text-4xl md:text-5xl font-bold text-center mb-6 text-white"
             >
                 The Fundamental Limit is{" "}
-                <span className="text-teal-400">Human Scale Operations</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent">Human Scale Operations</span>
             </motion.h2>
 
             <motion.p
@@ -90,7 +90,7 @@ export function Problem() {
 
                                 {/* Decorative element */}
                                 <div className="mt-8 pt-6 border-t border-white/10">
-                                    <div className="h-1 w-16 bg-gradient-to-r from-teal-500 to-transparent rounded-full" />
+                                    <div className="h-1 w-16 bg-gradient-to-r from-electric-blue to-transparent rounded-full" />
                                 </div>
                             </div>
                         </GlareCard>

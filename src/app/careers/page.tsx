@@ -1,6 +1,6 @@
 "use client";
 
-import { CareersBackground } from "@/components/backgrounds/CareersBackground";
+import { ResearchBackground } from "@/components/backgrounds/ResearchBackground";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Button as MovingBorderButton } from "@/components/ui/moving-border";
@@ -11,7 +11,7 @@ import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 export default function CareersPage() {
     return (
         <div className="flex flex-col gap-0 min-h-screen relative">
-            <CareersBackground />
+            <ResearchBackground />
             {/* Hero Section */}
             <Section background="transparent" className="pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
                 <div className="text-center max-w-4xl mx-auto">
@@ -20,7 +20,7 @@ export default function CareersPage() {
                             words={[
                                 { text: "Join", className: "text-white" },
                                 { text: "Our", className: "text-white" },
-                                { text: "Team", className: "text-electric-blue" },
+                                { text: "Team", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
                             ]}
                             className="text-5xl md:text-7xl font-bold tracking-tight"
                             cursorClassName="bg-electric-blue"
@@ -62,9 +62,15 @@ export default function CareersPage() {
                                         </div>
                                     </div>
                                     <div className="mt-auto w-full flex justify-end">
-                                        <span className="text-electric-blue text-sm font-semibold flex items-center group-hover:text-white transition-colors">
-                                            Apply <ArrowRight className="w-4 h-4 ml-1" />
-                                        </span>
+                                        <div
+                                            className="px-4 py-2 text-sm bg-gradient-to-r from-electric-blue to-cyan-accent text-white font-semibold rounded-md hover:shadow-lg hover:shadow-electric-blue/50 transition-all cursor-pointer flex items-center gap-1"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                window.location.href = `mailto:careers@ahilight.com?subject=Application for ${job.title}`;
+                                            }}
+                                        >
+                                            Apply <ArrowRight className="w-4 h-4" />
+                                        </div>
                                     </div>
                                 </MovingBorderButton>
                             </div>

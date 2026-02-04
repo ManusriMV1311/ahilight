@@ -73,7 +73,7 @@ export function AboutTimeline() {
                                 </div>
 
                                 {/* Center Icon */}
-                                <div className="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-deep-navy border-2 border-electric-blue z-10 shadow-[0_0_15px_rgba(0,212,170,0.3)]">
+                                <div className="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-deep-navy border-2 border-electric-blue z-10 shadow-[0_0_15px_rgba(125,95,255,0.3)]">
                                     <milestone.icon className="w-4 h-4 text-white" />
                                 </div>
                                 <div className="hidden md:block flex-1" />

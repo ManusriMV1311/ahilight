@@ -16,8 +16,8 @@ const config: Config = {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
                 teal: {
-                    400: '#2dd4bf',
-                    500: '#00d4aa',
+                    400: '#7D5FFF', // Cyber Purple (Replacement for Teal)
+                    500: '#7D5FFF', // Cyber Purple
                 },
             },
             animation: {

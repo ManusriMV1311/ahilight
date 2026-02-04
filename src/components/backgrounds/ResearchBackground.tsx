@@ -1,60 +1,49 @@
 "use client";
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 
-function FloatingData() {
+function DataSpheres() {
     const groupRef = useRef<THREE.Group>(null);
 
-    const dataPoints = useMemo(() => {
-        const points = [];
-        for (let i = 0; i < 50; i++) {
-            points.push({
+    const spheres = useMemo(() => {
+        const sphereData = [];
+        for (let i = 0; i < 20; i++) {
+            sphereData.push({
                 position: [
-                    (Math.random() - 0.5) * 20,
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 12,
+                    (Math.random() - 0.5) * 12,
+                    (Math.random() - 0.5) * 6,
                 ] as [number, number, number],
-                value: Math.floor(Math.random() * 100),
-                speed: Math.random() * 0.5 + 0.2,
+                scale: 0.2 + Math.random() * 0.3,
+                speed: 0.5 + Math.random() * 0.5,
             });
         }
-        return points;
+        return sphereData;
     }, []);
 
     useFrame((state) => {
         if (groupRef.current) {
-            groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+            groupRef.current.rotation.y = state.clock.elapsedTime * 0.03;
+            groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;
         }
     });
 
     return (
         <group ref={groupRef}>
-            {dataPoints.map((point, idx) => (
-                <group key={idx} position={point.position}>
-                    {/* Bar chart column */}
-                    <mesh position={[0, point.value / 100, 0]}>
-                        <boxGeometry args={[0.2, point.value / 50, 0.2]} />
-                        <meshStandardMaterial
-                            color="#00d4aa"
-                            emissive="#00d4aa"
-                            emissiveIntensity={0.3}
-                            transparent
-                            opacity={0.6}
-                        />
-                    </mesh>
-
-                    {/* Number label */}
-                    <Text
-                        position={[0, point.value / 50 + 0.5, 0]}
-                        fontSize={0.3}
-                        color="#00d4aa"
-                        anchorX="center"
-                    >
-                        {point.value}
-                    </Text>
-                </group>
+            {spheres.map((sphere, idx) => (
+                <mesh key={idx} position={sphere.position} scale={sphere.scale}>
+                    <sphereGeometry args={[1, 16, 16]} />
+                    <meshStandardMaterial
+                        color="#7D5FFF"
+                        emissive="#5F9FFF"
+                        emissiveIntensity={0.4}
+                        metalness={0.9}
+                        roughness={0.1}
+                        transparent
+                        opacity={0.7}
+                    />
+                </mesh>
             ))}
         </group>
     );
@@ -62,12 +51,15 @@ function FloatingData() {
 
 export function ResearchBackground() {
     return (
-        <div className="fixed inset-0 z-[-1] pointer-events-none bg-[#020617]">
-            <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
+        <div className="fixed inset-0 z-[-1] bg-black">
+            {/* Shadow overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none" />
+            <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
                 <color attach="background" args={['#000000']} />
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} color="#00d4aa" />
-                <FloatingData />
+                <ambientLight intensity={0.3} />
+                <pointLight position={[5, 5, 5]} intensity={1.5} color="#7D5FFF" />
+                <pointLight position={[-5, -5, -5]} intensity={0.8} color="#00D4FF" />
+                <DataSpheres />
             </Canvas>
         </div>
     );

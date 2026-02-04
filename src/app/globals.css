@@ -5,20 +5,22 @@
 @plugin "tailwindcss-animate";
 
 :root {
-  /* Brand Palette (Dark Enterprise) */
-  --deep-navy: #0a0a0f;
-  /* Deep Black/Near Black */
-  --navy-card: #0f0f14;
-  /* Slightly lighter black for cards */
-  --navy-card-hover: #16161f;
+  /* Brand Palette (Deep Space & Neon) */
+  --deep-navy: #020B2D;
+  /* Deep Space Blue */
+  --navy-card: #0A143E;
+  /* Dark Blue Card */
+  --navy-card-hover: #12205a;
 
-  --electric-blue: #00d4aa;
-  /* Deep Teal (Primary Accent) */
-  --cyan-accent: #0ea5e9;
-  /* Electric Cyan (Secondary Accent) */
+  --electric-blue: #7D5FFF;
+  /* Cyber Purple (Primary) */
+  --cyan-accent: #00F2FF;
+  /* Electric Cyan (Secondary) */
+  --purple-accent: #7D5FFF;
+  /* Cyber Purple */
 
-  --slate-gray: #64748b;
-  --light-gray: #f0f0f5;
+  --slate-gray: #9ca3af;
+  --light-gray: #e2e8f0;
   /* Off-white text */
   --pure-white: #ffffff;
 
@@ -33,10 +35,10 @@
   --radius: 0.625rem;
 
   /* ENFORCED DARK MODE DEFAULT */
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --background: var(--deep-navy);
+  --foreground: var(--pure-white);
+  --card: var(--navy-card);
+  --card-foreground: var(--pure-white);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
@@ -68,17 +70,18 @@
 
 .theme-cyberfortress {
   /* Purple/Pink Theme Overrides */
-  --deep-navy: #0f0718;
-  /* Deep Void Purple */
-  --navy-card: #17101f;
-  /* Dark Violet Card */
-  --navy-card-hover: #2d1b3e;
-  /* Lighter Violet Hover */
+  /* Purple/Pink Theme Overrides */
+  --deep-navy: #020B2D;
+  /* Deep Space Blue */
+  --navy-card: #0A143E;
+  /* Dark Blue Card */
+  --navy-card-hover: #12205a;
+  /* Lighter Blue Hover */
 
-  --electric-blue: #a855f7;
-  /* Neon Purple (Primary) */
-  --cyan-accent: #d946ef;
-  /* Neon Fuchsia (Secondary) */
+  --electric-blue: #7D5FFF;
+  /* Cyber Purple */
+  --cyan-accent: #00F2FF;
+  /* Electric Cyan */
 
   --slate-gray: #94a3b8;
   /* Slightly lighter slate for contrast on purple */
@@ -159,10 +162,10 @@ body {
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --background: var(--deep-navy);
+  --foreground: var(--pure-white);
+  --card: var(--navy-card);
+  --card-foreground: var(--pure-white);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);

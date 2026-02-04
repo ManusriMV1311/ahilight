@@ -1,7 +1,7 @@
 "use client";
 
-
 import { AboutBackground } from "@/components/backgrounds/AboutBackground";
+
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
@@ -72,11 +72,11 @@ export default function AboutPage() {
                             words={[
                                 { text: "Building", className: "text-white" },
                                 { text: "the", className: "text-white" },
-                                { text: "Intelligence", className: "text-electric-blue" },
-                                { text: "that", className: "text-electric-blue" },
-                                { text: "Powers", className: "text-electric-blue" },
-                                { text: "the", className: "text-electric-blue" },
-                                { text: "Future", className: "text-electric-blue" },
+                                { text: "Intelligence", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "that", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "Powers", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "the", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "Future", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
                             ]}
                             className="text-4xl md:text-6xl font-bold tracking-tight"
                             cursorClassName="bg-electric-blue"
@@ -227,7 +227,7 @@ export default function AboutPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <Button size="lg" className="bg-electric-blue hover:bg-electric-blue/90 text-white min-w-[160px] h-12 text-lg">
+                                <Button size="lg" className="min-w-[160px] h-12 text-lg shadow-[0_0_20px_rgba(125,95,255,0.3)]">
                                     Contact Us
                                     <ArrowRight className="ml-2 w-5 h-5" />
                                 </Button>

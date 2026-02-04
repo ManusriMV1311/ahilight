@@ -16,8 +16,8 @@ export function DomainApproach() {
                         <TypewriterEffect
                             words={[
                                 { text: "Solving", className: "text-white" },
-                                { text: "Complex", className: "text-electric-blue" },
-                                { text: "Challenges", className: "text-electric-blue" },
+                                { text: "Complex", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "Challenges", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
                             ]}
                             className="text-3xl md:text-5xl font-bold"
                             cursorClassName="bg-electric-blue"

@@ -1,6 +1,6 @@
 "use client";
 
-import { ResearchBackground } from "@/components/backgrounds/ResearchBackground";
+import { CareersBackground } from "@/components/backgrounds/CareersBackground";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { FileText, Download } from "lucide-react";
@@ -10,7 +10,7 @@ import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 export default function ResearchPage() {
     return (
         <div className="flex flex-col gap-0">
-            <ResearchBackground />
+            <CareersBackground />
             {/* Hero Section */}
             <Section background="navy-gradient" className="pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
                 <div className="text-center max-w-4xl mx-auto">
@@ -18,8 +18,8 @@ export default function ResearchPage() {
                         <TypewriterEffect
                             words={[
                                 { text: "Pioneering", className: "text-white" },
-                                { text: "New", className: "text-electric-blue" },
-                                { text: "Frontiers", className: "text-electric-blue" },
+                                { text: "New", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                                { text: "Frontiers", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
                             ]}
                             className="text-5xl md:text-7xl font-bold tracking-tight"
                             cursorClassName="bg-electric-blue"
@@ -73,7 +73,11 @@ export default function ResearchPage() {
                                     <p className="text-slate-400 mb-2 group-hover:text-white/90">{paper.abstract}</p>
                                     <span className="text-sm text-slate-500 font-mono group-hover:text-white/70">{paper.date} • Technical Whitepaper</span>
                                 </div>
-                                <Button variant="outline" size="sm" className="shrink-0 group-hover:bg-white group-hover:text-electric-blue group-hover:border-white transition-colors">
+                                <Button
+                                    size="sm"
+                                    className="shrink-0 bg-gradient-to-r from-electric-blue to-cyan-accent text-white font-semibold hover:shadow-lg hover:shadow-electric-blue/50 transition-all border-none"
+                                    onClick={() => window.open(`/research/${paper.title.toLowerCase().replace(/\s+/g, '-')}.pdf`, '_blank')}
+                                >
                                     <Download className="w-4 h-4 mr-2" /> PDF
                                 </Button>
                             </div>

@@ -35,8 +35,8 @@ export default function ContactPage() {
                             { text: "Let's", className: "text-white" },
                             { text: "Build", className: "text-white" },
                             { text: "the", className: "text-white" },
-                            { text: "Future", className: "text-electric-blue" },
-                            { text: "Together", className: "text-electric-blue" },
+                            { text: "Future", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
+                            { text: "Together", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent" },
                         ]}
                         className="text-4xl md:text-6xl font-bold tracking-tight mb-6"
                         cursorClassName="bg-electric-blue"
@@ -176,7 +176,7 @@ export default function ContactPage() {
                                 />
                             </div>
 
-                            <Button type="submit" className="w-full bg-electric-blue hover:bg-electric-blue/90 text-white font-bold py-6 text-lg rounded-xl mt-2 group">
+                            <Button type="submit" className="w-full font-bold py-6 text-lg rounded-xl mt-2 group shadow-[0_0_20px_rgba(125,95,255,0.3)]">
                                 Send Message
                                 <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                             </Button>

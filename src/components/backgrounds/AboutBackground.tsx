@@ -1,69 +1,62 @@
 "use client";
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 
-function ParticleField() {
-    const pointsRef = useRef<THREE.Points>(null);
-    const particleCount = 5000;
+function ConstellationDots() {
+    const groupRef = useRef<THREE.Group>(null);
 
-    const particles = useMemo(() => {
-        const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
-
-        for (let i = 0; i < particleCount; i++) {
-            // Random positions in sphere
-            const radius = Math.random() * 5;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(Math.random() * 2 - 1);
-
-            positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-            positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-            positions[i * 3 + 2] = radius * Math.cos(phi);
-
-            // Teal to amber gradient
-            const color = new THREE.Color();
-            color.setHSL(
-                0.5 + Math.random() * 0.1, // Hue (teal-ish)
-                0.7,
-                0.5 + Math.random() * 0.2
-            );
-            colors[i * 3] = color.r;
-            colors[i * 3 + 1] = color.g;
-            colors[i * 3 + 2] = color.b;
+    const dots = useMemo(() => {
+        const dotData = [];
+        for (let i = 0; i < 50; i++) {
+            dotData.push({
+                position: [
+                    (Math.random() - 0.5) * 15,
+                    (Math.random() - 0.5) * 15,
+                    (Math.random() - 0.5) * 8,
+                ] as [number, number, number],
+                scale: 0.1 + Math.random() * 0.15,
+            });
         }
-
-        return { positions, colors };
+        return dotData;
     }, []);
 
     useFrame((state) => {
-        if (pointsRef.current) {
-            // Slow rotation
-            pointsRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-            pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.2;
+        if (groupRef.current) {
+            groupRef.current.rotation.y = state.clock.elapsedTime * 0.02;
+            groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.15) * 0.1;
         }
     });
 
     return (
-        <Points ref={pointsRef} positions={particles.positions} colors={particles.colors}>
-            <PointMaterial
-                transparent
-                size={0.02}
-                sizeAttenuation
-                depthWrite={false}
-                vertexColors
-                opacity={0.8}
-            />
-        </Points>
+        <group ref={groupRef}>
+            {dots.map((dot, idx) => (
+                <mesh key={idx} position={dot.position} scale={dot.scale}>
+                    <sphereGeometry args={[1, 16, 16]} />
+                    <meshStandardMaterial
+                        color="#7D5FFF"
+                        emissive="#5F9FFF"
+                        emissiveIntensity={0.6}
+                        metalness={0.9}
+                        roughness={0.1}
+                    />
+                </mesh>
+            ))}
+        </group>
     );
 }
 
 export function AboutBackground() {
     return (
-        <div className="fixed inset-0 z-[-1]">
-            <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-                <ParticleField />
+        <div className="fixed inset-0 z-[-1] bg-black">
+            {/* Shadow overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none" />
+            <Canvas camera={{ position: [0, 0, 12], fov: 50 }}>
+                <color attach="background" args={['#000000']} />
+                <ambientLight intensity={0.3} />
+                <pointLight position={[8, 8, 8]} intensity={1} color="#7D5FFF" />
+                <pointLight position={[-8, -8, -8]} intensity={0.6} color="#00D4FF" />
+                <ConstellationDots />
             </Canvas>
         </div>
     );

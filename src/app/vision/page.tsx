@@ -1,7 +1,7 @@
 "use client";
 
-
 import { VisionBackground } from "@/components/backgrounds/VisionBackground";
+
 import { Section } from "@/components/ui/section";
 import { motion } from "framer-motion";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
@@ -67,7 +67,7 @@ export default function VisionPage() {
                             <p className="text-lg text-slate-300 leading-relaxed">
                                 Security cannot be an afterthought. In our vision, security is woven into the fabric of every application and network, reacting in real-time to threats with biological-style immune responses.
                             </p>
-                            <div className="mt-8 h-40 bg-gradient-to-br from-cyan-accent/20 to-transparent rounded-xl border border-cyan-accent/20" />
+                            <div className="mt-8 h-40 bg-gradient-to-br from-electric-blue/20 to-transparent rounded-xl border border-electric-blue/20" />
                         </motion.div>
 
                         <motion.div
