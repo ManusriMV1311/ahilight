@@ -72,9 +72,9 @@ const FloatingDockMobile = ({
                 <Link
                   href={item.href}
                   key={item.title}
-                  className="flex items-center justify-center w-[120px] h-10 rounded-full bg-gray-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800"
+                  className="flex items-center justify-center w-[140px] h-10 rounded-full bg-gray-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800"
                 >
-                  <span className="text-sm font-medium text-neutral-700 dark:text-neutral-200">{item.title}</span>
+                  {item.icon}
                 </Link>
               </motion.div>
             ))}
@@ -134,10 +134,10 @@ function IconContainer({
     return val - bounds.x - bounds.width / 2;
   });
 
-  let widthTransform = useTransform(distance, [-150, 0, 150], [80, 140, 80]);
+  let widthTransform = useTransform(distance, [-150, 0, 150], [130, 180, 130]);
   let heightTransform = useTransform(distance, [-150, 0, 150], [40, 60, 40]);
 
-  let widthTransformIcon = useTransform(distance, [-150, 0, 150], [70, 130, 70]);
+  let widthTransformIcon = useTransform(distance, [-150, 0, 150], [120, 170, 120]);
   let heightTransformIcon = useTransform(
     distance,
     [-150, 0, 150],

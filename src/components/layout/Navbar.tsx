@@ -3,13 +3,69 @@ import React from "react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import Link from "next/link";
 
+import { Info, Eye, Package, Cpu, FlaskConical, Briefcase } from "lucide-react";
+
 const navItems = [
-    { title: "About", icon: <span className="text-sm font-medium text-neutral-500 dark:text-neutral-300">About</span>, href: "/about" },
-    { title: "Vision", icon: <span className="text-sm font-medium text-neutral-500 dark:text-neutral-300">Vision</span>, href: "/vision" },
-    { title: "Products", icon: <span className="text-sm font-medium text-neutral-500 dark:text-neutral-300">Products</span>, href: "/products" },
-    { title: "Technology", icon: <span className="text-sm font-medium text-neutral-500 dark:text-neutral-300">Technology</span>, href: "/technology" },
-    { title: "Research", icon: <span className="text-sm font-medium text-neutral-500 dark:text-neutral-300">Research</span>, href: "/research" },
-    { title: "Careers", icon: <span className="text-sm font-medium text-neutral-500 dark:text-neutral-300">Careers</span>, href: "/careers" },
+    {
+        title: "About",
+        icon: (
+            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                <Info className="h-5 w-5" />
+                <span className="text-sm font-medium">About</span>
+            </div>
+        ),
+        href: "/about"
+    },
+    {
+        title: "Vision",
+        icon: (
+            <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
+                <Eye className="h-5 w-5" />
+                <span className="text-sm font-medium">Vision</span>
+            </div>
+        ),
+        href: "/vision"
+    },
+    {
+        title: "Products",
+        icon: (
+            <div className="flex items-center gap-2 text-orange-600 dark:text-orange-400">
+                <Package className="h-5 w-5" />
+                <span className="text-sm font-medium">Products</span>
+            </div>
+        ),
+        href: "/products"
+    },
+    {
+        title: "Technology",
+        icon: (
+            <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
+                <Cpu className="h-5 w-5" />
+                <span className="text-sm font-medium">Technology</span>
+            </div>
+        ),
+        href: "/technology"
+    },
+    {
+        title: "Research",
+        icon: (
+            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                <FlaskConical className="h-5 w-5" />
+                <span className="text-sm font-medium">Research</span>
+            </div>
+        ),
+        href: "/research"
+    },
+    {
+        title: "Careers",
+        icon: (
+            <div className="flex items-center gap-2 text-pink-600 dark:text-pink-400">
+                <Briefcase className="h-5 w-5" />
+                <span className="text-sm font-medium">Careers</span>
+            </div>
+        ),
+        href: "/careers"
+    },
 ];
 
 export function Navbar() {
