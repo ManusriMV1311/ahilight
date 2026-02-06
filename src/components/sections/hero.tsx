@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { NeuralLattice } from "@/components/backgrounds/premium/NeuralLattice";
 import { Spotlight } from "@/components/ui/spotlight";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
@@ -30,10 +31,11 @@ export function Hero() {
             <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px] pointer-events-none" />
 
             {/* Gradient overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-deep-navy/80 pointer-events-none" />
+            {/* Gradient overlay REMOVED for transparency */}
+            <div className="hidden absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-deep-navy/40 pointer-events-none" />
 
-            {/* Background Beams */}
-            <BackgroundBeams className="absolute inset-0 z-0 opacity-40" />
+            {/* Premium 3D Background: Neural Lattice */}
+            <NeuralLattice />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
                 <div className="max-w-5xl mx-auto">

@@ -1,6 +1,6 @@
 "use client";
 
-import { ResearchBackground } from "@/components/backgrounds/ResearchBackground";
+import { CareersBackground } from "@/components/backgrounds/CareersBackground";
 import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Button as MovingBorderButton } from "@/components/ui/moving-border";
@@ -11,7 +11,7 @@ import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 export default function CareersPage() {
     return (
         <div className="flex flex-col gap-0 min-h-screen relative">
-            <ResearchBackground />
+            <CareersBackground />
             <div className="relative z-10">
                 {/* Hero Section */}
                 <Section background="transparent" className="pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">

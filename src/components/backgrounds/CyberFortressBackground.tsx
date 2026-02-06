@@ -1,55 +1,70 @@
 "use client";
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useRef, useMemo } from 'react';
-import * as THREE from 'three';
 
-function HexagonalShield() {
-    const groupRef = useRef<THREE.Group>(null);
+import { Canvas, useFrame } from "@react-three/fiber";
+import { MeshTransmissionMaterial, Float, Text } from "@react-three/drei";
+import { SharedUniverse } from "./common/SharedUniverse";
+import { useRef } from "react";
+import * as THREE from "three";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
-    // Create hexagonal grid
-    const hexagons = useMemo(() => {
-        const hexes = [];
-        const radius = 0.5;
-        const rows = 8;
-        const cols = 8;
-
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const x = col * radius * 1.5 - (cols * radius * 1.5) / 2;
-                const y = row * radius * 1.3 - (rows * radius * 1.3) / 2;
-                const z = Math.random() * 0.5;
-
-                hexes.push({
-                    position: [x, y, z] as [number, number, number],
-                    phase: Math.random() * Math.PI * 2,
-                });
-            }
-        }
-
-        return hexes;
-    }, []);
+function CrystalShield() {
+    const meshRef = useRef<THREE.Group>(null);
 
     useFrame((state) => {
-        if (groupRef.current) {
-            groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.3;
+        const t = state.clock.getElapsedTime();
+        if (meshRef.current) {
+            meshRef.current.rotation.y = t * 0.1;
+            meshRef.current.position.y = Math.sin(t * 0.5) * 0.2;
         }
     });
 
     return (
-        <group ref={groupRef}>
-            {hexagons.map((hex, idx) => (
-                <mesh key={idx} position={hex.position}>
-                    <cylinderGeometry args={[0.4, 0.4, 0.05, 6]} />
-                    <meshStandardMaterial
-                        color="#7D5FFF"
-                        emissive="#5F9FFF"
-                        emissiveIntensity={0.5 + Math.sin(hex.phase + idx * 0.1) * 0.3}
-                        metalness={0.9}
-                        roughness={0.1}
-                        transparent
-                        opacity={0.7}
-                    />
-                </mesh>
+        <group ref={meshRef}>
+            {/* Central Crystal Monolith representing the user's data */}
+            <mesh position={[0, 0, 0]}>
+                <icosahedronGeometry args={[2, 0]} />
+                <MeshTransmissionMaterial
+                    backside
+                    samples={16}
+                    thickness={2}
+                    chromaticAberration={0.5}
+                    anisotropy={0.5}
+                    distortion={0.5}
+                    distortionScale={0.5}
+                    temporalDistortion={0.2}
+                    iridescence={1}
+                    iridescenceIOR={1}
+                    iridescenceThicknessRange={[0, 1400]}
+                    transmission={1}
+                    roughness={0.1}
+                    color="#ffffff"
+                    emissive="#7D5FFF"
+                    emissiveIntensity={0.2}
+                />
+            </mesh>
+
+            {/* Floating Shield Fragments */}
+            {Array.from({ length: 12 }).map((_, i) => (
+                <Float key={i} speed={2} rotationIntensity={1} floatIntensity={1}>
+                    <mesh position={[
+                        (Math.random() - 0.5) * 8,
+                        (Math.random() - 0.5) * 8,
+                        (Math.random() - 0.5) * 4 + 2
+                    ]}>
+                        <dodecahedronGeometry args={[0.4, 0]} />
+                        <MeshTransmissionMaterial
+                            samples={4}
+                            thickness={1}
+                            chromaticAberration={1}
+                            transmission={1}
+                            roughness={0}
+                            color="#00ffff"
+                            emissive="#0000ff"
+                            emissiveIntensity={4}
+                            toneMapped={false}
+                        />
+                    </mesh>
+                </Float>
             ))}
         </group>
     );
@@ -57,15 +72,22 @@ function HexagonalShield() {
 
 export function CyberFortressBackground() {
     return (
-        <div className="fixed inset-0 z-[-1] bg-black">
-            {/* Shadow overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 pointer-events-none" />
+        <div className="fixed inset-0 z-0 pointer-events-none">
             <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
-                <color attach="background" args={['#000000']} />
-                <ambientLight intensity={0.3} />
-                <pointLight position={[0, 0, 5]} intensity={2} color="#7D5FFF" />
-                <HexagonalShield />
+                <SharedUniverse />
+
+                <CrystalShield />
+
+                <EffectComposer disableNormalPass>
+                    <Bloom
+                        luminanceThreshold={1}
+                        mipmapBlur
+                        intensity={2}
+                        radius={0.8}
+                    />
+                </EffectComposer>
             </Canvas>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#02020a] via-transparent to-[#02020a]/70" />
         </div>
     );
 }
