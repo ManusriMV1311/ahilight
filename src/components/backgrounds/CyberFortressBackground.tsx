@@ -78,7 +78,7 @@ export function CyberFortressBackground() {
 
                 <CrystalShield />
 
-                <EffectComposer disableNormalPass>
+                <EffectComposer>
                     <Bloom
                         luminanceThreshold={1}
                         mipmapBlur

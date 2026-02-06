@@ -64,15 +64,11 @@ function QuantumField() {
             <bufferGeometry>
                 <bufferAttribute
                     attach="attributes-position"
-                    count={count}
-                    array={positions.pos}
-                    itemSize={3}
+                    args={[positions.pos, 3]}
                 />
                 <bufferAttribute
                     attach="attributes-color"
-                    count={count}
-                    array={positions.colors}
-                    itemSize={3}
+                    args={[positions.colors, 3]}
                 />
             </bufferGeometry>
             <pointsMaterial
