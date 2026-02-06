@@ -4,8 +4,13 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshDistortMaterial, Text, Line } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { SharedUniverse } from "./common/SharedUniverse";
-import { useRef, useState, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import * as THREE from "three";
+
+const domains = [
+    "ML", "AI", "CYBER", "IT",
+    "SOFTWARE", "CLOUD", "DEVOPS", "AUTOMATION"
+];
 
 interface DomainProps {
     text: string;
@@ -16,7 +21,11 @@ interface DomainProps {
 
 function KiteDomain({ text, targetPosition, delay, color }: DomainProps) {
     const groupRef = useRef<THREE.Group>(null);
-    const [randomOffset] = useState(() => Math.random() * 100);
+
+    // Deterministic random based on unique props to avoid hydration mismatch and impurity
+    const randomOffset = useMemo(() => {
+        return (Math.sin(delay * 123.45) * 43758.5453 % 1) * 100;
+    }, [delay]);
 
     useFrame((state) => {
         if (!groupRef.current) return;
@@ -91,9 +100,9 @@ function KiteDomain({ text, targetPosition, delay, color }: DomainProps) {
             <Line
                 points={[
                     [
-                        (groupRef.current?.position.x ?? 0) * -1,
-                        (groupRef.current?.position.y ?? 0) * -1,
-                        (groupRef.current?.position.z ?? 0) * -1
+                        -targetPosition[0],
+                        -targetPosition[1],
+                        -targetPosition[2]
                     ],
                     [0, 0, 0]
                 ]}
@@ -108,6 +117,7 @@ function KiteDomain({ text, targetPosition, delay, color }: DomainProps) {
 
 function LivingCore() {
     const meshRef = useRef<THREE.Mesh>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const materialRef = useRef<any>(null);
 
     useFrame((state) => {
@@ -180,11 +190,6 @@ function LivingCore() {
 }
 
 function PopOutDomains() {
-    const domains = [
-        "ML", "AI", "CYBER", "IT",
-        "SOFTWARE", "CLOUD", "DEVOPS", "AUTOMATION"
-    ];
-
     const domainObjects = useMemo(() => {
         return domains.map((domain, i) => {
             // Distribute to left and right sides
