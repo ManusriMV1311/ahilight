@@ -1,61 +1,289 @@
 "use client";
-
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useRef, useMemo } from 'react';
+import { Text } from '@react-three/drei';
+import { useRef, useMemo, useState } from 'react';
 import * as THREE from 'three';
-import { Stars, Cloud } from '@react-three/drei';
-import { SharedUniverse } from "./common/SharedUniverse";
+import { createNoise3D } from 'simplex-noise';
+import { useSpring, animated, config } from '@react-spring/three';
 
-function Rays() {
-    const groupRef = useRef<THREE.Group>(null);
+// ============================================================================
+// WAVY GRID COMPONENT
+// ============================================================================
 
-    const rays = useMemo(() => {
-        return new Array(20).fill(0).map(() => ({
-            scale: [0.1 + Math.random() * 0.5, 0.1, 10 + Math.random() * 20] as [number, number, number],
-            position: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, -10] as [number, number, number],
-            speed: Math.random() * 0.2
-        }));
-    }, []);
+interface WavyGridProps {
+    gridSize: number;
+    gridResolution: number;
+    waveAmplitude: number;
+    waveSpeed: number;
+    color: string;
+}
+
+function WavyGrid({
+    gridSize = 60,
+    gridResolution = 80,
+    waveAmplitude = 1.2,
+    waveSpeed = 0.3,
+    color = '#6366f1'
+}: Partial<WavyGridProps>) {
+    const meshRef = useRef<THREE.Mesh>(null);
+    const noise3D = useMemo(() => createNoise3D(), []);
+
+    const geometry = useMemo(() => {
+        return new THREE.PlaneGeometry(
+            gridSize,
+            gridSize,
+            gridResolution,
+            gridResolution
+        );
+    }, [gridSize, gridResolution]);
 
     useFrame((state) => {
-        if (!groupRef.current) return;
-        // Move towards camera
-        groupRef.current.position.z += 0.05;
-        if (groupRef.current.position.z > 20) groupRef.current.position.z = 0;
+        if (!meshRef.current) return;
+
+        const positions = meshRef.current.geometry.attributes.position;
+        const time = state.clock.elapsedTime * waveSpeed;
+
+        for (let i = 0; i < positions.count; i++) {
+            const x = positions.getX(i);
+            const y = positions.getY(i);
+
+            // Multi-layered simplex noise for realistic water-like motion
+            const wave1 = noise3D(x * 0.15, y * 0.15, time * 0.5);
+            const wave2 = noise3D(x * 0.3, y * 0.3, time * 0.3);
+            const wave3 = noise3D(x * 0.08, y * 0.08, time * 0.7);
+
+            const z = (wave1 + wave2 * 0.5 + wave3 * 0.3) * waveAmplitude;
+
+            positions.setZ(i, z);
+        }
+
+        positions.needsUpdate = true;
+        meshRef.current.geometry.computeVertexNormals();
     });
 
     return (
-        <group ref={groupRef}>
-            {rays.map((ray, i) => (
-                <mesh key={i} position={ray.position} scale={ray.scale}>
-                    <boxGeometry />
-                    <meshBasicMaterial color="#ffffff" transparent opacity={0.1} blending={THREE.AdditiveBlending} />
-                </mesh>
-            ))}
-        </group>
+        <mesh
+            ref={meshRef}
+            geometry={geometry}
+            rotation={[-Math.PI / 2.5, 0, 0]}
+            position={[0, -5, -8]}
+        >
+            <meshStandardMaterial
+                color={color}
+                emissive={color}
+                emissiveIntensity={0.2}
+                wireframe
+                transparent
+                opacity={0.2}
+                side={THREE.DoubleSide}
+            />
+        </mesh>
     );
 }
 
-function Sun() {
-    return (
-        <mesh position={[0, 0, -50]}>
-            <sphereGeometry args={[10, 32, 32]} />
-            <meshBasicMaterial color="#fbbf24" /> {/* Amber sun */}
-            <pointLight intensity={2} distance={100} color="#fbbf24" />
-        </mesh>
-    )
+// ============================================================================
+// FLOATING LETTER COMPONENT
+// ============================================================================
+
+interface FloatingLetterProps {
+    letter: string;
+    startPosition: [number, number, number];
+    endPosition: [number, number, number];
+    delay: number;
+    index: number;
 }
 
+// Ensure animated works with Text component
+const AnimatedText = animated(Text);
+
+function FloatingLetter({
+    letter,
+    startPosition,
+    endPosition,
+    delay,
+    index
+}: FloatingLetterProps) {
+    const textRef = useRef<any>(null);
+    const noise3D = useMemo(() => createNoise3D(), []); // Independent noise for each letter
+    const [hasConverged, setHasConverged] = useState(false);
+
+    // Spring animation for convergence
+    const { position } = useSpring({
+        from: { position: startPosition },
+        to: { position: endPosition },
+        delay: delay,
+        config: {
+            ...config.molasses, // Very slow, organic feel
+            tension: 20,
+            friction: 60, // Slight higher friction to avoid too much overshoot
+            duration: 5000 // Explicit duration fallback
+        },
+        onRest: () => setHasConverged(true)
+    });
+
+    // Continuous floating motion logic
+    useFrame((state) => {
+        if (!textRef.current) return;
+        const time = state.clock.elapsedTime;
+
+        // Get current spring position values
+        // @ts-ignore
+        const springPos = position.get();
+
+        // 1. Calculate Wave Physics at CURRENT position
+        // Matches grid noise param (freq 0.15)
+        // Horizontal drift (surface current)
+        const driftX = noise3D(time * 0.2, index * 10, 0) * 0.2;
+        const driftZ = noise3D(time * 0.2 + 100, index * 10, 0) * 0.1;
+
+        // Vertical Bobbing (Wave height) - EXACTLY synchronized with surface
+        const waveHeight = noise3D(springPos[0] * 0.15, springPos[2] * 0.15, time * 0.15) * 0.5;
+        const bob = Math.sin(time * 1.5 + index) * 0.1;
+
+        // Apply combined position
+        // Y is strictly defined by surface wave + bob. Spring Y is 0.
+        textRef.current.position.x = springPos[0] + driftX;
+        textRef.current.position.y = springPos[1] + waveHeight + bob;
+        textRef.current.position.z = springPos[2] + driftZ;
+
+        // 2. Rotations (Sleeping -> Standing + Surface Tilt)
+
+        // Calculate progress towards target for "Stand Up" animation
+        // We use the spring position to determine how close we are
+        const dx = springPos[0] - endPosition[0];
+        const dz = springPos[2] - endPosition[2];
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        // Stand up logic: 
+        // If dist > 5, fully sleeping (-90deg). 
+        // As dist goes 5 -> 0, transition to standing (0deg).
+        const standUpProgress = Math.min(Math.max((10 - dist) / 10, 0), 1);
+        // Eased stand up (cubic in) - stands up mostly at the end
+        const standEase = standUpProgress * standUpProgress * standUpProgress;
+
+        const baseTiltX = -Math.PI / 2 * (1 - standEase); // -90deg to 0deg
+
+        // Wave Tilt (Surface Normal approximation)
+        const waveTiltX = Math.cos(time * 0.5 + springPos[0] * 0.1) * 0.1;
+        const waveTiltZ = Math.sin(time * 0.5 + springPos[2] * 0.1) * 0.1;
+
+        textRef.current.rotation.x = baseTiltX + waveTiltX;
+        textRef.current.rotation.z = waveTiltZ; // Roll always active
+
+        if (!hasConverged) {
+            // While sleeping/moving, maybe slow spin on Y is weird if they are flat?
+            // If flat, Y rotation looks like spinning plate.
+            // Let's orient them partly towards center + spin?
+            // Simple gentle spin is fine.
+            textRef.current.rotation.y = Math.sin(time * 0.5 + index) * 0.3;
+        } else {
+            // Settled: Face forward
+            textRef.current.rotation.y = 0;
+        }
+    });
+
+    return (
+        <Text
+            ref={textRef}
+            fontSize={1.5}
+            font="/fonts/SpaceGrotesk-Bold.ttf"
+            color="#00d4ff" // Cyan
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.03}
+            outlineColor="#6366f1" // Indigo outline
+        >
+            {letter}
+        </Text>
+    );
+}
+
+// ============================================================================
+// VISION BACKGROUND SCENE
+// ============================================================================
+
 export function VisionBackground() {
+    const letters = ['V', 'I', 'S', 'I', 'O', 'N'];
+
+    // Starting positions: Y is 0 to stay on "water surface"
+    // Pushed further out (25-30) to ensure they start off-screen
+    const startPositions: [number, number, number][] = useMemo(() => [
+        [-25, 0, -10],   // V - Far Left
+        [-15, 0, 20],    // I - Bottom Left
+        [0, 0, -25],     // S - Top Center
+        [10, 0, 15],     // I - Center Right
+        [25, 0, -10],    // O - Far Right
+        [20, 0, 20],     // N - Bottom Right
+    ], []);
+
+    // End positions (spelling "VISION" in center)
+    const endPositions: [number, number, number][] = useMemo(() => {
+        const letterSpacing = 1.6;
+        const totalWidth = (letters.length - 1) * letterSpacing;
+        const startX = -totalWidth / 2;
+
+        return letters.map((_, i) => [
+            startX + i * letterSpacing,
+            0, // Centered vertically
+            0  // Centered depth
+        ]);
+    }, []);
+
+    // Stagger delays (letters don't all start moving at once)
+    const delays = [0, 300, 600, 900, 1200, 1500];
+
     return (
         <div className="fixed inset-0 z-[-1] bg-black">
-            <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-                <SharedUniverse />
-                <Sun />
-                <Rays />
-                <Cloud opacity={0.5} speed={0.4} segments={20} bounds={[10, 1.5, 1]} position={[0, -5, -10]} />
+            <Canvas
+                camera={{ position: [0, 2, 18], fov: 45 }}
+                gl={{
+                    alpha: true,
+                    antialias: true,
+                    powerPreference: "high-performance"
+                }}
+                dpr={[1, 2]}
+            >
+                <color attach="background" args={['#030014']} />
+
+                {/* Cinematic Lighting */}
+                <ambientLight intensity={0.4} />
+                <pointLight position={[-10, 10, 5]} intensity={1} color="#00d4ff" />
+                <pointLight position={[10, -5, 5]} intensity={0.8} color="#6366f1" />
+                <spotLight
+                    position={[0, 15, 10]}
+                    angle={0.6}
+                    penumbra={1}
+                    intensity={1.2}
+                    color="#ffffff"
+                />
+
+                {/* Wavy grid (water surface) */}
+                <WavyGrid
+                    gridSize={60}
+                    gridResolution={80}
+                    waveAmplitude={1.5}
+                    waveSpeed={0.3}
+                    color="#6366f1"
+                />
+
+                {/* Floating letters */}
+                {letters.map((letter, index) => (
+                    <FloatingLetter
+                        key={index}
+                        letter={letter}
+                        startPosition={startPositions[index]}
+                        endPosition={endPositions[index]}
+                        delay={delays[index]}
+                        index={index}
+                    />
+                ))}
+
+                {/* Fog for depth */}
+                <fog attach="fog" args={['#030014', 10, 60]} />
             </Canvas>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+
+            {/* Overlay for content readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-transparent opacity-80" />
         </div>
     );
 }

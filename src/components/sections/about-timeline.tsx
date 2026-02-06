@@ -33,7 +33,7 @@ const milestones = [
 
 export function AboutTimeline() {
     return (
-        <Section className="bg-deep-navy relative overflow-hidden">
+        <Section className="bg-transparent relative overflow-hidden">
             <div className="container mx-auto px-4 max-w-4xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -62,9 +62,8 @@ export function AboutTimeline() {
                             >
                                 {/* Content Card */}
                                 <div className="flex-1 w-full md:w-1/2 pl-12 md:pl-0">
-                                    <div className={`p-6 bg-slate-900/50 border border-slate-800 rounded-xl relative hover:border-electric-blue/50 transition-colors group ${index % 2 === 0 ? "md:mr-12" : "md:ml-12"
+                                    <div className={`p-6 bg-transparent border border-slate-800 rounded-xl relative hover:border-electric-blue/50 transition-colors group ${index % 2 === 0 ? "md:mr-12" : "md:ml-12"
                                         }`}>
-                                        <span className="text-electric-blue font-mono font-bold text-sm mb-2 block">{milestone.year}</span>
                                         <h3 className="text-xl font-bold text-white mb-2">{milestone.title}</h3>
                                         <p className="text-slate-400 text-sm leading-relaxed group-hover:text-slate-300 transition-colors">
                                             {milestone.description}

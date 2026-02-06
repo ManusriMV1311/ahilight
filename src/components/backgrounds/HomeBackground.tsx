@@ -16,87 +16,93 @@ interface DomainProps {
 
 function KiteDomain({ text, targetPosition, delay, color }: DomainProps) {
     const groupRef = useRef<THREE.Group>(null);
-    const [startAnim] = useState(() => Math.random() * 100);
-    const [currentPos, setCurrentPos] = useState<[number, number, number]>([0, 0, 0]);
+    const [randomOffset] = useState(() => Math.random() * 100);
 
     useFrame((state) => {
         if (!groupRef.current) return;
 
         const time = state.clock.elapsedTime;
-        // Pop out animation
-        const progress = Math.min(Math.max((time - delay) * 0.5, 0), 1);
+        // Pop out animation (0 to 1)
+        const progress = Math.min(Math.max((time - delay) * 0.4, 0), 1);
         const eased = 1 - Math.pow(1 - progress, 3); // Cubic ease out
 
-        // Orbit animation
-        const orbitSpeed = 0.2;
-        const angle = time * orbitSpeed + startAnim;
-        const radius = 4.5 * eased;
+        // Drift animation (subtle floating after reaching target)
+        const driftTime = time * 0.2 + randomOffset;
+        const driftX = Math.sin(driftTime) * 0.2;
+        const driftY = Math.cos(driftTime * 1.3) * 0.2;
+        const driftZ = Math.sin(driftTime * 0.7) * 0.1;
 
-        // Combine orbit with initial position direction
-        const finalX = Math.sin(angle) * radius * targetPosition[0];
-        const finalZ = Math.cos(angle) * radius * targetPosition[2];
-        const finalY = (Math.sin(angle * 0.5) * 2 + targetPosition[1]) * eased;
+        // Final position calculation
+        // Start at [0,0,0], move to targetPosition, then add drift
+        const currentX = (targetPosition[0] * eased) + (driftX * eased);
+        const currentY = (targetPosition[1] * eased) + (driftY * eased);
+        const currentZ = (targetPosition[2] * eased) + (driftZ * eased);
 
-        groupRef.current.position.set(finalX, finalY, finalZ);
+        groupRef.current.position.set(currentX, currentY, currentZ);
+
+        // Scale up from 0
         groupRef.current.scale.setScalar(eased);
-        groupRef.current.lookAt(0, 0, 0);
 
-        // Update current position state for line
-        setCurrentPos([finalX, finalY, finalZ]);
+        // Always look at camera (or center)
+        groupRef.current.lookAt(0, 0, 8); // Look towards camera aproximately
     });
 
     return (
-        <>
-            <group ref={groupRef} scale={0}>
-                {/* Kite Shape (Rotated Octahedron/Plane) */}
-                <group rotation={[Math.PI / 4, 0, Math.PI / 4]}>
-                    <mesh>
-                        <octahedronGeometry args={[0.3, 0]} />
-                        <meshStandardMaterial
-                            color={color}
-                            emissive={color}
-                            emissiveIntensity={0.5}
-                            roughness={0.2}
-                            metalness={0.8}
-                        />
-                    </mesh>
-                    {/* Wireframe overlay */}
-                    <mesh scale={1.05}>
-                        <octahedronGeometry args={[0.3, 0]} />
-                        <meshBasicMaterial
-                            color="#ffffff"
-                            wireframe
-                            transparent
-                            opacity={0.3}
-                        />
-                    </mesh>
-                </group>
-
-                {/* Text Label */}
-                <Text
-                    position={[0, -0.5, 0]}
-                    font="/fonts/SpaceGrotesk-Bold.ttf"
-                    fontSize={0.3}
-                    color="#ffffff"
-                    anchorX="center"
-                    anchorY="top"
-                    outlineWidth={0.02}
-                    outlineColor={color}
-                    outlineOpacity={0.2}
-                >
-                    {text}
-                </Text>
+        <group ref={groupRef} scale={0}>
+            {/* Kite Shape (Rotated Octahedron/Plane) */}
+            <group rotation={[Math.PI / 4, 0, Math.PI / 4]}>
+                <mesh>
+                    <octahedronGeometry args={[0.3, 0]} />
+                    <meshStandardMaterial
+                        color={color}
+                        emissive={color}
+                        emissiveIntensity={0.5}
+                        roughness={0.2}
+                        metalness={0.8}
+                    />
+                </mesh>
+                {/* Wireframe overlay */}
+                <mesh scale={1.05}>
+                    <octahedronGeometry args={[0.3, 0]} />
+                    <meshBasicMaterial
+                        color="#ffffff"
+                        wireframe
+                        transparent
+                        opacity={0.3}
+                    />
+                </mesh>
             </group>
 
-            {/* Connectivity Line */}
+            {/* Text Label */}
+            <Text
+                position={[0, -0.5, 0]}
+                font="/fonts/SpaceGrotesk-Bold.ttf"
+                fontSize={0.3}
+                color="#ffffff"
+                anchorX="center"
+                anchorY="top"
+                outlineWidth={0.02}
+                outlineColor={color}
+                outlineOpacity={0.2}
+            >
+                {text}
+            </Text>
+            {/* Connectivity Line to Center - Fades out as it gets further */}
             <Line
-                points={[[0, 0, 0], currentPos]}
+                points={[
+                    [
+                        (groupRef.current?.position.x ?? 0) * -1,
+                        (groupRef.current?.position.y ?? 0) * -1,
+                        (groupRef.current?.position.z ?? 0) * -1
+                    ],
+                    [0, 0, 0]
+                ]}
                 color={color}
                 lineWidth={1}
                 transparent
-                opacity={0.3}
+                opacity={0.15}
             />
-        </>
+        </group>
     );
 }
 
@@ -182,18 +188,29 @@ function PopOutDomains() {
 
     const domainObjects = useMemo(() => {
         return domains.map((domain, i) => {
-            const phi = Math.acos(-1 + (2 * i) / domains.length);
-            const theta = Math.sqrt(domains.length * Math.PI) * phi;
+            // Distribute to left and right sides
+            const isLeft = i % 2 === 0;
+            const sideMultiplier = isLeft ? -1 : 1;
+
+            // Randomize position within a "wing" area
+            // X: 3.5 to 7 (spread out sidewards)
+            // Y: -3 to 3 (spread vertically)
+            // Z: -2 to 2 (depth)
+
+            // Use deterministic randomness based on index for stability
+            const r1 = (Math.sin(i * 12.9898) * 43758.5453) % 1;
+            const r2 = (Math.sin(i * 78.233) * 43758.5453) % 1;
+            const r3 = (Math.sin(i * 23.123) * 43758.5453) % 1;
+
+            const x = (3.2 + r1 * 2.2) * sideMultiplier; // Brought tighter: 3.2 to 5.4
+            const y = (r2 * 5) - 2.5; // Slightly reduced vertical spread
+            const z = (r3 * 3) - 1.5; // Reduced depth spread
 
             return {
                 text: domain,
-                targetPosition: [
-                    Math.cos(theta) * Math.sin(phi),
-                    Math.sin(theta) * Math.sin(phi),
-                    Math.cos(phi)
-                ] as [number, number, number],
-                delay: i * 0.2 + 1,
-                color: i % 2 === 0 ? "#00d4ff" : "#6366f1"
+                targetPosition: [x, y, z] as [number, number, number],
+                delay: i * 0.15 + 0.5, // Staggered delays
+                color: isLeft ? "#00d4ff" : "#6366f1" // Restored Blue/Purple
             };
         });
     }, []);

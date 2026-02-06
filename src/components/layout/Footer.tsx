@@ -104,9 +104,12 @@ export function Footer() {
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
                     <div>&copy; 2026 AhiLight Inc. Crafted by humans.</div>
                     <div className="flex items-center gap-6">
-
-
-
+                        <Link
+                            href="/contact"
+                            className="px-6 py-2 bg-gradient-to-r from-electric-blue to-cyan-accent text-white rounded-full font-semibold font-ui hover:opacity-90 transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm"
+                        >
+                            Talk to us
+                        </Link>
                     </div>
                 </div>
 
