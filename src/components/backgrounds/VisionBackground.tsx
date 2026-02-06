@@ -1,10 +1,39 @@
 "use client";
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { createNoise3D } from 'simplex-noise';
 import { useSpring, animated, config } from '@react-spring/three';
+
+// ... (WavyGrid and FloatingLetters components remain mostly same, but I need to make sure I don't delete them)
+// I will just replace the top imports and add the component, then replace VisionBackground body.
+
+// ============================================================================
+// RESPONSIVE CAMERA
+// ============================================================================
+
+function ResponsiveCamera() {
+    const { camera, size } = useThree();
+
+    useEffect(() => {
+        // Adjust camera distance based on screen width to ensure "VISION" fits
+        if (size.width < 600) { // Mobile
+            camera.position.z = 28;
+            camera.position.y = 4; // Look down a bit more
+        } else if (size.width < 1024) { // Tablet
+            camera.position.z = 22;
+            camera.position.y = 3;
+        } else { // Desktop
+            camera.position.z = 18;
+            camera.position.y = 2;
+        }
+        camera.updateProjectionMatrix();
+    }, [size.width, camera]);
+
+    return null;
+}
+
 
 // ============================================================================
 // WAVY GRID COMPONENT
@@ -204,6 +233,15 @@ function FloatingLetter({
 
 export function VisionBackground() {
     const letters = ['V', 'I', 'S', 'I', 'O', 'N'];
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Detect mobile for performance optimizations (lower grid resolution)
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Starting positions: Y is 0 to stay on "water surface"
     // Pushed further out (25-30) to ensure they start off-screen
@@ -237,13 +275,17 @@ export function VisionBackground() {
             <Canvas
                 camera={{ position: [0, 2, 18], fov: 45 }}
                 gl={{
+                    // Reduce pixel ratio on mobile for performance
+                    pixelRatio: typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, isMobile ? 1 : 2) : 1,
                     alpha: true,
                     antialias: true,
                     powerPreference: "high-performance"
                 }}
-                dpr={[1, 2]}
             >
                 <color attach="background" args={['#030014']} />
+
+                {/* Responsive Camera Handler */}
+                <ResponsiveCamera />
 
                 {/* Cinematic Lighting */}
                 <ambientLight intensity={0.4} />
@@ -257,10 +299,10 @@ export function VisionBackground() {
                     color="#ffffff"
                 />
 
-                {/* Wavy grid (water surface) */}
+                {/* Wavy grid (water surface) - Lower resolution on mobile */}
                 <WavyGrid
                     gridSize={60}
-                    gridResolution={80}
+                    gridResolution={isMobile ? 30 : 80}
                     waveAmplitude={1.5}
                     waveSpeed={0.3}
                     color="#6366f1"
