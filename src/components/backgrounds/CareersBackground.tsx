@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { SharedUniverse } from "./common/SharedUniverse";
 
@@ -11,13 +11,16 @@ function GrowingTree() {
     // Simple recursive branching structure simulated with instances or lines
     // For performance and style, let's use rising vertical lines with nodes
 
-    const lines = useMemo(() => {
-        return new Array(50).fill(0).map(() => ({
+    const [lines, setLines] = useState<{ position: [number, number, number], height: number, speed: number, color: string }[]>([]);
+
+    useEffect(() => {
+        const newLines = new Array(50).fill(0).map(() => ({
             position: [(Math.random() - 0.5) * 15, -5, (Math.random() - 0.5) * 5] as [number, number, number],
             height: 5 + Math.random() * 10,
             speed: Math.random() * 0.05 + 0.01,
             color: Math.random() > 0.5 ? '#10b981' : '#3b82f6' // Green/Blue
         }));
+        setLines(newLines);
     }, []);
 
     useFrame((state) => {

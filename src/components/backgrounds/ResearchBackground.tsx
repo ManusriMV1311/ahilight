@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Sparkles, Float } from "@react-three/drei";
 import { SharedUniverse } from "./common/SharedUniverse";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 import { createNoise3D } from "simplex-noise";
 
@@ -14,7 +14,9 @@ function QuantumField() {
     const count = 2000;
 
     // Create initial positions
-    const positions = useMemo(() => {
+    const [data, setData] = useState<{ pos: Float32Array, colors: Float32Array } | null>(null);
+
+    useEffect(() => {
         const pos = new Float32Array(count * 3);
         const colors = new Float32Array(count * 3);
         for (let i = 0; i < count; i++) {
@@ -30,8 +32,10 @@ function QuantumField() {
             colors[i * 3 + 1] = color.g;
             colors[i * 3 + 2] = color.b;
         }
-        return { pos, colors };
+        setData({ pos, colors });
     }, []);
+
+    const positions = data || { pos: new Float32Array(count * 3), colors: new Float32Array(count * 3) };
 
     useFrame((state) => {
         if (!pointsRef.current) return;

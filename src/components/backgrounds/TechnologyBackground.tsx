@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Instances, Instance, Float } from "@react-three/drei";
 import { SharedUniverse } from "./common/SharedUniverse";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 import { createNoise2D } from "simplex-noise";
 
@@ -15,16 +15,21 @@ function HyperplaneCity() {
     const gap = 1.0;
 
     // Animate the instances individually
-    const meshRef = useRef<any>(null);
+    const [cityLayout, setCityLayout] = useState<{ x: number, z: number, y: number, color?: string }[]>([]);
 
-    useFrame((state) => {
-        const time = state.clock.getElapsedTime();
-        // Here we would ideally animate instances in a shader or by updating the matrix
-        // But for simplicity with 'Instances', we can just float the container or use a simpler effect
-        if (meshRef.current) {
-            meshRef.current.position.z = (time * 2) % (gap * count);
+    useEffect(() => {
+        const layout = [];
+        for (let x = 0; x < count; x++) {
+            for (let z = 0; z < count; z++) {
+                const y = noise2D(x * 0.1, z * 0.1) * 5;
+                layout.push({
+                    x, z, y,
+                    color: Math.random() > 0.9 ? "#00ffff" : undefined
+                });
+            }
         }
-    });
+        setCityLayout(layout);
+    }, []);
 
     return (
         <group rotation={[Math.PI / 4, Math.PI / 4, 0]} position={[0, -10, 0]}>
@@ -38,21 +43,16 @@ function HyperplaneCity() {
                     roughness={0.1}
                 />
 
-                {Array.from({ length: count }).map((_, x) => (
-                    Array.from({ length: count }).map((_, z) => {
-                        const y = noise2D(x * 0.1, z * 0.1) * 5;
-                        return (
-                            <Instance
-                                key={`${x}-${z}`}
-                                position={[
-                                    (x - count / 2) * gap,
-                                    y,
-                                    (z - count / 2) * gap
-                                ]}
-                                color={Math.random() > 0.9 ? "#00ffff" : undefined}
-                            />
-                        )
-                    })
+                {cityLayout.map((item, i) => (
+                    <Instance
+                        key={i}
+                        position={[
+                            (item.x - count / 2) * gap,
+                            item.y,
+                            (item.z - count / 2) * gap
+                        ]}
+                        color={item.color}
+                    />
                 ))}
             </Instances>
         </group>
@@ -61,13 +61,23 @@ function HyperplaneCity() {
 
 // Easier alternative: A flowing grid of lines and data blocks
 function CircuitStream() {
+    const [blocks, setBlocks] = useState<{ position: [number, number, number], size: number, color: string }[]>([]);
+
+    useEffect(() => {
+        setBlocks(Array.from({ length: 40 }).map(() => ({
+            position: [(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10] as [number, number, number],
+            size: Math.random() * 4 + 1,
+            color: Math.random() > 0.5 ? "#00ffff" : "#7D5FFF"
+        })));
+    }, []);
+
     return (
         <group rotation={[Math.PI / 6, 0, 0]}>
             <Float speed={2} rotationIntensity={0} floatIntensity={0}>
-                {Array.from({ length: 40 }).map((_, i) => (
-                    <mesh key={i} position={[(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10]}>
-                        <boxGeometry args={[Math.random() * 4 + 1, 0.1, 0.1]} />
-                        <meshBasicMaterial color={Math.random() > 0.5 ? "#00ffff" : "#7D5FFF"} transparent opacity={0.6} />
+                {blocks.map((block, i) => (
+                    <mesh key={i} position={block.position}>
+                        <boxGeometry args={[block.size, 0.1, 0.1]} />
+                        <meshBasicMaterial color={block.color} transparent opacity={0.6} />
                     </mesh>
                 ))}
             </Float>

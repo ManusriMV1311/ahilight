@@ -3,12 +3,13 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshTransmissionMaterial, Float, Text } from "@react-three/drei";
 import { SharedUniverse } from "./common/SharedUniverse";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 function CrystalShield() {
     const meshRef = useRef<THREE.Group>(null);
+    const fragments = useFragments();
 
     useFrame((state) => {
         const t = state.clock.getElapsedTime();
@@ -44,13 +45,9 @@ function CrystalShield() {
             </mesh>
 
             {/* Floating Shield Fragments */}
-            {Array.from({ length: 12 }).map((_, i) => (
+            {fragments.map((frag, i) => (
                 <Float key={i} speed={2} rotationIntensity={1} floatIntensity={1}>
-                    <mesh position={[
-                        (Math.random() - 0.5) * 8,
-                        (Math.random() - 0.5) * 8,
-                        (Math.random() - 0.5) * 4 + 2
-                    ]}>
+                    <mesh position={frag}>
                         <dodecahedronGeometry args={[0.4, 0]} />
                         <MeshTransmissionMaterial
                             samples={4}
@@ -68,6 +65,19 @@ function CrystalShield() {
             ))}
         </group>
     );
+}
+
+
+function useFragments() {
+    const [fragments, setFragments] = useState<[number, number, number][]>([]);
+    useEffect(() => {
+        setFragments(Array.from({ length: 12 }).map(() => [
+            (Math.random() - 0.5) * 8,
+            (Math.random() - 0.5) * 8,
+            (Math.random() - 0.5) * 4 + 2
+        ]));
+    }, []);
+    return fragments;
 }
 
 export function CyberFortressBackground() {

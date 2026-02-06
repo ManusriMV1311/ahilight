@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Text, Line } from "@react-three/drei";
+import { Float, MeshDistortMaterial, Text } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { SharedUniverse } from "./common/SharedUniverse";
 import { useRef, useMemo } from "react";
@@ -96,21 +96,7 @@ function KiteDomain({ text, targetPosition, delay, color }: DomainProps) {
             >
                 {text}
             </Text>
-            {/* Connectivity Line to Center - Fades out as it gets further */}
-            <Line
-                points={[
-                    [
-                        -targetPosition[0],
-                        -targetPosition[1],
-                        -targetPosition[2]
-                    ],
-                    [0, 0, 0]
-                ]}
-                color={color}
-                lineWidth={1}
-                transparent
-                opacity={0.15}
-            />
+
         </group>
     );
 }

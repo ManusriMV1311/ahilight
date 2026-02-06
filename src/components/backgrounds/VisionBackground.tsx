@@ -274,9 +274,8 @@ export function VisionBackground() {
         <div className="fixed inset-0 z-[-1] bg-black">
             <Canvas
                 camera={{ position: [0, 2, 18], fov: 45 }}
+                dpr={typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, isMobile ? 1 : 2) : 1}
                 gl={{
-                    // Reduce pixel ratio on mobile for performance
-                    pixelRatio: typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, isMobile ? 1 : 2) : 1,
                     alpha: true,
                     antialias: true,
                     powerPreference: "high-performance"

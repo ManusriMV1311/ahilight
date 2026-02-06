@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Sphere, Line } from "@react-three/drei";
 import { SharedUniverse } from "./common/SharedUniverse";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
@@ -12,8 +12,10 @@ function ConstellationNetwork() {
     const radius = 10;
 
     // Generate nodes
-    const nodes = useMemo(() => {
-        return new Array(count).fill(0).map(() => ({
+    const [nodes, setNodes] = useState<{ position: THREE.Vector3, phase: number }[]>([]);
+
+    useEffect(() => {
+        const newNodes = new Array(count).fill(0).map(() => ({
             position: new THREE.Vector3(
                 (Math.random() - 0.5) * radius * 2,
                 (Math.random() - 0.5) * radius * 1.5,
@@ -21,6 +23,7 @@ function ConstellationNetwork() {
             ),
             phase: Math.random() * Math.PI * 2
         }));
+        setNodes(newNodes);
     }, []);
 
     // Generate connections
