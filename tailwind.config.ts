@@ -27,10 +27,6 @@ const config: Config = {
                 ui: ["var(--font-ibm-plex)", "sans-serif"],
                 brand: ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Segoe UI", "Roboto", "sans-serif"],
             },
-            animation: {
-                "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
-                spotlight: "spotlight 2s ease .75s 1 forwards",
-            },
             keyframes: {
                 "border-beam": {
                     "100%": {
@@ -47,6 +43,19 @@ const config: Config = {
                         transform: "translate(-50%,-40%) scale(1)",
                     },
                 },
+                shimmer: {
+                    from: {
+                        backgroundPosition: "0 0",
+                    },
+                    to: {
+                        backgroundPosition: "-200% 0",
+                    },
+                },
+            },
+            animation: {
+                "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
+                spotlight: "spotlight 2s ease .75s 1 forwards",
+                shimmer: "shimmer 2s linear infinite",
             },
         },
     },

@@ -9,9 +9,9 @@ const navItems = [
     {
         title: "About",
         icon: (
-            <div className="flex items-center gap-2">
-                <Info className="h-5 w-5 text-electric-blue" />
-                <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent font-ui">About</span>
+            <div className="flex items-center gap-2 h-full w-full justify-center">
+                <Info className="h-5 w-5 text-white" />
+                <span className="text-sm font-medium text-white font-ui hidden md:block">About</span>
             </div>
         ),
         href: "/about"
@@ -19,9 +19,9 @@ const navItems = [
     {
         title: "Vision",
         icon: (
-            <div className="flex items-center gap-2">
-                <Eye className="h-5 w-5 text-electric-blue" />
-                <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent font-ui">Vision</span>
+            <div className="flex items-center gap-2 h-full w-full justify-center">
+                <Eye className="h-5 w-5 text-white" />
+                <span className="text-sm font-medium text-white font-ui hidden md:block">Vision</span>
             </div>
         ),
         href: "/vision"
@@ -29,9 +29,9 @@ const navItems = [
     {
         title: "Products",
         icon: (
-            <div className="flex items-center gap-2">
-                <Package className="h-5 w-5 text-electric-blue" />
-                <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent font-ui">Products</span>
+            <div className="flex items-center gap-2 h-full w-full justify-center">
+                <Package className="h-5 w-5 text-white" />
+                <span className="text-sm font-medium text-white font-ui hidden md:block">Products</span>
             </div>
         ),
         href: "/products"
@@ -39,9 +39,9 @@ const navItems = [
     {
         title: "Technology",
         icon: (
-            <div className="flex items-center gap-2">
-                <Cpu className="h-5 w-5 text-electric-blue" />
-                <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent font-ui">Technology</span>
+            <div className="flex items-center gap-2 h-full w-full justify-center">
+                <Cpu className="h-5 w-5 text-white" />
+                <span className="text-sm font-medium text-white font-ui hidden md:block">Tech</span>
             </div>
         ),
         href: "/technology"
@@ -49,9 +49,9 @@ const navItems = [
     {
         title: "Research",
         icon: (
-            <div className="flex items-center gap-2">
-                <FlaskConical className="h-5 w-5 text-electric-blue" />
-                <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent font-ui">Research</span>
+            <div className="flex items-center gap-2 h-full w-full justify-center">
+                <FlaskConical className="h-5 w-5 text-white" />
+                <span className="text-sm font-medium text-white font-ui hidden md:block">Research</span>
             </div>
         ),
         href: "/research"
@@ -59,9 +59,9 @@ const navItems = [
     {
         title: "Careers",
         icon: (
-            <div className="flex items-center gap-2">
-                <Briefcase className="h-5 w-5 text-electric-blue" />
-                <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent font-ui">Careers</span>
+            <div className="flex items-center gap-2 h-full w-full justify-center">
+                <Briefcase className="h-5 w-5 text-white" />
+                <span className="text-sm font-medium text-white font-ui hidden md:block">Careers</span>
             </div>
         ),
         href: "/careers"

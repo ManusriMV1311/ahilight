@@ -108,8 +108,8 @@ const FloatingDockDesktop = ({
         className,
       )}
     >
-      {items.map((item) => (
-        <IconContainer mouseX={mouseX} key={item.title} {...item} />
+      {items.map((item, idx) => (
+        <IconContainer mouseX={mouseX} key={item.title} {...item} idx={idx} />
       ))}
     </motion.div>
   );
@@ -120,11 +120,13 @@ function IconContainer({
   title,
   icon,
   href,
+  idx,
 }: {
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
   href: string;
+  idx: number;
 }) {
   let ref = useRef<HTMLDivElement>(null);
 
@@ -175,12 +177,37 @@ function IconContainer({
         style={{ width, height }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="relative flex items-center justify-center rounded-full bg-gray-200 dark:bg-neutral-800"
+        className="relative flex items-center justify-center rounded-full overflow-hidden border border-white/20 shadow-[0_0_15px_rgba(125,211,252,0.3)]"
       >
+        {/* Animated Gradient Background with Staggered Delay */}
+        {/* Base dark background */}
+        <div className="absolute inset-0 bg-neutral-900/80" />
+
+        {/* Animated High-Contrast Pulse with ALL Theme Colors */}
+        <motion.div
+          className="absolute inset-0 bg-[linear-gradient(90deg,transparent,var(--electric-blue),var(--cyan-accent),transparent)] opacity-0"
+          animate={{
+            x: ["-100%", "100%"],
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: 2.5,
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatDelay: 0.3,
+            delay: idx * 0.25,
+          }}
+        />
+
+        {/* Constant subtle glow for visibility */}
+        <div className="absolute inset-0 bg-electric-blue/20" />
+
+        {/* Soft vivid overlay */}
+        <div className="absolute inset-0 bg-white/5 hover:bg-white/10 transition-colors duration-300" />
 
         <motion.div
           style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center relative z-10"
         >
           {icon}
         </motion.div>
