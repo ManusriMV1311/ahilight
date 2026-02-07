@@ -1,6 +1,6 @@
 "use client";
 
-import { NeuralNetworkBackground } from "@/components/backgrounds/NeuralNetworkBackground";
+import { CircuitBoardBackground } from "@/components/backgrounds/CircuitBoardBackground";
 import { Section } from "@/components/ui/section";
 import { Cpu, Network, Lock, Code2 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ import { GlareCard } from "@/components/ui/glare-card";
 export default function TechnologyPage() {
     return (
         <div className="flex flex-col gap-0 min-h-screen relative overflow-hidden">
-            <NeuralNetworkBackground />
+            <CircuitBoardBackground />
 
             {/* Hero Section */}
             <Section background="transparent" className="pt-32 pb-16 md:pt-40 md:pb-24 relative z-10">
