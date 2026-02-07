@@ -14,6 +14,7 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
     const [exploding, setExploding] = useState(false);
     const [showCards, setShowCards] = useState(false);
     const [titleComplete, setTitleComplete] = useState(false);
+    const [showFloatingBalls, setShowFloatingBalls] = useState(false);
     const hasAnimated = useRef(false);
 
     useEffect(() => {
@@ -42,6 +43,11 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
         setTimeout(() => {
             onAnimationComplete?.(true);
         }, 5000);
+
+        // Start floating balls loop
+        setTimeout(() => {
+            setShowFloatingBalls(true);
+        }, 5500);
     }, []);
 
     return (
@@ -191,6 +197,62 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
                             </h1>
                         </motion.div>
                     </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Floating Balls - Continuous Loop */}
+            <AnimatePresence>
+                {showFloatingBalls && (
+                    <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
+                        {Array.from({ length: 12 }).map((_, i) => {
+                            const startX = Math.random() * 100;
+                            const startY = 100 + Math.random() * 20;
+                            const endX = startX + (Math.random() - 0.5) * 40;
+                            const endY = -10 - Math.random() * 10;
+                            const delay = i * 0.8;
+                            const duration = 4 + Math.random() * 2;
+                            const size = 8 + Math.random() * 12;
+                            const colors = [
+                                'bg-gradient-to-br from-purple-500 to-blue-500',
+                                'bg-gradient-to-br from-cyan-400 to-blue-600',
+                                'bg-gradient-to-br from-purple-600 to-pink-500',
+                                'bg-gradient-to-br from-blue-400 to-cyan-300'
+                            ];
+                            const color = colors[i % colors.length];
+
+                            return (
+                                <motion.div
+                                    key={i}
+                                    initial={{
+                                        x: `${startX}vw`,
+                                        y: `${startY}vh`,
+                                        opacity: 0,
+                                        scale: 0
+                                    }}
+                                    animate={{
+                                        x: [`${startX}vw`, `${endX}vw`],
+                                        y: [`${startY}vh`, `${endY}vh`],
+                                        opacity: [0, 0.8, 0.6, 0],
+                                        scale: [0, 1, 1, 0.5]
+                                    }}
+                                    transition={{
+                                        duration: duration,
+                                        delay: delay,
+                                        repeat: Infinity,
+                                        repeatDelay: 1,
+                                        ease: "easeOut"
+                                    }}
+                                    className={`absolute rounded-full ${color}`}
+                                    style={{
+                                        width: `${size}px`,
+                                        height: `${size}px`,
+                                        boxShadow: `0 0 ${size * 2}px rgba(125, 95, 255, 0.5)`,
+                                        filter: 'blur(1px)'
+                                    }}
+                                />
+                            );
+                        })}
+                    </div>
                 )}
             </AnimatePresence>
 
