@@ -1,6 +1,6 @@
 "use client";
 
-import { AboutBackground } from "@/components/backgrounds/AboutBackground";
+import { AboutNetworkBackground } from "@/components/backgrounds/AboutNetworkBackground";
 
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { Section } from "@/components/ui/section";
@@ -36,14 +36,9 @@ const scaleIn = {
 export default function AboutPage() {
     return (
         <div className="flex flex-col gap-0">
-            <AboutBackground />
-
+            <AboutNetworkBackground />
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
-                {/* Overlay for Contrast */}
-                <div className="absolute inset-0 bg-deep-navy/60 z-0">
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#0066FF10_1px,transparent_1px),linear-gradient(to_bottom,#0066FF10_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-                </div>
 
                 <div className="container relative z-10 mx-auto px-4 text-center flex flex-col items-center">
                     {/* Removed "Our Story" badge for cleaner look */}
