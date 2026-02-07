@@ -6,36 +6,55 @@ import { MeshDistortMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
 interface Particle {
-    position: THREE.Vector3;
+    finalPosition: THREE.Vector3;
+    currentPosition: THREE.Vector3;
     velocity: THREE.Vector3;
     color: THREE.Color;
     size: number;
 }
 
-function FusionAnimation() {
-    const blob1Ref = useRef<THREE.Mesh>(null);
-    const blob2Ref = useRef<THREE.Mesh>(null);
-    const blob3Ref = useRef<THREE.Mesh>(null);
+function FusionExplosion() {
+    // Multiple blobs coming from all edges
+    const blobRefs = useRef<(THREE.Mesh | null)[]>([]);
     const particlesRef = useRef<THREE.Points>(null);
 
-    const particleCount = 200;
-    const animationDuration = 12; // Full cycle duration in seconds
+    const particleCount = 300;
+    const animationDuration = 14;
+
+    // Initial blob positions from all sides of screen
+    const blobStartPositions = useMemo(() => [
+        { x: -15, y: 8, z: -5 },   // Top left
+        { x: 15, y: 8, z: -5 },    // Top right
+        { x: -15, y: -8, z: -5 },  // Bottom left
+        { x: 15, y: -8, z: -5 },   // Bottom right
+        { x: 0, y: 12, z: -5 },    // Top center
+        { x: 0, y: -12, z: -5 },   // Bottom center
+    ], []);
+
+    const blobColors = ["#7D5FFF", "#00F2FF", "#A07FFF", "#5FDFFF", "#9D7FFF", "#4FEFFF"];
 
     const particles = useMemo<Particle[]>(() => {
-        return Array.from({ length: particleCount }, () => ({
-            position: new THREE.Vector3(0, 0, 0),
-            velocity: new THREE.Vector3(
-                (Math.random() - 0.5) * 0.3,
-                (Math.random() - 0.5) * 0.3,
-                (Math.random() - 0.5) * 0.2
-            ),
-            color: new THREE.Color().lerpColors(
-                new THREE.Color("#7D5FFF"),
-                new THREE.Color("#00F2FF"),
-                Math.random()
-            ),
-            size: Math.random() * 0.15 + 0.05,
-        }));
+        return Array.from({ length: particleCount }, () => {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+            const radius = 8 + Math.random() * 8;
+
+            return {
+                finalPosition: new THREE.Vector3(
+                    Math.sin(phi) * Math.cos(theta) * radius,
+                    Math.sin(phi) * Math.sin(theta) * radius,
+                    (Math.random() - 0.5) * 10 - 5
+                ),
+                currentPosition: new THREE.Vector3(0, 0, 0),
+                velocity: new THREE.Vector3(0, 0, 0),
+                color: new THREE.Color().lerpColors(
+                    new THREE.Color("#7D5FFF"),
+                    new THREE.Color("#00F2FF"),
+                    Math.random()
+                ),
+                size: Math.random() * 0.12 + 0.04,
+            };
+        });
     }, []);
 
     useFrame((state) => {
@@ -43,75 +62,70 @@ function FusionAnimation() {
         const cycle = time % animationDuration;
         const phase = cycle / animationDuration;
 
-        // Phase 1 (0-0.25): Blobs converge to center
-        if (phase < 0.25) {
-            const convergeFactor = phase / 0.25;
-            const easeConverge = 1 - Math.pow(1 - convergeFactor, 3);
+        // Phase 1 (0-0.3): Blobs rush in from all sides
+        if (phase < 0.3) {
+            const approachProgress = phase / 0.3;
+            const easeIn = 1 - Math.pow(1 - approachProgress, 3); // Ease in cubic
 
-            if (blob1Ref.current) {
-                blob1Ref.current.position.x = THREE.MathUtils.lerp(-4, 0, easeConverge);
-                blob1Ref.current.position.y = THREE.MathUtils.lerp(3, 0, easeConverge);
-                blob1Ref.current.scale.setScalar(THREE.MathUtils.lerp(2.5, 2, easeConverge));
-            }
-            if (blob2Ref.current) {
-                blob2Ref.current.position.x = THREE.MathUtils.lerp(4, 0, easeConverge);
-                blob2Ref.current.position.y = THREE.MathUtils.lerp(-2, 0, easeConverge);
-                blob2Ref.current.scale.setScalar(THREE.MathUtils.lerp(2, 1.5, easeConverge));
-            }
-            if (blob3Ref.current) {
-                blob3Ref.current.position.x = THREE.MathUtils.lerp(0, 0, easeConverge);
-                blob3Ref.current.position.y = THREE.MathUtils.lerp(-3, 0, easeConverge);
-                blob3Ref.current.scale.setScalar(THREE.MathUtils.lerp(1.8, 1.5, easeConverge));
-            }
+            blobRefs.current.forEach((blob, i) => {
+                if (!blob) return;
+                const start = blobStartPositions[i];
 
-            // Hide particles during convergence
-            if (particlesRef.current) {
-                particlesRef.current.visible = false;
-            }
-        }
-        // Phase 2 (0.25-0.35): Brief fusion moment
-        else if (phase < 0.35) {
-            const fusionIntensity = Math.sin((phase - 0.25) * 31.4) * 0.3;
-
-            if (blob1Ref.current) {
-                blob1Ref.current.position.set(0, 0, -5);
-                blob1Ref.current.scale.setScalar(2 + fusionIntensity);
-            }
-            if (blob2Ref.current) {
-                blob2Ref.current.position.set(0, 0, -5);
-                blob2Ref.current.scale.setScalar(1.5 + fusionIntensity);
-            }
-            if (blob3Ref.current) {
-                blob3Ref.current.position.set(0, 0, -5);
-                blob3Ref.current.scale.setScalar(1.5 + fusionIntensity);
-            }
+                blob.visible = true;
+                blob.position.x = THREE.MathUtils.lerp(start.x, 0, easeIn);
+                blob.position.y = THREE.MathUtils.lerp(start.y, 0, easeIn);
+                blob.position.z = -5;
+                blob.scale.setScalar(1.5 + Math.sin(time * 5) * 0.2);
+            });
 
             if (particlesRef.current) {
                 particlesRef.current.visible = false;
             }
         }
-        // Phase 3 (0.35-0.4): Explosion - hide blobs, show particles
-        else if (phase < 0.4) {
-            if (blob1Ref.current) blob1Ref.current.visible = false;
-            if (blob2Ref.current) blob2Ref.current.visible = false;
-            if (blob3Ref.current) blob3Ref.current.visible = false;
+        // Phase 2 (0.3-0.38): Fusion moment - blobs merge and pulse
+        else if (phase < 0.38) {
+            const fusionProgress = (phase - 0.3) / 0.08;
+            const pulse = Math.sin(fusionProgress * Math.PI * 8) * 0.5;
+
+            blobRefs.current.forEach((blob) => {
+                if (!blob) return;
+                blob.position.set(0, 0, -5);
+                blob.scale.setScalar(2 + pulse);
+            });
+
+            if (particlesRef.current) {
+                particlesRef.current.visible = false;
+            }
+        }
+        // Phase 3 (0.38-0.45): EXPLOSION - hide blobs, blast particles
+        else if (phase < 0.45) {
+            blobRefs.current.forEach((blob) => {
+                if (blob) blob.visible = false;
+            });
 
             if (particlesRef.current) {
                 particlesRef.current.visible = true;
-                const explosionProgress = (phase - 0.35) / 0.05;
+                const explosionProgress = (phase - 0.38) / 0.07;
+                const blastEase = explosionProgress < 0.5
+                    ? 4 * explosionProgress * explosionProgress * explosionProgress
+                    : 1 - Math.pow(-2 * explosionProgress + 2, 3) / 2;
+
                 const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
                 const sizes = particlesRef.current.geometry.attributes.size?.array as Float32Array;
 
                 particles.forEach((particle, i) => {
                     const i3 = i * 3;
-                    const explosionForce = explosionProgress * 20;
+                    const explosionRadius = blastEase * 25;
 
-                    positions[i3] = particle.velocity.x * explosionForce;
-                    positions[i3 + 1] = particle.velocity.y * explosionForce;
-                    positions[i3 + 2] = particle.velocity.z * explosionForce - 5;
+                    const direction = particle.finalPosition.clone().normalize();
+                    particle.currentPosition.copy(direction.multiplyScalar(explosionRadius));
+
+                    positions[i3] = particle.currentPosition.x;
+                    positions[i3 + 1] = particle.currentPosition.y;
+                    positions[i3 + 2] = particle.currentPosition.z - 5;
 
                     if (sizes) {
-                        sizes[i] = particle.size * (1 + explosionProgress * 2);
+                        sizes[i] = particle.size * (1 + blastEase * 3);
                     }
                 });
 
@@ -119,51 +133,77 @@ function FusionAnimation() {
                 if (sizes) particlesRef.current.geometry.attributes.size.needsUpdate = true;
             }
         }
-        // Phase 4 (0.4-1): Particles spread and float
-        else {
-            if (blob1Ref.current) blob1Ref.current.visible = false;
-            if (blob2Ref.current) blob2Ref.current.visible = false;
-            if (blob3Ref.current) blob3Ref.current.visible = false;
+        // Phase 4 (0.45-0.65): Particles settle into final positions
+        else if (phase < 0.65) {
+            blobRefs.current.forEach((blob) => {
+                if (blob) blob.visible = false;
+            });
 
             if (particlesRef.current) {
                 particlesRef.current.visible = true;
+                const settleProgress = (phase - 0.45) / 0.2;
+                const settleEase = 1 - Math.pow(1 - settleProgress, 4);
+
                 const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
-                const spreadTime = (phase - 0.4) / 0.6;
+                const sizes = particlesRef.current.geometry.attributes.size?.array as Float32Array;
 
                 particles.forEach((particle, i) => {
                     const i3 = i * 3;
 
-                    // Continue spreading outward
-                    particle.position.x += particle.velocity.x * 0.1;
-                    particle.position.y += particle.velocity.y * 0.1;
-                    particle.position.z += particle.velocity.z * 0.05;
+                    // Smoothly move from current blast position to final position
+                    const lerpedPos = new THREE.Vector3().lerpVectors(
+                        particle.currentPosition,
+                        particle.finalPosition,
+                        settleEase
+                    );
 
-                    // Add gentle floating
-                    particle.position.y += Math.sin(time * 2 + i * 0.1) * 0.01;
+                    positions[i3] = lerpedPos.x;
+                    positions[i3 + 1] = lerpedPos.y;
+                    positions[i3 + 2] = lerpedPos.z - 5;
 
-                    positions[i3] = particle.position.x;
-                    positions[i3 + 1] = particle.position.y;
-                    positions[i3 + 2] = particle.position.z - 5;
+                    if (sizes) {
+                        sizes[i] = particle.size;
+                    }
+                });
+
+                particlesRef.current.geometry.attributes.position.needsUpdate = true;
+                if (sizes) particlesRef.current.geometry.attributes.size.needsUpdate = true;
+            }
+        }
+        // Phase 5 (0.65-1): Smooth floating motion in final positions
+        else {
+            blobRefs.current.forEach((blob) => {
+                if (blob) blob.visible = false;
+            });
+
+            if (particlesRef.current) {
+                particlesRef.current.visible = true;
+                const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
+
+                particles.forEach((particle, i) => {
+                    const i3 = i * 3;
+
+                    // Gentle wave motion
+                    const waveX = Math.sin(time * 0.5 + i * 0.1) * 0.05;
+                    const waveY = Math.cos(time * 0.4 + i * 0.15) * 0.05;
+
+                    positions[i3] = particle.finalPosition.x + waveX;
+                    positions[i3 + 1] = particle.finalPosition.y + waveY;
+                    positions[i3 + 2] = particle.finalPosition.z - 5;
                 });
 
                 particlesRef.current.geometry.attributes.position.needsUpdate = true;
             }
         }
 
-        // Show blobs again for next cycle
-        if (phase >= 0.95) {
-            if (blob1Ref.current) blob1Ref.current.visible = true;
-            if (blob2Ref.current) blob2Ref.current.visible = true;
-            if (blob3Ref.current) blob3Ref.current.visible = true;
-
-            // Reset particles
-            particles.forEach(particle => {
-                particle.position.set(0, 0, 0);
+        // Reset for next cycle
+        if (phase >= 0.98) {
+            particles.forEach((particle) => {
+                particle.currentPosition.set(0, 0, 0);
             });
         }
     });
 
-    // Prepare particle geometry
     const particlePositions = useMemo(() =>
         new Float32Array(particleCount * 3).fill(0),
         []);
@@ -178,47 +218,26 @@ function FusionAnimation() {
 
     return (
         <>
-            {/* Blob 1 - Purple */}
-            <mesh ref={blob1Ref} position={[-4, 3, -5]} scale={2.5}>
-                <sphereGeometry args={[1, 64, 64]} />
-                <MeshDistortMaterial
-                    color="#7D5FFF"
-                    attach="material"
-                    distort={0.6}
-                    speed={1.5}
-                    roughness={0.4}
-                    transparent
-                    opacity={0.5}
-                />
-            </mesh>
-
-            {/* Blob 2 - Cyan */}
-            <mesh ref={blob2Ref} position={[4, -2, -5]} scale={2}>
-                <sphereGeometry args={[64, 64]} />
-                <MeshDistortMaterial
-                    color="#00F2FF"
-                    attach="material"
-                    distort={0.5}
-                    speed={2}
-                    roughness={0.3}
-                    transparent
-                    opacity={0.45}
-                />
-            </mesh>
-
-            {/* Blob 3 - Mixed */}
-            <mesh ref={blob3Ref} position={[0, -3, -5]} scale={1.8}>
-                <sphereGeometry args={[1, 64, 64]} />
-                <MeshDistortMaterial
-                    color="#A07FFF"
-                    attach="material"
-                    distort={0.7}
-                    speed={1.8}
-                    roughness={0.35}
-                    transparent
-                    opacity={0.4}
-                />
-            </mesh>
+            {/* Multiple blobs from all sides */}
+            {blobStartPositions.map((_, i) => (
+                <mesh
+                    key={i}
+                    ref={(el) => { blobRefs.current[i] = el; }}
+                    position={[0, 0, -5]}
+                    scale={1.5}
+                >
+                    <sphereGeometry args={[1, 64, 64]} />
+                    <MeshDistortMaterial
+                        color={blobColors[i]}
+                        attach="material"
+                        distort={0.5}
+                        speed={2}
+                        roughness={0.3}
+                        transparent
+                        opacity={0.6}
+                    />
+                </mesh>
+            ))}
 
             {/* Explosion Particles */}
             <points ref={particlesRef}>
@@ -246,7 +265,7 @@ function FusionAnimation() {
                     size={0.1}
                     vertexColors
                     transparent
-                    opacity={0.8}
+                    opacity={0.9}
                     sizeAttenuation
                 />
             </points>
@@ -266,13 +285,13 @@ export function AboutFlowingBackground() {
     return (
         <div className="fixed inset-0 -z-10">
             <Canvas
-                camera={{ position: [0, 0, 8], fov: 75 }}
+                camera={{ position: [0, 0, 12], fov: 75 }}
                 style={{ background: 'transparent' }}
             >
                 <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} />
-                <pointLight position={[-10, -10, -10]} intensity={0.5} color="#00F2FF" />
-                <FusionAnimation />
+                <pointLight position={[10, 10, 10]} intensity={1.2} color="#7D5FFF" />
+                <pointLight position={[-10, -10, -10]} intensity={0.8} color="#00F2FF" />
+                <FusionExplosion />
             </Canvas>
         </div>
     );
