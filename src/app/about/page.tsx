@@ -1,6 +1,6 @@
 "use client";
 
-import { AboutNetworkBackground } from "@/components/backgrounds/AboutNetworkBackground";
+import { AboutFlowingBackground } from "@/components/backgrounds/AboutFlowingBackground";
 
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { Section } from "@/components/ui/section";
@@ -36,7 +36,7 @@ const scaleIn = {
 export default function AboutPage() {
     return (
         <div className="flex flex-col gap-0">
-            <AboutNetworkBackground />
+            <AboutFlowingBackground />
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
 
