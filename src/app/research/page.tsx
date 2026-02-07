@@ -1,6 +1,6 @@
 "use client";
 
-import { NeuralNetworkBackground } from "@/components/backgrounds/NeuralNetworkBackground";
+import { ResearchDNABackground } from "@/components/backgrounds/ResearchDNABackground";
 import { Section } from "@/components/ui/section";
 import { FileText, Microscope, FlaskConical, Atom, Download, LockKeyhole } from "lucide-react";
 import { motion } from "framer-motion";
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 export default function ResearchPage() {
     return (
         <div className="flex flex-col gap-0 min-h-screen relative overflow-hidden">
-            <NeuralNetworkBackground />
+            <ResearchDNABackground />
 
             {/* Hero Section */}
             <Section background="transparent" className="pt-32 pb-16 md:pt-40 md:pb-24 relative z-10">
