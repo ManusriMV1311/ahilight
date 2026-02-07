@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useRef, useMemo, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { createNoise3D } from 'simplex-noise';
@@ -116,51 +116,107 @@ function LiquidMirror() {
     );
 }
 
-// Floating caustic light particles
-function CausticParticle({ position, index }: { position: [number, number, number], index: number }) {
+// Caustic particle that follows cursor
+function CausticParticle({ position, index, targetPosition }: {
+    position: [number, number, number],
+    index: number,
+    targetPosition: THREE.Vector3
+}) {
     const meshRef = useRef<THREE.Mesh>(null);
+    const velocityRef = useRef(new THREE.Vector3());
+    const currentPosRef = useRef(new THREE.Vector3(...position));
 
     useFrame((state) => {
         if (!meshRef.current) return;
         const t = state.clock.elapsedTime;
 
-        // Floating motion
-        meshRef.current.position.y = position[1] + Math.sin(t * 0.5 + index) * 0.5;
-        meshRef.current.position.x = position[0] + Math.cos(t * 0.3 + index) * 0.3;
+        // Calculate offset from center of group for this particle (circular formation)
+        const angle = (index / 30) * Math.PI * 2;
+        const radius = 1.5 + (index % 4) * 0.4;
+        const offsetX = Math.cos(angle) * radius;
+        const offsetZ = Math.sin(angle) * radius;
+
+        // Target position with group formation offset
+        const target = new THREE.Vector3(
+            targetPosition.x + offsetX,
+            targetPosition.y + Math.sin(t * 0.5 + index) * 0.2,
+            targetPosition.z + offsetZ
+        );
+
+        // Smooth follow with spring physics
+        const diff = target.clone().sub(currentPosRef.current);
+        const force = diff.multiplyScalar(0.08); // Spring force
+        velocityRef.current.add(force);
+        velocityRef.current.multiplyScalar(0.90); // Damping
+
+        currentPosRef.current.add(velocityRef.current);
+
+        meshRef.current.position.copy(currentPosRef.current);
 
         // Pulsing glow
         const pulse = Math.sin(t * 2 + index * 0.5) * 0.5 + 0.5;
         const material = meshRef.current.material as THREE.MeshStandardMaterial;
-        material.emissiveIntensity = pulse * 2;
+        material.emissiveIntensity = pulse * 2.5;
     });
 
     return (
         <mesh ref={meshRef} position={position}>
-            <sphereGeometry args={[0.08, 8, 8]} />
+            <sphereGeometry args={[0.12, 8, 8]} />
             <meshStandardMaterial
                 color={index % 2 === 0 ? "#7D5FFF" : "#00F2FF"}
                 emissive={index % 2 === 0 ? "#7D5FFF" : "#00F2FF"}
                 emissiveIntensity={1.5}
                 toneMapped={false}
                 transparent
-                opacity={0.6}
+                opacity={0.75}
             />
         </mesh>
     );
 }
 
+// Mouse tracker component
+function MouseTracker({ onMouseMove }: { onMouseMove: (pos: THREE.Vector3) => void }) {
+    const { viewport, camera } = useThree();
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            // Convert mouse to normalized device coordinates
+            const x = (e.clientX / window.innerWidth) * 2 - 1;
+            const y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            // Unproject to 3D world coordinates
+            const vec = new THREE.Vector3(x, y, 0);
+            vec.unproject(camera);
+
+            // Create ray from camera through mouse position
+            const dir = vec.sub(camera.position).normalize();
+            // Find intersection with a plane at y=2
+            const distance = (2 - camera.position.y) / dir.y;
+            const pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+            onMouseMove(pos);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, [camera, onMouseMove]);
+
+    return null;
+}
+
 export function ProductsBackground() {
     const [mounted, setMounted] = useState(false);
+    const [mousePosition, setMousePosition] = useState(new THREE.Vector3(0, 2, 0));
 
-    // Generate caustic particles - must be before any conditional returns
+    // Generate caustic particles
     const causticParticles = useMemo(() => {
         const particles = [];
         for (let i = 0; i < 30; i++) {
             particles.push({
                 position: [
-                    (Math.random() - 0.5) * 15,
-                    Math.random() * 8 - 1,
-                    (Math.random() - 0.5) * 15
+                    (Math.random() - 0.5) * 4,
+                    2,
+                    (Math.random() - 0.5) * 4
                 ] as [number, number, number],
                 index: i
             });
@@ -194,6 +250,9 @@ export function ProductsBackground() {
             >
                 <color attach="background" args={['#0a0118']} />
 
+                {/* Mouse tracker */}
+                <MouseTracker onMouseMove={setMousePosition} />
+
                 {/* Cinematic lighting */}
                 <ambientLight intensity={0.3} />
                 <pointLight position={[0, 10, 0]} intensity={1} color="#ffffff" />
@@ -208,12 +267,13 @@ export function ProductsBackground() {
                     <RippleSource key={`ripple-${i}`} position={pos} startDelay={i * 0.5} />
                 ))}
 
-                {/* Caustic particles */}
+                {/* Caustic particles that follow cursor */}
                 {causticParticles.map((particle) => (
                     <CausticParticle
                         key={`particle-${particle.index}`}
                         position={particle.position}
                         index={particle.index}
+                        targetPosition={mousePosition}
                     />
                 ))}
 
