@@ -57,6 +57,16 @@ function FusionExplosion() {
         });
     }, []);
 
+    // Initialize particle geometry attributes
+    useEffect(() => {
+        if (particlesRef.current) {
+            const geometry = particlesRef.current.geometry;
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(particlePositions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(particleColors, 3));
+            geometry.setAttribute('size', new THREE.Float32BufferAttribute(particleSizes, 1));
+        }
+    }, [particlePositions, particleColors, particleSizes]);
+
     useFrame((state) => {
         const time = state.clock.getElapsedTime();
         const cycle = time % animationDuration;
@@ -241,26 +251,7 @@ function FusionExplosion() {
 
             {/* Explosion Particles */}
             <points ref={particlesRef}>
-                <bufferGeometry>
-                    <bufferAttribute
-                        attach="attributes-position"
-                        count={particleCount}
-                        array={particlePositions}
-                        itemSize={3}
-                    />
-                    <bufferAttribute
-                        attach="attributes-color"
-                        count={particleCount}
-                        array={particleColors}
-                        itemSize={3}
-                    />
-                    <bufferAttribute
-                        attach="attributes-size"
-                        count={particleCount}
-                        array={particleSizes}
-                        itemSize={1}
-                    />
-                </bufferGeometry>
+                <bufferGeometry />
                 <pointsMaterial
                     size={0.1}
                     vertexColors
