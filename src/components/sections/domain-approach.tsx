@@ -431,6 +431,21 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
                     </div>
                 </div>
             </Section>
+
+            {/* Digital Grid Background - Fades in after explosion */}
+            <AnimatePresence>
+                {showCards && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 2, delay: 0.5 }}
+                        className="fixed inset-0 z-0 pointer-events-none"
+                    >
+                        <DigitalGridBackground />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     )
 }
