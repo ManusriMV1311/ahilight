@@ -1,154 +1,113 @@
 "use client";
 
-import { CircuitBoardBackground } from "@/components/backgrounds/CircuitBoardBackground";
+import { NeuralNetworkBackground } from "@/components/backgrounds/NeuralNetworkBackground";
 import { Section } from "@/components/ui/section";
 import { Cpu, Network, Lock, Code2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
+import { GlareCard } from "@/components/ui/glare-card";
 
 export default function TechnologyPage() {
     return (
-        <div className="flex flex-col gap-0 relative">
-            <CircuitBoardBackground />
+        <div className="flex flex-col gap-0 min-h-screen relative overflow-hidden">
+            <NeuralNetworkBackground />
 
             {/* Hero Section */}
-            <Section background="transparent" className="pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20 relative z-10">
-                <div className="text-center max-w-4xl mx-auto">
-                    <div className="mb-6">
+            <Section background="transparent" className="pt-32 pb-16 md:pt-40 md:pb-24 relative z-10">
+                <div className="text-center max-w-5xl mx-auto px-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8 }}
+                        className="mb-8"
+                    >
                         <TypewriterEffect
                             words={[
                                 { text: "Powered", className: "text-white font-heading" },
                                 { text: "by", className: "text-white font-heading" },
-                                { text: "Advanced", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent pb-2 font-heading" },
-                                { text: "Research", className: "text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-cyan-accent pb-2 font-heading" },
+                                { text: "Neural", className: "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-electric-blue pb-2 font-heading" },
+                                { text: "Architecture", className: "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-electric-blue pb-2 font-heading" },
                             ]}
                             className="text-5xl md:text-7xl font-bold tracking-tight inline-block py-4 leading-tight font-heading"
                             cursorClassName="bg-electric-blue"
                         />
-                    </div>
+                    </motion.div>
+
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl text-slate-300"
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
                     >
-                        Our software is built upon proprietary algorithms in distributed computing and artificial intelligence.
+                        Our systems mimic biological intelligence, processing millions of signals through a decentralized neural mesh.
                     </motion.p>
                 </div>
             </Section>
 
-            {/* Tech Stack Grid - Circuit Board Style */}
-            <Section className="relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+            {/* Tech Stack Grid - Neural Nodes Theme */}
+            <Section className="relative z-10 pb-32">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto px-4">
                     {[
                         {
                             title: "Distributed Ledger",
-                            desc: "Trustless synchronization across fragmented networks using advanced consensus.",
-                            icon: Network
+                            desc: "Trustless synchronization across fragmented networks using advanced consensus algorithms.",
+                            icon: Network,
+                            color: "from-cyan-500 to-blue-600"
                         },
                         {
                             title: "Neural Threat Detection",
-                            desc: "AI models processing millions of signals per second to identify anomalies.",
-                            icon: Cpu
+                            desc: "AI models processing millions of signals per second to identify anomalies in real-time.",
+                            icon: Cpu,
+                            color: "from-purple-500 to-indigo-600"
                         },
                         {
-                            title: "Zero-Knowledge",
-                            desc: "Privacy by design. Computations on encrypted data without raw exposure.",
-                            icon: Lock
+                            title: "Zero-Knowledge Proofs",
+                            desc: "Privacy by design. Validating computations on encrypted data without exposing raw information.",
+                            icon: Lock,
+                            color: "from-emerald-400 to-cyan-500"
                         },
                         {
                             title: "Polyglot Microservices",
-                            desc: "Resilient mesh of Rust, Go, and TypeScript services.",
-                            icon: Code2
+                            desc: "A resilient mesh of Rust, Go, and TypeScript services independently scalable and fault-tolerant.",
+                            icon: Code2,
+                            color: "from-orange-400 to-red-500"
                         }
                     ].map((tech, i) => (
-                        <CircuitCard key={i} tech={tech} index={i} />
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1, duration: 0.6 }}
+                            className="h-full"
+                        >
+                            <GlareCard className="flex flex-col h-full bg-navy-card/40 backdrop-blur-xl border border-white/10 p-1 relative overflow-hidden group">
+                                {/* Glowing corner accents */}
+                                <div className={`absolute top-0 left-0 w-20 h-20 bg-gradient-to-br ${tech.color} opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500`} />
+                                <div className={`absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl ${tech.color} opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500`} />
+
+                                <div className="h-full w-full bg-deep-navy/50 p-8 rounded-[14px] flex flex-col relative z-10">
+                                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${tech.color} p-[1px] mb-6 shadow-lg shadow-${tech.color.split('-')[1]}-500/20 group-hover:scale-110 transition-transform duration-300`}>
+                                        <div className="w-full h-full bg-deep-navy rounded-2xl flex items-center justify-center">
+                                            <tech.icon className="w-7 h-7 text-white" />
+                                        </div>
+                                    </div>
+
+                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-300 transition-all">
+                                        {tech.title}
+                                    </h3>
+
+                                    <div className="w-12 h-1 bg-gradient-to-r from-white/20 to-transparent rounded-full mb-4 group-hover:w-full group-hover:from-electric-blue group-hover:to-cyan-accent transition-all duration-500" />
+
+                                    <p className="text-slate-300 leading-relaxed text-base">
+                                        {tech.desc}
+                                    </p>
+                                </div>
+                            </GlareCard>
+                        </motion.div>
                     ))}
                 </div>
             </Section>
         </div>
-    );
-}
-
-function CircuitCard({ tech, index }: { tech: any; index: number }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-                type: "spring",
-                stiffness: 100
-            }}
-            whileHover={{
-                scale: 1.02,
-                transition: { duration: 0.2 }
-            }}
-            className="group relative"
-        >
-            {/* Main Card */}
-            <div className="relative bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-md rounded-xl p-8 overflow-hidden border border-electric-blue/20 shadow-[0_0_15px_rgba(125,95,255,0.08)] hover:shadow-[0_0_25px_rgba(125,95,255,0.15)] transition-all duration-300">
-
-                {/* Circuit trace decoration */}
-                <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id={`gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#00F2FF', stopOpacity: 0.3 }} />
-                            <stop offset="100%" style={{ stopColor: '#7D5FFF', stopOpacity: 0.3 }} />
-                        </linearGradient>
-                    </defs>
-                    {/* Border traces */}
-                    <rect x="2" y="2" width="calc(100% - 4px)" height="calc(100% - 4px)" fill="none" stroke={`url(#gradient-${index})`} strokeWidth="1" rx="10" />
-                    {/* Inner circuit paths */}
-                    <path d="M 20 20 L 60 20 L 60 40 M 60 20 L 100 20" stroke="#7D5FFF" strokeWidth="1" fill="none" opacity="0.2" />
-                    <path d="M 20 60 L 40 60 L 40 80 L 70 80" stroke="#7D5FFF" strokeWidth="1" fill="none" opacity="0.2" />
-                </svg>
-
-                {/* Animated electricity flow */}
-                <motion.div
-                    className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-transparent via-electric-blue to-transparent opacity-60"
-                    animate={{
-                        y: ['-100%', '200%'],
-                    }}
-                    transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: index * 0.3,
-                        ease: "linear"
-                    }}
-                />
-
-                {/* Corner circuit nodes */}
-                <div className="absolute top-3 left-3 w-2 h-2 rounded-full bg-electric-blue shadow-[0_0_6px_rgba(125,95,255,0.5)]"></div>
-                <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-electric-blue shadow-[0_0_6px_rgba(125,95,255,0.5)]"></div>
-                <div className="absolute bottom-3 left-3 w-2 h-2 rounded-full bg-electric-blue shadow-[0_0_6px_rgba(125,95,255,0.5)]"></div>
-                <div className="absolute bottom-3 right-3 w-2 h-2 rounded-full bg-electric-blue shadow-[0_0_6px_rgba(125,95,255,0.5)]"></div>
-
-                {/* Content */}
-                <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-4">
-                        <motion.div
-                            className="w-14 h-14 rounded-lg bg-gradient-to-br from-electric-blue/10 to-purple-500/10 flex items-center justify-center border border-electric-blue/30 shadow-[0_0_10px_rgba(125,95,255,0.2)]"
-                            whileHover={{
-                                rotate: 360,
-                                transition: { duration: 0.6 }
-                            }}
-                        >
-                            <tech.icon className="w-7 h-7 text-electric-blue" />
-                        </motion.div>
-                        <h3 className="text-2xl font-bold text-white">{tech.title}</h3>
-                    </div>
-
-                    <p className="text-slate-300 leading-relaxed">
-                        {tech.desc}
-                    </p>
-                </div>
-
-                {/* Hover glow overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-electric-blue/0 via-electric-blue/0 to-purple-500/0 group-hover:from-electric-blue/3 group-hover:via-purple-500/3 group-hover:to-electric-blue/3 transition-all duration-500 pointer-events-none rounded-xl"></div>
-            </div>
-        </motion.div>
     );
 }
