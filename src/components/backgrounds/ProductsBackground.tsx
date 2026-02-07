@@ -75,13 +75,17 @@ export function ProductsBackground({ show }: { show: boolean }) {
     const [mounted, setMounted] = useState(false);
     const [opacity, setOpacity] = useState(0);
     const [scale, setScale] = useState(0.5);
+    const animatingRef = useRef(false);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
     useEffect(() => {
+        if (animatingRef.current) return; // Prevent multiple animations
+
         if (show) {
+            animatingRef.current = true;
             // Fade in and grow
             let currentOpacity = 0;
             let currentScale = 0.5;
@@ -93,30 +97,45 @@ export function ProductsBackground({ show }: { show: boolean }) {
 
                 if (currentOpacity >= 1) {
                     clearInterval(fadeInInterval);
+                    animatingRef.current = false;
                 }
             }, 16);
 
-            return () => clearInterval(fadeInInterval);
+            return () => {
+                clearInterval(fadeInInterval);
+                animatingRef.current = false;
+            };
         } else {
+            animatingRef.current = true;
             // Fade out
+            let currentOpacity = opacity;
+            let currentScale = scale;
             const fadeOutInterval = setInterval(() => {
-                setOpacity(prev => Math.max(0, prev - 0.03));
-                setScale(prev => Math.min(1.3, prev + 0.03)); // Expand while fading
+                currentOpacity = Math.max(0, currentOpacity - 0.03);
+                currentScale = Math.min(1.3, currentScale + 0.03); // Expand while fading
+                setOpacity(currentOpacity);
+                setScale(currentScale);
 
-                if (opacity <= 0) {
+                if (currentOpacity <= 0) {
                     clearInterval(fadeOutInterval);
+                    animatingRef.current = false;
                 }
             }, 16);
 
-            return () => clearInterval(fadeOutInterval);
+            return () => {
+                clearInterval(fadeOutInterval);
+                animatingRef.current = false;
+            };
         }
-    }, [show]);
+    }, [show]); // Only depend on show, not opacity/scale
 
     if (!mounted) return (
         <div className="fixed inset-0 z-0 bg-black">
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50" />
         </div>
     );
+
+    if (opacity === 0) return null; // Don't render Canvas when invisible
 
     return (
         <div className="fixed inset-0 z-0 bg-black">

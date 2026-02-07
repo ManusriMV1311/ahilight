@@ -6,42 +6,197 @@ import { Shield, Activity, Sparkles, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { TypewriterEffect } from "@/components/ui/typewriter-effect"
 import { Button } from "@/components/ui/button"
-import { ProductsBackground } from "@/components/backgrounds/ProductsBackground"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
-export function DomainApproach() {
+export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: (complete: boolean) => void }) {
     const [showAhiLight, setShowAhiLight] = useState(false);
+    const [exploding, setExploding] = useState(false);
     const [showCards, setShowCards] = useState(false);
     const [titleComplete, setTitleComplete] = useState(false);
+    const hasAnimated = useRef(false);
 
     useEffect(() => {
-        // Wait for title typewriter to complete (approx 2s)
+        if (hasAnimated.current) return;
+        hasAnimated.current = true;
+
+        // Title completes
         setTimeout(() => {
             setTitleComplete(true);
-            // Then show AhiLight
+            // AhiLight appears
             setTimeout(() => setShowAhiLight(true), 300);
         }, 2000);
 
-        // Cards pop out from AhiLight
+        // Start explosion
         setTimeout(() => {
-            setShowCards(true);
+            setExploding(true);
         }, 3500);
 
-        // Fade AhiLight away
+        // Show cards (right after explosion starts)
         setTimeout(() => {
-            setShowAhiLight(false);
-        }, 4000);
+            setShowCards(true);
+            setShowAhiLight(false); // Hide text
+        }, 3800);
+
+        // Animation complete - show rest of page
+        setTimeout(() => {
+            onAnimationComplete?.(true);
+        }, 5000);
     }, []);
 
     return (
         <>
-            {/* Background with AhiLight */}
-            {titleComplete && <ProductsBackground show={showAhiLight} />}
+            {/* AhiLight Text with Explosion Effect */}
+            <AnimatePresence>
+                {titleComplete && showAhiLight && (
+                    <motion.div
+                        className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        {/* Explosion particles - Enhanced */}
+                        {exploding && (
+                            <>
+                                {/* Flash of light */}
+                                <motion.div
+                                    className="absolute w-96 h-96 rounded-full bg-white"
+                                    initial={{ scale: 0, opacity: 1 }}
+                                    animate={{
+                                        scale: [0, 2, 0],
+                                        opacity: [1, 0.8, 0]
+                                    }}
+                                    transition={{ duration: 0.3 }}
+                                />
+
+                                {/* Large particles with gradient colors */}
+                                {[...Array(50)].map((_, i) => {
+                                    const angle = (i / 50) * Math.PI * 2;
+                                    const distance = 300 + (i % 5) * 100;
+                                    const colors = [
+                                        "from-white via-cyan-400 to-blue-500",
+                                        "from-white via-purple-400 to-indigo-500",
+                                        "from-cyan-300 via-blue-400 to-purple-500",
+                                        "from-white via-electric-blue to-cyan-500"
+                                    ];
+                                    const colorClass = colors[i % colors.length];
+                                    const size = i % 3 === 0 ? 'w-6 h-6' : i % 2 === 0 ? 'w-4 h-4' : 'w-3 h-3';
+
+                                    return (
+                                        <motion.div
+                                            key={i}
+                                            className={`absolute ${size} rounded-full bg-gradient-to-br ${colorClass}`}
+                                            style={{
+                                                boxShadow: '0 0 20px rgba(0, 242, 255, 0.8)'
+                                            }}
+                                            initial={{
+                                                x: 0,
+                                                y: 0,
+                                                scale: 0,
+                                                opacity: 1
+                                            }}
+                                            animate={{
+                                                x: Math.cos(angle) * distance + (Math.random() - 0.5) * 100,
+                                                y: Math.sin(angle) * distance + (Math.random() - 0.5) * 100,
+                                                scale: [0, 1.2, 0.8, 0],
+                                                opacity: [1, 1, 0.8, 0],
+                                                rotate: [0, 360]
+                                            }}
+                                            transition={{
+                                                duration: 0.8 + Math.random() * 0.4,
+                                                ease: "easeOut"
+                                            }}
+                                        />
+                                    );
+                                })}
+                            </>
+                        )}
+
+                        {/* Main Text */}
+                        <motion.div
+                            className="relative"
+                            animate={
+                                exploding
+                                    ? {
+                                        scale: [1, 1.5, 2],
+                                        opacity: [1, 0.7, 0],
+                                        filter: ["blur(0px)", "blur(4px)", "blur(20px)"]
+                                    }
+                                    : {
+                                        scale: [0.5, 1],
+                                        opacity: [0, 1]
+                                    }
+                            }
+                            transition={{
+                                duration: exploding ? 0.4 : 0.6,
+                                ease: exploding ? "easeIn" : "easeOut"
+                            }}
+                        >
+                            {/* Multiple shockwave rings during explosion */}
+                            {exploding && (
+                                <>
+                                    <motion.div
+                                        className="absolute inset-0 rounded-full border-8 border-white"
+                                        style={{ boxShadow: '0 0 40px rgba(255, 255, 255, 0.8)' }}
+                                        animate={{
+                                            scale: [1, 4],
+                                            opacity: [1, 0]
+                                        }}
+                                        transition={{ duration: 0.5 }}
+                                    />
+                                    <motion.div
+                                        className="absolute inset-0 rounded-full border-6 border-cyan-400"
+                                        style={{ boxShadow: '0 0 30px rgba(0, 242, 255, 0.6)' }}
+                                        animate={{
+                                            scale: [1, 5],
+                                            opacity: [0.8, 0]
+                                        }}
+                                        transition={{ duration: 0.6, delay: 0.05 }}
+                                    />
+                                    <motion.div
+                                        className="absolute inset-0 rounded-full border-4 border-purple-400"
+                                        style={{ boxShadow: '0 0 25px rgba(168, 85, 247, 0.5)' }}
+                                        animate={{
+                                            scale: [1, 6],
+                                            opacity: [0.6, 0]
+                                        }}
+                                        transition={{ duration: 0.7, delay: 0.1 }}
+                                    />
+                                    <motion.div
+                                        className="absolute inset-0 rounded-full border-4 border-blue-500"
+                                        animate={{
+                                            scale: [1, 7],
+                                            opacity: [0.5, 0]
+                                        }}
+                                        transition={{ duration: 0.8, delay: 0.15 }}
+                                    />
+                                    <motion.div
+                                        className="absolute inset-0 rounded-full border-3 border-electric-blue"
+                                        animate={{
+                                            scale: [1, 8],
+                                            opacity: [0.4, 0]
+                                        }}
+                                        transition={{ duration: 0.9, delay: 0.2 }}
+                                    />
+                                </>
+                            )}
+
+                            {/* Main glow */}
+                            <h1 className="absolute inset-0 text-8xl font-bold text-white blur-xl opacity-60">
+                                AhiLight
+                            </h1>
+                            {/* Main text */}
+                            <h1 className="relative text-8xl font-bold text-white">
+                                AhiLight
+                            </h1>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <Section background="transparent" className="py-12 md:py-16 lg:py-24">
                 <div className="container mx-auto px-4">
-                    {/* Existing Title */}
+                    {/* Title */}
                     <div className="max-w-3xl mb-12 md:mb-16 mx-auto text-center">
                         <div className="mb-6 flex justify-center">
                             <TypewriterEffect
@@ -59,38 +214,40 @@ export function DomainApproach() {
                         </p>
                     </div>
 
-                    {/* Existing Cards with Animation */}
+                    {/* Cards - Appear from center after explosion */}
                     <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
 
-                        {/* Domain 1: Security (CyberFortress) */}
+                        {/* Security Operations Card */}
                         <motion.div
-                            initial={{ scale: 0, opacity: 0 }}
+                            initial={{ scale: 0, opacity: 0, x: 0, y: 0 }}
                             animate={
                                 showCards
                                     ? {
                                         scale: 1,
                                         opacity: 1,
+                                        x: 0,
+                                        y: 0,
                                         transition: {
-                                            duration: 0.6,
+                                            duration: 0.8,
                                             type: "spring",
-                                            stiffness: 180,
-                                            damping: 12
+                                            stiffness: 150,
+                                            damping: 15
                                         }
                                     }
                                     : { scale: 0, opacity: 0 }
                             }
                             className="group relative h-full"
                         >
-                            {/* Glow effect */}
+                            {/* Glow */}
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={
                                     showCards
                                         ? {
-                                            opacity: [0, 0.6, 0.3],
+                                            opacity: [0, 0.7, 0.3],
                                             transition: {
-                                                delay: 0.6,
-                                                duration: 1,
+                                                delay: 0.4,
+                                                duration: 1.2,
                                                 times: [0, 0.5, 1]
                                             }
                                         }
@@ -139,36 +296,38 @@ export function DomainApproach() {
                             </GlareCard>
                         </motion.div>
 
-                        {/* Common Message: Expanding Horizons */}
+                        {/* Expanding Horizons Card */}
                         <motion.div
-                            initial={{ scale: 0, opacity: 0 }}
+                            initial={{ scale: 0, opacity: 0, x: 0, y: 0 }}
                             animate={
                                 showCards
                                     ? {
                                         scale: 1,
                                         opacity: 1,
+                                        x: 0,
+                                        y: 0,
                                         transition: {
-                                            delay: 0.4,
-                                            duration: 0.6,
+                                            delay: 0.15,
+                                            duration: 0.8,
                                             type: "spring",
-                                            stiffness: 180,
-                                            damping: 12
+                                            stiffness: 150,
+                                            damping: 15
                                         }
                                     }
                                     : { scale: 0, opacity: 0 }
                             }
                             className="group relative h-full"
                         >
-                            {/* Glow effect */}
+                            {/* Glow */}
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={
                                     showCards
                                         ? {
-                                            opacity: [0, 0.6, 0.3],
+                                            opacity: [0, 0.7, 0.3],
                                             transition: {
-                                                delay: 1,
-                                                duration: 1,
+                                                delay: 0.55,
+                                                duration: 1.2,
                                                 times: [0, 0.5, 1]
                                             }
                                         }
