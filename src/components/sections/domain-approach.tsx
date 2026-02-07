@@ -14,6 +14,7 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
     const [exploding, setExploding] = useState(false);
     const [showCards, setShowCards] = useState(false);
     const [titleComplete, setTitleComplete] = useState(false);
+    const [showBackgroundParticles, setShowBackgroundParticles] = useState(false);
     const hasAnimated = useRef(false);
 
     useEffect(() => {
@@ -32,9 +33,10 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
             setExploding(true);
         }, 3500);
 
-        // Show cards (right after explosion starts)
+        // Show cards and background particles
         setTimeout(() => {
             setShowCards(true);
+            setShowBackgroundParticles(true);
             setShowAhiLight(false); // Hide text
         }, 3800);
 
@@ -46,6 +48,66 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
 
     return (
         <>
+            {/* Background Particles - spread across screen when cards appear */}
+            <AnimatePresence>
+                {showBackgroundParticles && (
+                    <motion.div
+                        className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1 }}
+                    >
+                        {/* Create 100 tiny colored balls spreading around */}
+                        {[...Array(100)].map((_, i) => {
+                            const colors = [
+                                'from-electric-blue to-cyan-accent',
+                                'from-purple-accent to-electric-blue',
+                                'from-cyan-accent to-white',
+                                'from-white to-electric-blue',
+                            ];
+                            const color = colors[i % colors.length];
+
+                            // Random positions across the entire viewport
+                            const startX = window.innerWidth / 2;
+                            const startY = window.innerHeight / 2;
+                            const endX = Math.random() * window.innerWidth;
+                            const endY = Math.random() * window.innerHeight;
+                            const size = 4 + Math.random() * 8; // 4-12px balls
+                            const delay = Math.random() * 0.3;
+
+                            return (
+                                <motion.div
+                                    key={i}
+                                    className={`absolute w-${Math.round(size)}px h-${Math.round(size)}px rounded-full bg-gradient-to-br ${color} blur-sm`}
+                                    style={{
+                                        width: `${size}px`,
+                                        height: `${size}px`,
+                                    }}
+                                    initial={{
+                                        x: startX,
+                                        y: startY,
+                                        scale: 0,
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        x: endX,
+                                        y: endY,
+                                        scale: 1,
+                                        opacity: [0, 0.8, 0.6, 0]
+                                    }}
+                                    transition={{
+                                        duration: 2 + Math.random() * 2,
+                                        delay,
+                                        ease: "easeOut"
+                                    }}
+                                />
+                            );
+                        })}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* AhiLight Text with Explosion Effect */}
             <AnimatePresence>
                 {titleComplete && showAhiLight && (
