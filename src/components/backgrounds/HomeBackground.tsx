@@ -9,7 +9,7 @@ import * as THREE from "three";
 
 const domains = [
     "ML", "AI", "CYBER", "IT",
-    "SOFTWARE", "CLOUD", "DEVOPS", "AUTOMATION"
+    "SOFTWARE", "CLOUD", "FINANCE", "AUTOMATION"
 ];
 
 interface DomainProps {
@@ -36,14 +36,14 @@ function KiteDomain({ text, targetPosition, delay, color }: DomainProps) {
         const eased = 1 - Math.pow(1 - progress, 3); // Cubic ease out
 
         // Drift animation (subtle floating after reaching target)
+        // Removed driftX to keep them in a perfect vertical line request by user
         const driftTime = time * 0.2 + randomOffset;
-        const driftX = Math.sin(driftTime) * 0.2;
         const driftY = Math.cos(driftTime * 1.3) * 0.2;
         const driftZ = Math.sin(driftTime * 0.7) * 0.1;
 
         // Final position calculation
         // Start at [0,0,0], move to targetPosition, then add drift
-        const currentX = (targetPosition[0] * eased) + (driftX * eased);
+        const currentX = (targetPosition[0] * eased); // No driftX
         const currentY = (targetPosition[1] * eased) + (driftY * eased);
         const currentZ = (targetPosition[2] * eased) + (driftZ * eased);
 
@@ -118,7 +118,7 @@ function LivingCore() {
     });
 
     return (
-        <group position={[0, 1.5, 0]}>
+        <group position={[0, 2.2, 0]}>
             <mesh ref={meshRef} scale={1.8}>
                 <icosahedronGeometry args={[1, 6]} />
                 <MeshDistortMaterial
@@ -194,7 +194,9 @@ function PopOutDomains() {
             // itemIndexInCol goes 0, 1, 2, 3
             const itemIndexInCol = Math.floor(i / 2);
 
-            const x = 12.0 * sideMultiplier; // Fixed X at edge
+            const x = 11.0 * sideMultiplier; // Fixed X at edge
+
+
 
             // Spread vertically in upper section. Start high, go down.
             // Shifted down: 4.0, 2.5, 1.0, -0.5
@@ -220,17 +222,57 @@ function PopOutDomains() {
     );
 }
 
+function ScrollVisibilityWrapper({ children }: { children: React.ReactNode }) {
+    const groupRef = useRef<THREE.Group>(null);
+
+    useFrame(() => {
+        if (!groupRef.current) return;
+
+        // Ensure we're in a browser environment
+        if (typeof window === 'undefined') return;
+
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const distFromBottom = documentHeight - (scrollY + windowHeight);
+
+        // Threshold to start disappearing (e.g., when footer starts appearing)
+        // Adjust this value based on footer height and desired effect
+        const threshold = 800;
+
+        let targetScale = 1;
+        if (distFromBottom < threshold) {
+            // Scale down as we get closer to bottom
+            // 0 at bottom, 1 at threshold
+            targetScale = distFromBottom / threshold;
+        }
+
+        // Clamp targetScale between 0 and 1
+        targetScale = Math.max(0, Math.min(1, targetScale));
+
+        // Smoothly interpolate current scale to target scale
+        // Using lerp for smooth animation
+        groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+    });
+
+    return <group ref={groupRef} scale={0}>{children}</group>;
+}
+
 export function HomeBackground() {
     return (
         <div className="fixed inset-0 z-0 pointer-events-none">
             <Canvas camera={{ position: [0, 0, 8], fov: 45 }} gl={{ antialias: false }}>
                 <SharedUniverse />
 
-                <Float speed={1} rotationIntensity={0.5} floatIntensity={0.5}>
-                    <LivingCore />
-                </Float>
+                <group>
+                    <ScrollVisibilityWrapper>
+                        <Float speed={1} rotationIntensity={0.5} floatIntensity={0.5}>
+                            <LivingCore />
+                        </Float>
 
-                <PopOutDomains />
+                        <PopOutDomains />
+                    </ScrollVisibilityWrapper>
+                </group>
 
                 <EffectComposer>
                     <Bloom
