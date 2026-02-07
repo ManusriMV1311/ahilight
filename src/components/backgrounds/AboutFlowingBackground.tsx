@@ -1,179 +1,147 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useEffect, useRef, useState, useMemo } from "react";
-import { Text } from "@react-three/drei";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-interface Equation {
-    text: string;
-    position: [number, number, number];
-    rotation: [number, number, number];
-    velocity: { x: number; y: number; z: number };
-    rotationSpeed: { x: number; y: number; z: number };
-    scale: number;
-    highlighted: boolean;
-}
-
-function FloatingEquations() {
-    const groupRef = useRef<THREE.Group>(null);
-    const equationCount = 40;
-
-    const equations = useMemo<Equation[]>(() => {
-        const formulas = [
-            "E = mc²",
-            "∂u/∂t = ∇²u",
-            "∫∫∫ f(x,y,z) dV",
-            "∇·E = ρ/ε₀",
-            "H(x) = -Σ p(x)log p(x)",
-            "f(x) = σ(Wx + b)",
-            "||x||₂ = √(Σxᵢ²)",
-            "∇f(x) = ∂f/∂x",
-            "P(A|B) = P(B|A)P(A)/P(B)",
-            "L = -Σ yᵢlog(ŷᵢ)",
-            "det(A) = Σ aᵢⱼCᵢⱼ",
-            "∇×B = μ₀J",
-            "ℏω = E₂ - E₁",
-            "ψ(x,t) = Ae^i(kx-ωt)",
-            "∂²ψ/∂x² + k²ψ = 0",
-            "F = ma",
-            "Tr(AB) = Σ aᵢⱼbⱼᵢ",
-            "∇·(∇f) = ∇²f",
-            "δ(x) = ∫ e^(ikx)dk/2π",
-            "λ = h/p",
-        ];
-
-        return Array.from({ length: equationCount }, (_, i) => ({
-            text: formulas[i % formulas.length],
-            position: [
-                (Math.random() - 0.5) * 30,
-                (Math.random() - 0.5) * 20,
-                (Math.random() - 0.5) * 25 - 5,
-            ] as [number, number, number],
-            rotation: [
-                Math.random() * Math.PI,
-                Math.random() * Math.PI,
-                Math.random() * Math.PI,
-            ] as [number, number, number],
-            velocity: {
-                x: (Math.random() - 0.5) * 0.01,
-                y: (Math.random() - 0.5) * 0.01,
-                z: (Math.random() - 0.5) * 0.005,
-            },
-            rotationSpeed: {
-                x: (Math.random() - 0.5) * 0.002,
-                y: (Math.random() - 0.5) * 0.002,
-                z: (Math.random() - 0.5) * 0.002,
-            },
-            scale: 0.8 + Math.random() * 0.6,
-            highlighted: Math.random() > 0.85,
-        }));
-    }, []);
+function LightBeams() {
+    const beamsRef = useRef<THREE.Group>(null);
+    const beamCount = 12;
 
     useFrame((state) => {
-        if (!groupRef.current) return;
+        if (!beamsRef.current) return;
         const time = state.clock.getElapsedTime();
 
-        groupRef.current.children.forEach((child, i) => {
-            const eq = equations[i];
+        beamsRef.current.children.forEach((beam, i) => {
+            // Rotate beams slowly
+            beam.rotation.z = time * 0.1 + (i * Math.PI) / 6;
 
-            // Update position
-            child.position.x += eq.velocity.x;
-            child.position.y += eq.velocity.y;
-            child.position.z += eq.velocity.z;
-
-            // Update rotation
-            child.rotation.x += eq.rotationSpeed.x;
-            child.rotation.y += eq.rotationSpeed.y;
-            child.rotation.z += eq.rotationSpeed.z;
-
-            // Add gentle wave motion
-            child.position.y += Math.sin(time * 0.5 + i * 0.3) * 0.002;
-
-            // Boundary wrapping
-            if (Math.abs(child.position.x) > 20) eq.velocity.x *= -1;
-            if (Math.abs(child.position.y) > 12) eq.velocity.y *= -1;
-            if (child.position.z > 10) eq.velocity.z = -Math.abs(eq.velocity.z);
-            if (child.position.z < -20) eq.velocity.z = Math.abs(eq.velocity.z);
-
-            // Occasional highlight toggle
-            if (Math.random() > 0.998) {
-                eq.highlighted = !eq.highlighted;
-            }
+            // Gentle position shift
+            beam.position.x = Math.sin(time * 0.3 + i) * 2;
+            beam.position.y = Math.cos(time * 0.2 + i) * 1.5;
         });
     });
 
+    const createBeam = (index: number, totalBeams: number) => {
+        const angle = (index / totalBeams) * Math.PI * 2;
+        const radius = 8;
+        const startX = Math.cos(angle) * radius;
+        const startY = Math.sin(angle) * radius;
+
+        // Create gradient geometry for light beam
+        const geometry = new THREE.CylinderGeometry(0.05, 0.8, 20, 32, 1, true);
+
+        // Create gradient material from purple to cyan
+        const material = new THREE.ShaderMaterial({
+            transparent: true,
+            side: THREE.DoubleSide,
+            uniforms: {
+                time: { value: 0 },
+                colorStart: { value: new THREE.Color("#7D5FFF") },
+                colorEnd: { value: new THREE.Color("#00F2FF") },
+            },
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 colorStart;
+                uniform vec3 colorEnd;
+                varying vec2 vUv;
+                
+                void main() {
+                    vec3 color = mix(colorStart, colorEnd, vUv.y);
+                    float alpha = (1.0 - vUv.y) * 0.4;
+                    gl_FragColor = vec4(color, alpha);
+                }
+            `,
+        });
+
+        return { geometry, material, startX, startY, angle };
+    };
+
+    const beams = Array.from({ length: beamCount }, (_, i) => createBeam(i, beamCount));
+
     return (
-        <group ref={groupRef}>
-            {equations.map((eq, i) => (
-                <Text
+        <group ref={beamsRef}>
+            {beams.map((beam, i) => (
+                <mesh
                     key={i}
-                    position={eq.position}
-                    rotation={eq.rotation}
-                    fontSize={0.5 * eq.scale}
-                    color={eq.highlighted ? "#00F2FF" : "#E0E0E0"}
-                    anchorX="center"
-                    anchorY="middle"
-                    outlineWidth={eq.highlighted ? 0.02 : 0}
-                    outlineColor={eq.highlighted ? "#7D5FFF" : "#000000"}
-                    fillOpacity={eq.highlighted ? 0.9 : 0.4}
-                    font="/fonts/FiraMono-Regular.ttf"
-                >
-                    {eq.text}
-                </Text>
+                    geometry={beam.geometry}
+                    material={beam.material}
+                    position={[beam.startX, beam.startY, -5]}
+                    rotation={[Math.PI / 2, 0, beam.angle]}
+                />
             ))}
         </group>
     );
 }
 
-// Connection lines between related equations
-function EquationConnections() {
-    const linesRef = useRef<THREE.Group>(null);
-    const connectionCount = 8;
+function Particles() {
+    const particlesRef = useRef<THREE.Points>(null);
+    const particleCount = 500;
 
-    const connections = useMemo(() => {
-        return Array.from({ length: connectionCount }, () => ({
-            start: [
-                (Math.random() - 0.5) * 20,
-                (Math.random() - 0.5) * 15,
-                (Math.random() - 0.5) * 20,
-            ],
-            end: [
-                (Math.random() - 0.5) * 20,
-                (Math.random() - 0.5) * 15,
-                (Math.random() - 0.5) * 20,
-            ],
-            phase: Math.random() * Math.PI * 2,
-        }));
-    }, []);
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 30;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 30;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+
+        // Random color between purple and cyan
+        const t = Math.random();
+        const color = new THREE.Color().lerpColors(
+            new THREE.Color("#7D5FFF"),
+            new THREE.Color("#00F2FF"),
+            t
+        );
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
+    }
 
     useFrame((state) => {
-        if (!linesRef.current) return;
+        if (!particlesRef.current) return;
         const time = state.clock.getElapsedTime();
 
-        linesRef.current.children.forEach((child, i) => {
-            const material = (child as THREE.Line).material as THREE.LineBasicMaterial;
-            const conn = connections[i];
-            material.opacity = 0.1 + Math.sin(time + conn.phase) * 0.1;
-        });
+        const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
+
+        for (let i = 0; i < particleCount; i++) {
+            const i3 = i * 3;
+
+            // Gentle drift
+            positions[i3 + 1] += Math.sin(time + i) * 0.001;
+
+            // Wrap around
+            if (positions[i3 + 1] > 15) positions[i3 + 1] = -15;
+            if (positions[i3 + 1] < -15) positions[i3 + 1] = 15;
+        }
+
+        particlesRef.current.geometry.attributes.position.needsUpdate = true;
     });
 
     return (
-        <group ref={linesRef}>
-            {connections.map((conn, i) => {
-                const points = [
-                    new THREE.Vector3(...conn.start),
-                    new THREE.Vector3(...conn.end),
-                ];
-                const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-                return (
-                    <line key={i} geometry={geometry}>
-                        <lineBasicMaterial color="#7D5FFF" transparent opacity={0.15} />
-                    </line>
-                );
-            })}
-        </group>
+        <points ref={particlesRef}>
+            <bufferGeometry>
+                <bufferAttribute
+                    attach="attributes-position"
+                    count={particleCount}
+                    array={positions}
+                    itemSize={3}
+                />
+                <bufferAttribute
+                    attach="attributes-color"
+                    count={particleCount}
+                    array={colors}
+                    itemSize={3}
+                />
+            </bufferGeometry>
+            <pointsMaterial size={0.08} vertexColors transparent opacity={0.6} sizeAttenuation />
+        </points>
     );
 }
 
@@ -189,12 +157,11 @@ export function AboutFlowingBackground() {
     return (
         <div className="fixed inset-0 -z-10">
             <Canvas
-                camera={{ position: [0, 0, 12], fov: 75 }}
+                camera={{ position: [0, 0, 15], fov: 75 }}
                 style={{ background: 'transparent' }}
             >
-                <ambientLight intensity={0.3} />
-                <FloatingEquations />
-                <EquationConnections />
+                <LightBeams />
+                <Particles />
             </Canvas>
         </div>
     );
