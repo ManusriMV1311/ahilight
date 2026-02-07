@@ -1,80 +1,102 @@
 "use client";
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useRef, useMemo, useState, useEffect } from 'react';
+import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { SharedUniverse } from "./common/SharedUniverse";
+import { OrbitControls, Sphere } from '@react-three/drei';
 
-function GrowingTree() {
-    const groupRef = useRef<THREE.Group>(null);
-
-    // Simple recursive branching structure simulated with instances or lines
-    // For performance and style, let's use rising vertical lines with nodes
-
-    const [lines, setLines] = useState<{ position: [number, number, number], height: number, speed: number, color: string }[]>([]);
-
-    useEffect(() => {
-        const newLines = new Array(50).fill(0).map(() => ({
-            position: [(Math.random() - 0.5) * 15, -5, (Math.random() - 0.5) * 5] as [number, number, number],
-            height: 5 + Math.random() * 10,
-            speed: Math.random() * 0.05 + 0.01,
-            color: Math.random() > 0.5 ? '#10b981' : '#3b82f6' // Green/Blue
-        }));
-        setLines(newLines);
-    }, []);
+function Satellite({ radius, speed, angle, color, size }: { radius: number, speed: number, angle: number, color: string, size: number }) {
+    const meshRef = useRef<THREE.Mesh>(null);
 
     useFrame((state) => {
-        if (!groupRef.current) return;
-        // Subtle swaying
-        groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.2) * 0.02;
+        if (!meshRef.current) return;
+        const t = state.clock.getElapsedTime() * speed;
+        // Orbit logic
+        meshRef.current.position.x = Math.cos(t + angle) * radius;
+        meshRef.current.position.z = Math.sin(t + angle) * radius;
+        // Include some bobbing
+        meshRef.current.position.y = Math.sin(t * 2 + angle) * 0.5;
+
+        meshRef.current.rotation.y += 0.02;
     });
 
     return (
-        <group ref={groupRef}>
-            {lines.map((line, i) => (
-                <group key={i} position={line.position}>
-                    {/* Stem */}
-                    <mesh position={[0, line.height / 2, 0]}>
-                        <cylinderGeometry args={[0.02, 0.05, line.height, 4]} />
-                        <meshBasicMaterial color={line.color} transparent opacity={0.6} />
-                    </mesh>
-                    {/* Node on top */}
-                    <mesh position={[0, line.height, 0]}>
-                        <sphereGeometry args={[0.1, 8, 8]} />
-                        <meshBasicMaterial color="#ffffff" />
-                    </mesh>
-                    {/* Pulse Ring */}
-                    <PulseRing y={line.height} color={line.color} speed={line.speed * 20} />
+        <mesh ref={meshRef}>
+            <sphereGeometry args={[size, 16, 16]} />
+            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2} roughness={0.1} />
+        </mesh>
+    );
+}
+
+function OrbitPath({ radius, color }: { radius: number, color: string }) {
+    return (
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[radius - 0.02, radius + 0.02, 64]} />
+            <meshBasicMaterial color={color} transparent opacity={0.1} side={THREE.DoubleSide} />
+        </mesh>
+    );
+}
+
+function CentralCore() {
+    return (
+        <group>
+            {/* Core Sphere */}
+            <Sphere args={[1.5, 32, 32]}>
+                <meshStandardMaterial
+                    color="#000000"
+                    emissive="#3b82f6" // Electric Blue
+                    emissiveIntensity={0.5}
+                    wireframe
+                    transparent
+                    opacity={0.3}
+                />
+            </Sphere>
+            {/* Inner Glow */}
+            <Sphere args={[1.2, 32, 32]}>
+                <meshBasicMaterial color="#06b6d4" transparent opacity={0.1} />
+            </Sphere>
+        </group>
+    );
+}
+
+function SatellitesGroup() {
+    // Generate random satellites
+    const satellites = useMemo(() => {
+        return new Array(8).fill(0).map((_, i) => ({
+            radius: 3 + Math.random() * 4,
+            speed: 0.2 + Math.random() * 0.3,
+            angle: Math.random() * Math.PI * 2,
+            color: Math.random() > 0.5 ? '#06b6d4' : '#a855f7', // Cyan or Purple
+            size: 0.08 + Math.random() * 0.1
+        }));
+    }, []);
+
+    return (
+        <group rotation={[0.2, 0, 0.1]}>
+            <CentralCore />
+            {satellites.map((sat, i) => (
+                <group key={i}>
+                    <OrbitPath radius={sat.radius} color={sat.color} />
+                    <Satellite {...sat} />
                 </group>
             ))}
         </group>
     );
 }
 
-function PulseRing({ y, color, speed }: { y: number, color: string, speed: number }) {
-    const meshRef = useRef<THREE.Mesh>(null);
-    useFrame((state) => {
-        if (!meshRef.current) return;
-        const scale = 1 + Math.sin(state.clock.elapsedTime * speed) * 0.5;
-        meshRef.current.scale.set(scale, scale, scale);
-        meshRef.current.rotation.x += 0.01;
-    });
-    return (
-        <mesh ref={meshRef} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[0.2, 0.25, 16]} />
-            <meshBasicMaterial color={color} transparent opacity={0.4} side={THREE.DoubleSide} />
-        </mesh>
-    )
-}
-
 export function CareersBackground() {
     return (
-        <div className="fixed inset-0 z-0 bg-black">
-            <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
+        <div className="fixed inset-0 z-0 bg-deep-navy">
+            <Canvas camera={{ position: [0, 5, 12], fov: 45 }}>
+                <ambientLight intensity={0.5} />
+                <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
                 <SharedUniverse />
-                <GrowingTree />
+                <SatellitesGroup />
+                <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
             </Canvas>
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+            <div className="absolute inset-0 bg-gradient-to-b from-deep-navy via-transparent to-deep-navy opacity-80" />
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         </div>
     );
 }
