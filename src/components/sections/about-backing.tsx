@@ -6,7 +6,7 @@ import { Building2, GraduationCap, Network } from "lucide-react";
 
 export function AboutBacking() {
     return (
-        <Section className="bg-deep-navy border-t border-slate-800">
+        <Section className="border-t border-slate-800/30">
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-3 gap-12 text-center">
                     <motion.div
