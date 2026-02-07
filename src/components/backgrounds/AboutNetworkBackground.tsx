@@ -67,20 +67,12 @@ function KnowledgeNetwork() {
             node.position.y += Math.cos(time * 0.3 + i) * 0.001;
 
             // Update point positions
-            if (pointsRef.current) {
+            if (pointsRef.current && pointsRef.current.geometry.attributes.position) {
                 const positions = pointsRef.current.geometry.attributes.position.array;
                 positions[i * 3] = node.position.x;
                 positions[i * 3 + 1] = node.position.y;
                 positions[i * 3 + 2] = node.position.z;
                 pointsRef.current.geometry.attributes.position.needsUpdate = true;
-            }
-        });
-
-        // Update connections
-        linesRef.current.forEach((line, index) => {
-            if (line) {
-                const opacity = 0.15 + Math.sin(time * 0.5 + index * 0.1) * 0.1;
-                (line.material as LineBasicMaterial).opacity = opacity;
             }
         });
     });
