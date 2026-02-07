@@ -7,7 +7,6 @@ import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, Globe, Lightbulb, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import { FrameBackground } from "@/components/ui/frame-background";
 import Link from "next/link";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { AboutTimeline } from "@/components/sections/about-timeline";
@@ -40,17 +39,8 @@ export default function AboutPage() {
             <AboutBackground />
 
             {/* Hero Section */}
-            {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20">
-                {/* Background Video Frames */}
-                <FrameBackground
-                    pathPrefix="/about-frames"
-                    frameCount={40}
-                    interval={150}
-                    className="opacity-100" // Full visibility
-                />
-
-                {/* Overlay Restored for Contrast - Darkened for readability */}
+                {/* Overlay for Contrast */}
                 <div className="absolute inset-0 bg-deep-navy/60 z-0">
                     <div className="absolute inset-0 bg-[linear-gradient(to_right,#0066FF10_1px,transparent_1px),linear-gradient(to_bottom,#0066FF10_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
                 </div>
