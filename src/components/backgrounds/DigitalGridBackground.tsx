@@ -130,7 +130,6 @@ export function DigitalGridBackground() {
                 <ambientLight intensity={0.2} />
 
                 <MovingGrid />
-                <StarField />
 
                 {/* Fog for depth */}
                 <fog attach="fog" args={['#0a0118', 5, 30]} />
