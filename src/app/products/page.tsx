@@ -22,7 +22,7 @@ export default function ProductsPage() {
     }, [animationComplete]);
 
     return (
-        <div className="min-h-screen relative bg-black">
+        <div className="min-h-screen relative">
             {/* Main content */}
             <DomainApproach onAnimationComplete={() => setAnimationComplete(true)} />
         </div>
