@@ -3,10 +3,10 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
-import { Plane, PerspectiveCamera } from '@react-three/drei';
+import { PerspectiveCamera } from '@react-three/drei';
 
 function MovingGrid() {
-    const gridRef = useRef<THREE.Group>(null);
+
     const materialRef = useRef<THREE.ShaderMaterial>(null);
 
     useFrame((state) => {
@@ -88,39 +88,7 @@ function MovingGrid() {
     );
 }
 
-function StarField() {
-    const points = useMemo(() => {
-        const p = [];
-        for (let i = 0; i < 300; i++) {
-            const x = (Math.random() - 0.5) * 100;
-            const y = (Math.random() - 0.5) * 50;
-            const z = (Math.random() - 0.5) * 50;
-            p.push(x, y, z);
-        }
-        return new Float32Array(p);
-    }, []);
 
-    return (
-        <points>
-            <bufferGeometry>
-                <bufferAttribute
-                    attach="attributes-position"
-                    count={points.length / 3}
-                    array={points}
-                    itemSize={3}
-                    args={[points, 3]}
-                />
-            </bufferGeometry>
-            <pointsMaterial
-                size={0.15}
-                color="#ffffff"
-                transparent
-                opacity={0.6}
-                sizeAttenuation={true}
-            />
-        </points>
-    )
-}
 
 export function DigitalGridBackground() {
     return (

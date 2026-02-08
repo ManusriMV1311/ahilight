@@ -104,12 +104,12 @@ export function Navbar() {
                 </span>
             </Link>
 
-            {/* Floating Dock - Centered on Desktop, Bottom Right on Mobile */}
-            <div className="fixed z-50 bottom-6 right-6 md:top-8 md:bottom-auto md:left-1/2 md:right-auto md:-translate-x-1/2">
+            {/* Floating Dock - Centered on Desktop, Bottom Center on Mobile */}
+            <div className="fixed z-50 bottom-6 left-1/2 -translate-x-1/2 md:top-8 md:bottom-auto md:left-1/2 md:right-auto md:-translate-x-1/2">
                 <FloatingDock
                     items={navItems}
                     desktopClassName="bg-black/40 backdrop-blur-xl border border-white/10"
-                    mobileClassName="translate-y-0" // Removed translate-y-20 as we handle positioning in wrapper
+                    mobileClassName="translate-y-0 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-full"
                 />
             </div>
 

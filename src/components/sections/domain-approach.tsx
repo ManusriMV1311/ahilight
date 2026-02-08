@@ -1,4 +1,5 @@
 "use client"
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import { Section } from "@/components/ui/section"
 import { GlareCard } from "@/components/ui/glare-card"
@@ -6,7 +7,7 @@ import { Shield, Activity, Sparkles, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { TypewriterEffect } from "@/components/ui/typewriter-effect"
 import { Button } from "@/components/ui/button"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { DigitalGridBackground } from "@/components/backgrounds/DigitalGridBackground"
 
@@ -49,6 +50,63 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
         setTimeout(() => {
             onAnimationComplete?.(true);
         }, 5000);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const explosionParticles = useMemo(() => {
+        return Array.from({ length: 50 }).map((_, i) => {
+            const angle = (i / 50) * Math.PI * 2;
+            const distance = 300 + (i % 5) * 100;
+            const colors = [
+                "from-white via-cyan-400 to-blue-500",
+                "from-white via-purple-400 to-indigo-500",
+                "from-cyan-300 via-blue-400 to-purple-500",
+                "from-white via-electric-blue to-cyan-500"
+            ];
+            const colorClass = colors[i % colors.length];
+            const size = i % 3 === 0 ? 'w-6 h-6' : i % 2 === 0 ? 'w-4 h-4' : 'w-3 h-3';
+
+            return {
+                id: i,
+                angle,
+                distance,
+                colorClass,
+                size,
+                xOffset: (Math.random() - 0.5) * 100,
+                yOffset: (Math.random() - 0.5) * 100,
+                duration: 0.8 + Math.random() * 0.4
+            };
+        });
+    }, []);
+
+    const floatingBalls = useMemo(() => {
+        return Array.from({ length: 15 }).map((_, i) => {
+            const angle = (i / 15) * Math.PI * 2 + Math.random() * 0.2;
+            const distance = 35 + Math.random() * 15;
+            const endX = 50 + Math.cos(angle) * distance;
+            const endY = 50 + Math.sin(angle) * distance;
+            const delay = i * 0.08;
+            const duration = 2 + Math.random() * 1;
+            const size = 6 + Math.random() * 10;
+            const colors = [
+                'bg-gradient-to-br from-purple-500 to-blue-500',
+                'bg-gradient-to-br from-cyan-400 to-blue-600',
+                'bg-gradient-to-br from-purple-600 to-pink-500',
+                'bg-gradient-to-br from-blue-400 to-cyan-300'
+            ];
+            const color = colors[i % colors.length];
+
+            return {
+                id: i,
+                endX,
+                endY,
+                delay,
+                duration,
+                size,
+                color,
+                boxShadowSize: size * 3
+            };
+        });
     }, []);
 
     return (
@@ -77,45 +135,32 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
                                 />
 
                                 {/* Large particles with gradient colors */}
-                                {[...Array(50)].map((_, i) => {
-                                    const angle = (i / 50) * Math.PI * 2;
-                                    const distance = 300 + (i % 5) * 100;
-                                    const colors = [
-                                        "from-white via-cyan-400 to-blue-500",
-                                        "from-white via-purple-400 to-indigo-500",
-                                        "from-cyan-300 via-blue-400 to-purple-500",
-                                        "from-white via-electric-blue to-cyan-500"
-                                    ];
-                                    const colorClass = colors[i % colors.length];
-                                    const size = i % 3 === 0 ? 'w-6 h-6' : i % 2 === 0 ? 'w-4 h-4' : 'w-3 h-3';
-
-                                    return (
-                                        <motion.div
-                                            key={i}
-                                            className={`absolute ${size} rounded-full bg-gradient-to-br ${colorClass}`}
-                                            style={{
-                                                boxShadow: '0 0 20px rgba(0, 242, 255, 0.8)'
-                                            }}
-                                            initial={{
-                                                x: 0,
-                                                y: 0,
-                                                scale: 0,
-                                                opacity: 1
-                                            }}
-                                            animate={{
-                                                x: Math.cos(angle) * distance + (Math.random() - 0.5) * 100,
-                                                y: Math.sin(angle) * distance + (Math.random() - 0.5) * 100,
-                                                scale: [0, 1.2, 0.8, 0],
-                                                opacity: [1, 1, 0.8, 0],
-                                                rotate: [0, 360]
-                                            }}
-                                            transition={{
-                                                duration: 0.8 + Math.random() * 0.4,
-                                                ease: "easeOut"
-                                            }}
-                                        />
-                                    );
-                                })}
+                                {explosionParticles.map((p) => (
+                                    <motion.div
+                                        key={p.id}
+                                        className={`absolute ${p.size} rounded-full bg-gradient-to-br ${p.colorClass}`}
+                                        style={{
+                                            boxShadow: '0 0 20px rgba(0, 242, 255, 0.8)'
+                                        }}
+                                        initial={{
+                                            x: 0,
+                                            y: 0,
+                                            scale: 0,
+                                            opacity: 1
+                                        }}
+                                        animate={{
+                                            x: Math.cos(p.angle) * p.distance + p.xOffset,
+                                            y: Math.sin(p.angle) * p.distance + p.yOffset,
+                                            scale: [0, 1.2, 0.8, 0],
+                                            opacity: [1, 1, 0.8, 0],
+                                            rotate: [0, 360]
+                                        }}
+                                        transition={{
+                                            duration: p.duration,
+                                            ease: "easeOut"
+                                        }}
+                                    />
+                                ))}
                             </>
                         )}
 
@@ -189,11 +234,11 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
                             )}
 
                             {/* Main glow */}
-                            <h1 className="absolute inset-0 text-8xl font-bold text-white blur-xl opacity-60">
+                            <h1 className="absolute inset-0 text-4xl md:text-6xl lg:text-8xl font-bold text-white blur-xl opacity-60">
                                 AhiLight
                             </h1>
                             {/* Main text */}
-                            <h1 className="relative text-8xl font-bold text-white">
+                            <h1 className="relative text-4xl md:text-6xl lg:text-8xl font-bold text-white">
                                 AhiLight
                             </h1>
                         </motion.div>
@@ -205,47 +250,29 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
             <AnimatePresence>
                 {showFloatingBalls && (
                     <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
-                        {Array.from({ length: 15 }).map((_, i) => {
-                            // Burst outward from center in all directions
-                            const angle = (i / 15) * Math.PI * 2 + Math.random() * 0.2;
-                            const distance = 35 + Math.random() * 15; // Farther distance
-                            const endX = 50 + Math.cos(angle) * distance;
-                            const endY = 50 + Math.sin(angle) * distance;
-                            const delay = i * 0.08; // Faster stagger
-                            const duration = 2 + Math.random() * 1; // Faster animation
-                            const size = 6 + Math.random() * 10;
-                            const colors = [
-                                'bg-gradient-to-br from-purple-500 to-blue-500',
-                                'bg-gradient-to-br from-cyan-400 to-blue-600',
-                                'bg-gradient-to-br from-purple-600 to-pink-500',
-                                'bg-gradient-to-br from-blue-400 to-cyan-300'
-                            ];
-                            const color = colors[i % colors.length];
-
-                            return (
-                                <motion.div
-                                    key={i}
-                                    animate={{
-                                        x: ['50vw', `${endX}vw`],
-                                        y: ['50vh', `${endY}vh`],
-                                        opacity: [0, 1, 0],
-                                        scale: [0, 1.5, 0]
-                                    }}
-                                    transition={{
-                                        duration: duration,
-                                        delay: delay,
-                                        ease: "easeOut"
-                                    }}
-                                    className={`absolute rounded-full ${color}`}
-                                    style={{
-                                        width: `${size}px`,
-                                        height: `${size}px`,
-                                        boxShadow: `0 0 ${size * 3}px rgba(125, 95, 255, 0.6)`,
-                                        filter: 'blur(0.5px)'
-                                    }}
-                                />
-                            );
-                        })}
+                        {floatingBalls.map((b) => (
+                            <motion.div
+                                key={b.id}
+                                animate={{
+                                    x: ['50vw', `${b.endX}vw`],
+                                    y: ['50vh', `${b.endY}vh`],
+                                    opacity: [0, 1, 0],
+                                    scale: [0, 1.5, 0]
+                                }}
+                                transition={{
+                                    duration: b.duration,
+                                    delay: b.delay,
+                                    ease: "easeOut"
+                                }}
+                                className={`absolute rounded-full ${b.color}`}
+                                style={{
+                                    width: `${b.size}px`,
+                                    height: `${b.size}px`,
+                                    boxShadow: `0 0 ${b.boxShadowSize}px rgba(125, 95, 255, 0.6)`,
+                                    filter: 'blur(0.5px)'
+                                }}
+                            />
+                        ))}
                     </div>
                 )}
             </AnimatePresence>

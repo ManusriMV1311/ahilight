@@ -25,8 +25,11 @@ export function CompanyRoadmap() {
                         <HorizontalTracingBeam className="px-0" sticky={false}>
                             <div className="grid md:grid-cols-2 gap-12 pt-8">
                                 {/* Phase 1: Security (Active) */}
-                                <div className="relative pt-4">
+                                <div className="relative pt-4 pl-4 md:pl-0">
                                     <div className="absolute top-[0px] left-[0px] w-6 h-6 rounded-full bg-electric-blue border-4 border-deep-navy shadow-[0_0_20px_rgba(0,212,170,0.5)] z-10 hidden md:block" />
+                                    {/* Mobile timeline line */}
+                                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-electric-blue/30 md:hidden" />
+
                                     <div className="bg-navy-card p-8 rounded-2xl border border-electric-blue/30 h-full">
                                         <div className="text-sm font-bold text-electric-blue mb-2">2025 to 2026</div>
                                         <h3 className="text-2xl font-bold text-white mb-6">Security &amp; Threat Intelligence</h3>
@@ -48,8 +51,11 @@ export function CompanyRoadmap() {
                                 </div>
 
                                 {/* Phase 2: Future Frontiers (Generic) */}
-                                <div className="relative pt-4">
+                                <div className="relative pt-4 pl-4 md:pl-0">
                                     <div className="absolute top-[0px] left-[0px] w-6 h-6 rounded-full bg-slate-700 border-4 border-deep-navy z-10 hidden md:block" />
+                                    {/* Mobile timeline line */}
+                                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-white/10 md:hidden" />
+
                                     <div className="bg-navy-card p-8 rounded-2xl border border-white/5 h-full opacity-80 hover:opacity-100 transition-opacity flex flex-col justify-center">
                                         <div className="text-sm font-bold text-slate-500 mb-2">2026 Onwards</div>
                                         <h3 className="text-2xl font-bold text-white mb-4">Future Frontiers</h3>
