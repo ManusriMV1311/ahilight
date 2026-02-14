@@ -148,8 +148,8 @@ export function CyberHero() {
                         automation, and maintains tamper-proof audit trails.
                     </p>
                     <div className={styles.ctaButtons}>
-                        <Link href="#" className={styles.btnPrimary}>Request Demo</Link>
-                        <Link href="#" className={styles.btnOutline}>Explore Features</Link>
+                        <Link href="/products/cyberfortress/demo" className={`${styles.btnPrimary} ${styles.btn}`}>Request Demo</Link>
+                        <Link href="/products/cyberfortress/features" className={`${styles.btnOutline} ${styles.btn}`}>Explore Features</Link>
                     </div>
                 </div>
                 {/* Hero visual is handled by 3D canvas mostly, but we keep the structure if needed for non-3D fallback or positioning */}

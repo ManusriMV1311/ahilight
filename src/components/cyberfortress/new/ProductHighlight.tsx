@@ -44,7 +44,7 @@ export function ProductHighlight() {
                         <p className={styles.cardDesc}>Compliance and forensics require tamper-proof records. CyberFortress
                             maintains blockchain-backed audit trails for every detection and response action.</p>
                         <div className={styles.ctaButtons}>
-                            <Link href="#" className={styles.btnPrimary}>Learn More</Link>
+                            <Link href="#" className={`${styles.btnPrimary} ${styles.btn}`}>Learn More</Link>
                         </div>
                     </div>
                 </div>

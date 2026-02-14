@@ -5,6 +5,8 @@ import styles from '../CyberFortress.module.css';
 import gsap from 'gsap';
 import Link from 'next/link';
 
+import { Shield, Box } from 'lucide-react';
+
 export function CyberNavbar() {
     const navbarRef = useRef<HTMLElement>(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,9 +22,10 @@ export function CyberNavbar() {
                 if (!navbar.classList.contains(styles.scanned)) {
                     navbar.classList.add(styles.scanned);
                 }
-                gsap.to(navbar, { backgroundColor: 'rgba(0, 0, 0, 0.95)', padding: '1rem 0', duration: 0.3 });
+                // Background handling is now done via CSS animation 'gradientShift'
+                gsap.to(navbar, { padding: '1rem 0', duration: 0.3 });
             } else {
-                gsap.to(navbar, { backgroundColor: 'rgba(10, 10, 10, 0.85)', padding: '1.2rem 0', duration: 0.3 });
+                gsap.to(navbar, { padding: '1.2rem 0', duration: 0.3 });
             }
         };
 
@@ -39,8 +42,11 @@ export function CyberNavbar() {
             // Open menu
             if (navLinks && spans) {
                 navLinks.style.display = 'flex';
-                // A simple way to show it for now, can be improved with classes
-                gsap.fromTo(navLinks.querySelectorAll('a'), { opacity: 0, x: -20 }, { opacity: 1, x: 0, stagger: 0.1, duration: 0.4, ease: "power2.out" });
+                // Animate items in
+                gsap.fromTo(navLinks.querySelectorAll(`.${styles.navLink}`),
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, stagger: 0.1, duration: 0.4, ease: "power2.out" }
+                );
 
                 gsap.to(spans[0], { rotation: 45, y: 8, duration: 0.3 });
                 gsap.to(spans[1], { opacity: 0, duration: 0.3 });
@@ -49,10 +55,13 @@ export function CyberNavbar() {
         } else {
             // Close menu
             if (navLinks && spans) {
-                gsap.to(navLinks, {
-                    opacity: 0, duration: 0.3, onComplete: () => {
+                gsap.to(navLinks.querySelectorAll(`.${styles.navLink}`), {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.2,
+                    stagger: 0.05,
+                    onComplete: () => {
                         navLinks.style.display = 'none';
-                        navLinks.style.opacity = '1';
                     }
                 });
 
@@ -66,18 +75,30 @@ export function CyberNavbar() {
     return (
         <header ref={navbarRef} className={styles.navbar}>
             <div className={`${styles.container} ${styles.navbarContainer}`}>
-                <Link href="/index.html" className={styles.logo}>
-                    <span className={styles.redIcon}>▲</span>
-                    <span className="logo-text">CyberFortress</span>
-                </Link>
+                {/* Left: AhiLight Brand + CyberFortress Shield */}
+                <div className="flex items-center gap-6">
+                    <Link href="/" className="flex items-center gap-2 group opacity-80 hover:opacity-100 transition-opacity">
+                        <div className="bg-gradient-to-br from-red-600 to-red-900 p-1.5 rounded-md">
+                            <Box className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-lg font-bold text-white tracking-tight font-brand">AhiLight</span>
+                    </Link>
+
+                    <div className="h-6 w-px bg-white/20"></div>
+
+                    <Link href="/products/cyberfortress" className={styles.logo}>
+                        <Shield className={`${styles.redIcon} w-6 h-6 fill-current`} />
+                        <span className="logo-text">CyberFortress</span>
+                    </Link>
+                </div>
+
                 <nav ref={mobileMenuRef} className={styles.navLinks}>
-                    <Link href="#" className={styles.navLink}>Overview</Link>
-                    <Link href="#" className={styles.navLink}>Features</Link>
-                    <Link href="#" className={styles.navLink}>Architecture</Link>
-                    <Link href="#" className={styles.navLink}>Security</Link>
-                    <Link href="#" className={styles.navLink}>Use Cases</Link>
-                    <Link href="#" className={styles.navLink}>Integrations</Link>
-                    <Link href="#" className={styles.navLink}>Demo</Link>
+                    {/* Overview link removed - linked via Logo */}
+                    <Link href="/products/cyberfortress/features" className={styles.navLink}>Features</Link>
+                    <Link href="/products/cyberfortress/architecture" className={styles.navLink}>Architecture</Link>
+                    <Link href="/products/cyberfortress/security" className={styles.navLink}>Security</Link>
+                    <Link href="/products/cyberfortress/use-cases" className={styles.navLink}>Use Cases</Link>
+                    <Link href="/products/cyberfortress/demo" className={styles.navLink}>Demo</Link>
                 </nav>
                 <button
                     ref={mobileToggleRef}

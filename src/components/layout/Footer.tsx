@@ -3,7 +3,14 @@
 import Link from "next/link"
 import { Box } from "lucide-react"
 
+import { usePathname } from "next/navigation";
+
 export function Footer() {
+    const pathname = usePathname();
+    const isCyberFortress = pathname?.startsWith('/products/cyberfortress');
+
+    if (isCyberFortress) return null;
+
     return (
         <footer className="relative bg-transparent border-t border-white/10 pt-20 pb-10 overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">

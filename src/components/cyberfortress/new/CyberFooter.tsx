@@ -42,21 +42,19 @@ export function CyberFooter() {
                 <div className={styles.footerLinks}>
                     <div className={styles.linkGroup}>
                         <h4>Platform</h4>
-                        <Link href="#">Overview</Link>
-                        <Link href="#">Features</Link>
-                        <Link href="#">Architecture</Link>
+                        <Link href="/products/cyberfortress">Overview</Link>
+                        <Link href="/products/cyberfortress/features">Features</Link>
+                        <Link href="/products/cyberfortress/architecture">Architecture</Link>
                     </div>
                     <div className={styles.linkGroup}>
                         <h4>Solutions</h4>
-                        <Link href="#">Use Cases</Link>
-                        <Link href="#">Deployment</Link>
-                        <Link href="#">Integrations</Link>
+                        <Link href="/products/cyberfortress/use-cases">Use Cases</Link>
+                        <Link href="/products/cyberfortress/architecture">Deployment</Link>
                     </div>
                     <div className={styles.linkGroup}>
                         <h4>Resources</h4>
-                        <Link href="#">Security</Link>
-                        <Link href="#">FAQ</Link>
-                        <Link href="#">Demo</Link>
+                        <Link href="/products/cyberfortress/security">Security</Link>
+                        <Link href="/products/cyberfortress/demo">Demo</Link>
                     </div>
                 </div>
             </div>
