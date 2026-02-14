@@ -45,7 +45,7 @@ export function Hero() {
                                 { text: "actually", className: "text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400 font-heading" },
                                 { text: "think.", className: "text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400 font-heading" },
                             ]}
-                            className="text-3xl md:text-5xl lg:text-7xl font-bold text-center tracking-tight font-heading leading-tight py-4"
+                            className="text-3xl md:text-5xl lg:text-7xl font-bold text-center tracking-tight font-heading leading-relaxed md:leading-tight py-4"
                             cursorClassName="bg-electric-blue"
                         />
                     </div>
