@@ -57,7 +57,33 @@ export function MobileNav() {
                             </div>
 
                             <nav className="flex flex-col gap-4">
-                                {navItems.map((item, idx) => (
+                                {/* Product Shortcuts */}
+                                <div className="mb-2">
+                                    <div className="text-xs font-semibold text-white/40 uppercase tracking-widest px-2 mb-2">
+                                        Products
+                                    </div>
+                                    <Link
+                                        href="/products/cyberfortress"
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-electric-blue/10 to-transparent border border-electric-blue/20 hover:border-electric-blue/50 transition-all group"
+                                    >
+                                        <div className="p-2 rounded-lg bg-electric-blue text-black group-hover:bg-white group-hover:text-electric-blue transition-colors">
+                                            <Package className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <span className="block text-base font-bold text-white group-hover:text-electric-blue transition-colors">
+                                                CyberFortress
+                                            </span>
+                                            <span className="text-xs text-white/50">
+                                                Enterprise Security Platform
+                                            </span>
+                                        </div>
+                                    </Link>
+                                </div>
+
+                                <div className="h-px bg-white/10 my-1" />
+
+                                {navItems.filter(item => item.title !== "Products").map((item, idx) => (
                                     <motion.div
                                         key={item.href}
                                         initial={{ opacity: 0, x: 20 }}
