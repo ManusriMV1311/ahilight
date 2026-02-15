@@ -49,14 +49,14 @@ export function ProductNavigation() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 10 }}
                                 transition={{ duration: 0.2 }}
-                                className="absolute top-full left-0 mt-2 w-full md:w-80 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-[60]"
+                                className="absolute top-full left-0 mt-2 w-full md:w-80 bg-[#0a0a0a]/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
                             >
                                 <div className="p-2">
                                     {products.map((product) => (
                                         <Link
                                             key={product.name}
                                             href={product.href}
-                                            className="group flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors"
+                                            className="group flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors"
                                         >
                                             <div className={cn("p-2 rounded-lg bg-white/5 group-hover:bg-electric-blue/10 transition-colors", product.color)}>
                                                 <product.icon className="w-5 h-5" />
