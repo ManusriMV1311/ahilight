@@ -69,11 +69,11 @@ function OrbitingObject({
 
 function SatelliteSystem() {
     const satellites: OrbitingObjectProps[] = [
-        { orbitRadius: 3, orbitSpeed: 0.5, orbitTilt: 0.2, size: 0.4, shape: 'box', color: '#00d4ff' },
-        { orbitRadius: 5, orbitSpeed: 0.3, orbitTilt: -0.3, size: 0.5, shape: 'sphere', color: '#6366f1' },
-        { orbitRadius: 4, orbitSpeed: 0.4, orbitTilt: 0.1, size: 0.3, shape: 'torus', color: '#8b5cf6' },
-        { orbitRadius: 6, orbitSpeed: 0.25, orbitTilt: -0.15, size: 0.35, shape: 'box', color: '#00f5d4' },
-        { orbitRadius: 4.5, orbitSpeed: 0.35, orbitTilt: 0.25, size: 0.45, shape: 'sphere', color: '#ec4899' },
+        { orbitRadius: 3, orbitSpeed: 0.5, orbitTilt: 0.2, size: 0.4, shape: 'box', color: '#ef4444' }, // red-500
+        { orbitRadius: 5, orbitSpeed: 0.3, orbitTilt: -0.3, size: 0.5, shape: 'sphere', color: '#b91c1c' }, // red-700
+        { orbitRadius: 4, orbitSpeed: 0.4, orbitTilt: 0.1, size: 0.3, shape: 'torus', color: '#f87171' }, // red-400
+        { orbitRadius: 6, orbitSpeed: 0.25, orbitTilt: -0.15, size: 0.35, shape: 'box', color: '#991b1b' }, // red-800
+        { orbitRadius: 4.5, orbitSpeed: 0.35, orbitTilt: 0.25, size: 0.45, shape: 'sphere', color: '#fee2e2' }, // red-100
     ];
 
     return (
@@ -82,7 +82,7 @@ function SatelliteSystem() {
             <Sphere args={[0.8, 32, 32]}>
                 <meshStandardMaterial
                     color="#ffffff"
-                    emissive="#00d4ff"
+                    emissive="#ef4444"
                     emissiveIntensity={0.8}
                     metalness={0.9}
                     roughness={0.1}
@@ -99,7 +99,7 @@ function SatelliteSystem() {
                 <mesh key={radius} rotation={[-Math.PI / 2, 0, 0]}>
                     <ringGeometry args={[radius - 0.02, radius + 0.02, 64]} />
                     <meshBasicMaterial
-                        color="#6366f1"
+                        color="#ef4444"
                         transparent
                         opacity={0.1}
                         side={THREE.DoubleSide}
@@ -118,9 +118,10 @@ export function OrbitingSatellites() {
                 gl={{ alpha: true, powerPreference: "high-performance" }}
                 dpr={[1, 2]}
             >
-                <color attach="background" args={['#0a0a1e']} />
+                {/* Fixed background to allow transparency from parent */}
+                {/* <color attach="background" args={['#0a0a1e']} />  REMOVED */}
                 <ambientLight intensity={0.3} />
-                <pointLight position={[0, 0, 0]} intensity={2} color="#00d4ff" />
+                <pointLight position={[0, 0, 0]} intensity={2} color="#ef4444" />
                 <SatelliteSystem />
             </Canvas>
         </div>

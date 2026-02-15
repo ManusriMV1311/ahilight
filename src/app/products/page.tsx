@@ -26,8 +26,8 @@ export default function ProductsPage() {
     }, [animationComplete]);
 
     return (
-        <div className="min-h-screen relative">
-            <div className="relative w-full z-40 pointer-events-none pt-8 md:pt-32">
+        <div className="min-h-screen relative -mt-20 md:-mt-24">
+            <div className="absolute top-0 left-0 w-full z-40 pointer-events-none pt-28 md:pt-40">
                 <div className="pointer-events-auto">
                     <ProductNavigation />
                 </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Box, Shield, Menu, X, LayoutGrid, Server, ShieldCheck, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CyberFloatingDock } from "@/components/cyberfortress/new/CyberFloatingDock";
+import { BrandIcon } from "@/components/ui/icons/BrandIcon";
 
 export function CyberNavbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -47,7 +48,7 @@ export function CyberNavbar() {
                 {/* AhiLight Home Link */}
                 <Link href="/" className="flex items-center gap-2 group/brand hover:opacity-80 transition-opacity">
                     <div className="bg-gradient-to-br from-blue-600 to-cyan-500 p-1.5 rounded-lg shadow-lg shadow-blue-500/20 group-hover/brand:scale-105 transition-transform">
-                        <Box className="w-5 h-5 text-white" />
+                        <BrandIcon className="w-5 h-5 text-white" />
                     </div>
                     <span className="text-sm font-bold tracking-tight text-white hidden sm:inline-block">AhiLight</span>
                 </Link>
@@ -66,21 +67,9 @@ export function CyberNavbar() {
 
             {/* 2. Floating Nav Dock (Top Center) - Desktop Only */}
             {/* 2. Floating Nav Dock (Top Center) - Desktop Only */}
-            <div className="hidden md:flex fixed z-[100] top-6 left-1/2 -translate-x-1/2 items-center gap-1 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full px-2 py-1.5 shadow-2xl shadow-black/20">
-                {navItems.map((item) => (
-                    <Link
-                        key={item.title}
-                        href={item.href}
-                        className="group flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-all duration-300 border border-transparent hover:border-yellow-500/50 hover:bg-gradient-to-br hover:from-black hover:via-red-900 hover:to-red-600 hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]"
-                    >
-                        <span className="text-gray-400 group-hover:text-yellow-50 transition-colors">
-                            {item.icon}
-                        </span>
-                        <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors hidden lg:block">
-                            {item.title}
-                        </span>
-                    </Link>
-                ))}
+            {/* 2. Floating Nav Dock (Top Center) - Desktop Only */}
+            <div className="hidden md:block fixed z-[100] top-6 left-1/2 -translate-x-1/2">
+                <CyberFloatingDock items={navItems} />
             </div>
 
             {/* 3. Floating CTA / Mobile Toggle (Top Right) */}

@@ -183,6 +183,7 @@ export function NeuralLattice() {
                 dpr={[1, 2]} // Support high-res displays
             >
 
+                <color attach="background" args={['#050505']} />
                 <NeuralLatticeContent />
 
                 {/* Post-processing for glow */}

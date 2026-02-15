@@ -158,7 +158,7 @@ const ParticleSystem = () => {
     const targets = useMemo(() => {
         const arr = new Float32Array(count * 3);
         for (let i = 0; i < count; i++) {
-            let x, y, z;
+            let x = 0, y = 0, z = 0;
             const isShield = Math.random() > 0.3;
 
             if (isShield) {
@@ -256,8 +256,9 @@ const ParticleSystem = () => {
                 <bufferAttribute
                     attach="attributes-position"
                     count={count}
-                    array={new Float32Array(count * 3).map(() => (Math.random() - 0.5) * 10)} // Initial scatter
+                    array={particles.initial}
                     itemSize={3}
+                    args={[particles.initial, 3]}
                 />
             </bufferGeometry>
             <pointsMaterial

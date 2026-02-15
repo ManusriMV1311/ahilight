@@ -294,7 +294,7 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
                                 }
                                 : { scale: 1 }
                         }
-                        className="max-w-3xl mb-12 md:mb-16 mx-auto text-center translate-y-0 md:-translate-y-24 relative z-10"
+                        className="max-w-3xl mb-12 md:mb-16 mx-auto text-center mt-20 md:mt-32 relative z-10"
                     >
                         <div className="mb-6 flex justify-center">
                             <TypewriterEffect

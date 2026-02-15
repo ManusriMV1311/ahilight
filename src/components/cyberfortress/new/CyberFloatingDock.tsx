@@ -199,9 +199,10 @@ function IconContainer({
 
                 <motion.div
                     style={{ width: widthIcon, height: heightIcon }}
-                    className="flex items-center justify-center relative z-10 text-gray-300 group-hover:text-white transition-colors"
+                    className="flex items-center justify-center relative z-10 text-gray-300 group-hover:text-white transition-colors gap-2"
                 >
                     {icon}
+                    <span className="font-medium text-sm whitespace-nowrap">{title}</span>
                 </motion.div>
             </motion.div>
         </Link>

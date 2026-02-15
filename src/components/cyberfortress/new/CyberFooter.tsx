@@ -5,6 +5,7 @@ import styles from '../CyberFortress.module.css';
 import gsap from 'gsap';
 import Link from 'next/link';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Shield } from 'lucide-react';
 
 export function CyberFooter() {
     const footerRef = useRef<HTMLElement>(null);
@@ -31,9 +32,11 @@ export function CyberFooter() {
         <footer ref={footerRef} className={styles.footer}>
             <div className={`${styles.container} ${styles.footerGrid}`}>
                 <div className={styles.footerBrand}>
-                    <div className={styles.logo}>
-                        <span className={styles.redIcon}>▲</span>
-                        <span className="logo-text">CyberFortress</span>
+                    <div className="flex items-center gap-2 mb-4">
+                        <div className="bg-gradient-to-br from-red-600 to-red-900 p-1.5 rounded-full shadow-lg shadow-red-900/20">
+                            <Shield className="w-5 h-5 text-white fill-current/20" />
+                        </div>
+                        <span className="text-xl font-bold font-heading tracking-wide text-white">CyberFortress</span>
                     </div>
                     <p>Autonomous security at machine speed.</p>
                 </div>

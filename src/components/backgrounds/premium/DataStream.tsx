@@ -37,7 +37,7 @@ function DataStreamContent({
             const color = new THREE.Color();
             color.lerpColors(
                 new THREE.Color('#ffffff'),
-                new THREE.Color('#00d4ff'),
+                new THREE.Color('#ef4444'), // Red
                 heightFactor
             );
 
@@ -110,7 +110,7 @@ export function DataStream() {
                 gl={{ alpha: true, powerPreference: "high-performance" }}
                 dpr={[1, 2]}
             >
-                <color attach="background" args={['#000000']} />
+                {/* <color attach="background" args={['#000000']} /> REMOVED */}
                 <DataStreamContent
                     particleCount={5000}
                     flowSpeed={0.5}
