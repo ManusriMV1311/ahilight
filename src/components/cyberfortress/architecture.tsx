@@ -60,8 +60,8 @@ export function ArchitectureDiagram() {
                                     className={cn(
                                         "flex items-center gap-6 p-6 rounded-2xl border text-left transition-all duration-300",
                                         activeLayer === layer.id
-                                            ? "bg-white/10 border-electric-blue/50 shadow-lg scale-105"
-                                            : "bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20"
+                                            ? "bg-white/10 border-red-500/50 shadow-[0_0_15px_rgba(220,38,38,0.2)] scale-105"
+                                            : "bg-white/5 border-white/5 hover:bg-white/10 hover:border-red-500/20"
                                     )}
                                     whileHover={{ x: 5 }}
                                 >
@@ -106,8 +106,8 @@ export function ArchitectureDiagram() {
 
                                         <div className="mt-auto p-4 bg-deep-navy/50 rounded-xl border border-white/5 font-mono text-xs text-slate-400">
                                             <div>// Protocol Spec</div>
-                                            <div className="mt-2 text-cyan-accent">throughput: 10GB/s</div>
-                                            <div className="text-electric-blue">latency: &lt;1ms</div>
+                                            <div className="mt-2 text-yellow-500">throughput: 10GB/s</div>
+                                            <div className="text-red-500">latency: &lt;1ms</div>
                                         </div>
                                     </motion.div>
                                 )

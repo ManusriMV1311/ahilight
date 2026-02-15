@@ -382,14 +382,12 @@ export function DomainApproach({ onAnimationComplete }: { onAnimationComplete?: 
                                         </div>
                                     </div>
 
-                                    <div className="pt-6 border-t border-white/5 group-hover:border-white/20 mt-auto pointer-events-auto">
-                                        <Link href="/products/cyberfortress" className="block relative z-20">
-                                            <Button className="w-full bg-white/10 text-white hover:bg-white hover:text-electric-blue border-transparent group-hover:border-white transition-all shadow-lg">
-                                                Explore Platform
-                                                <ArrowRight className="ml-2 w-4 h-4" />
-                                            </Button>
-                                        </Link>
-                                    </div>
+                                    <Link href="/products/cyberfortress" className="block relative z-20">
+                                        <Button className="w-full bg-white/10 text-white hover:bg-white hover:text-electric-blue border-transparent group-hover:border-white transition-all shadow-lg">
+                                            Explore Platform
+                                            <ArrowRight className="ml-2 w-4 h-4" />
+                                        </Button>
+                                    </Link>
                                 </div>
                             </GlareCard>
                         </motion.div>

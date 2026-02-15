@@ -2,19 +2,22 @@
 import styles from '@/components/cyberfortress/CyberFortress.module.css';
 import Link from 'next/link';
 
+import { CyberBackground } from '@/components/cyberfortress/new/CyberBackground';
+
 export default function CyberSecurityPage() {
     return (
         <div className={styles.pageContainer}>
+            <CyberBackground />
             <div className="pt-20">
                 {/* HERO */}
-                <section className={`${styles.hero} !pb-20 !pt-32`}>
+                <section className={`${styles.hero} !pb-20 !pt-24 md:!pt-32`}>
                     <div className={styles.container}>
                         <p className={styles.trustLabel}>Security Model</p>
-                        <h1 className={`${styles.heroContent} text-5xl font-bold mb-6 mt-4`}>
+                        <h1 className={`${styles.heroContent} text-3xl md:text-5xl font-bold font-heading mb-6 mt-4`}>
                             Security by design, not by assumption
                         </h1>
                         <p className={styles.subtitle}>
-                            CyberFortress is built with a defense-in-depth approach that
+                            CyberFortress is built with a defense in depth approach that
                             prioritizes data protection, controlled automation, and complete
                             transparency across all actions.
                         </p>
@@ -33,14 +36,14 @@ export default function CyberSecurityPage() {
                                 <h3>Least Privilege</h3>
                                 <p>
                                     Access is granted strictly on a need-to-know basis using
-                                    role-based access control and scoped permissions.
+                                    role based access control and scoped permissions.
                                 </p>
                             </div>
 
                             <div className={styles.problemCard}>
                                 <h3>Human Authorization</h3>
                                 <p>
-                                    High-impact actions require explicit human approval to prevent
+                                    High impact actions require explicit human approval to prevent
                                     unintended consequences.
                                 </p>
                             </div>
@@ -79,7 +82,7 @@ export default function CyberSecurityPage() {
                             <div className={styles.problemCard}>
                                 <h3>Encryption</h3>
                                 <p>
-                                    Data is encrypted in transit and at rest using industry-
+                                    Data is encrypted in transit and at rest using industry
                                     standard cryptographic controls.
                                 </p>
                             </div>
@@ -93,9 +96,9 @@ export default function CyberSecurityPage() {
                             </div>
 
                             <div className={styles.problemCard}>
-                                <h3>Customer-controlled Deployment</h3>
+                                <h3>Customer controlled Deployment</h3>
                                 <p>
-                                    Supports on-premises and isolated cloud deployments to meet
+                                    Supports on premises and isolated cloud deployments to meet
                                     regulatory and operational requirements.
                                 </p>
                             </div>
@@ -149,7 +152,7 @@ export default function CyberSecurityPage() {
 
                         <div className={styles.ctaButtons + " justify-center"}>
                             {/* Note: Linking to Contact for now as disclosure policy page might not exist */}
-                            <Link href="/contact" className={styles.btnOutline + " " + styles.btn}>
+                            <Link href="/contact" className="btn-premium-outline">
                                 Report a Vulnerability
                             </Link>
                         </div>
@@ -157,7 +160,7 @@ export default function CyberSecurityPage() {
                 </section>
 
                 {/* CTA */}
-                <section className={`${styles.trustSection} bg-black/30`}>
+                <section className={`${styles.trustSection}`}>
                     <div className={styles.container}>
                         <h2 className="text-3xl font-bold mb-4">Build security with confidence</h2>
                         <p className={`${styles.subtitle} mx-auto mb-8`}>
@@ -165,13 +168,13 @@ export default function CyberSecurityPage() {
                             strategy.
                         </p>
                         <div className={styles.ctaButtons + " justify-center"}>
-                            <Link href="/products/cyberfortress/demo" className={styles.btnPrimary + " " + styles.btn}>
+                            <Link href="/products/cyberfortress/demo" className="btn-premium-dark">
                                 Request Demo
                             </Link>
-                            <Link href="/products/cyberfortress/use-cases" className={styles.btnOutline + " " + styles.btn}>
+                            <Link href="/products/cyberfortress/use-cases" className="btn-premium-outline">
                                 View Use Cases
                             </Link>
-                            <Link href="/products/cyberfortress/architecture" className={styles.btnOutline + " " + styles.btn}>
+                            <Link href="/products/cyberfortress/architecture" className="btn-premium-outline">
                                 Back to Architecture
                             </Link>
                         </div>

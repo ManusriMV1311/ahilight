@@ -61,19 +61,13 @@ export function Hero() {
                     {/* CTAs */}
                     <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                         {/* Primary CTA */}
-                        <Button
-                            borderRadius="9999px"
-                            className="bg-gradient-to-r from-electric-blue to-cyan-accent text-white border-none px-8 py-4 text-lg font-semibold hover:shadow-xl hover:shadow-electric-blue/50 transition-all"
-                            containerClassName="h-auto w-auto"
-                            borderClassName="h-[calc(100%+4px)] w-[calc(100%+4px)] bg-[radial-gradient(var(--cyan-accent)_40%,transparent_60%)]"
-                            duration={2000}
-                            onClick={() => window.location.href = '/research'}
-                        >
-                            <span className="flex items-center gap-2">
+                        {/* Primary CTA */}
+                        <Link href="/research">
+                            <button className="px-8 py-4 text-lg font-semibold rounded-full bg-gradient-to-r from-electric-blue to-cyan-accent text-white hover:shadow-[0_0_30px_rgba(0,242,255,0.4)] transition-all flex items-center gap-2">
                                 How it works
                                 <ArrowRight className="w-5 h-5" />
-                            </span>
-                        </Button>
+                            </button>
+                        </Link>
 
                         {/* Secondary CTA */}
                         <Link href="/technology">

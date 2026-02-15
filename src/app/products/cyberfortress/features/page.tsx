@@ -3,9 +3,12 @@ import styles from '@/components/cyberfortress/CyberFortress.module.css';
 import Link from 'next/link';
 import { Shield, Eye, Brain, Zap, Lock, Activity, Server, Database, Network } from 'lucide-react';
 
+import { CyberFeaturesBackground } from '@/components/cyberfortress/new/CyberFeaturesBackground';
+
 export default function CyberFeaturesPage() {
     return (
         <div className={styles.pageContainer}>
+            <CyberFeaturesBackground />
             <div className="pt-24 pb-20">
                 <div className={styles.container}>
                     {/* Header */}
@@ -15,15 +18,12 @@ export default function CyberFeaturesPage() {
                                 <span className={styles.statusDot}></span>
                                 System Operational
                             </div>
-                            <h1 className="text-5xl font-bold text-white mb-4">capabilities_overview</h1>
+                            <h1 className="text-3xl md:text-5xl font-bold font-heading text-white mb-4">capabilities overview</h1>
                             <p className="text-xl text-neutral-400">
-                                Comprehensive autonomous security stack designed for machine-speed defense.
+                                Comprehensive autonomous security stack designed for machine speed defense.
                             </p>
                         </div>
-                        <div className="text-right hidden md:block">
-                            <div className="text-sm text-neutral-500 font-mono">SEC-OPS-LEVEL-01</div>
-                            <div className="text-2xl font-bold text-red-500">DEFCON 4</div>
-                        </div>
+
                     </div>
 
                     {/* Bento Grid */}
@@ -57,7 +57,7 @@ export default function CyberFeaturesPage() {
                         <div className={`${styles.bentoCard} ${styles.colSpan4}`}>
                             <div className="flex items-center gap-3 mb-4">
                                 <Eye className="w-5 h-5 text-red-500" />
-                                <h3 className="text-lg font-bold text-white">Omni-Channel Vision</h3>
+                                <h3 className="text-lg font-bold text-white">Omni Channel Vision</h3>
                             </div>
                             <p className="text-sm text-neutral-400">
                                 Ingests telemetry from everywhere: EDR, NDR, Cloud Logs, and IDPs. No blind spots.
@@ -90,7 +90,7 @@ export default function CyberFeaturesPage() {
                         <div className={`${styles.bentoCard} ${styles.colSpan4}`}>
                             <div className="flex items-center gap-3 mb-4">
                                 <Network className="w-5 h-5 text-red-500" />
-                                <h3 className="text-lg font-bold text-white">Cross-Stack Sync</h3>
+                                <h3 className="text-lg font-bold text-white">Cross Stack Sync</h3>
                             </div>
                             <p className="text-sm text-neutral-400">
                                 Coordinates defense across your entire stack. Firewall, Identity, and Cloud work as one.

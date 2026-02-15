@@ -1,27 +1,37 @@
 .pageContainer {
-    --bg-black: #030303;
-    --card-bg: #0a0a0a;
-    --accent-red: #ff3333;
-    --accent-red-glow: rgba(255, 51, 51, 0.4);
-    --text-white: #f5f5f5;
-    --text-grey: #888888;
-    --glass-bg: rgba(10, 10, 10, 0.85);
-    --border-color: rgba(255, 255, 255, 0.05);
-    --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    --icon-size: 1.5rem;
-    --icon-size-large: 4rem;
-    --icon-size-tech: 3rem;
+    /* ... */
+    font-family: var(--font-inter), sans-serif !important;
+    /* ... */
+}
 
-    background-color: var(--bg-black);
-    background-image:
-        radial-gradient(circle at 50% 0%, rgba(255, 51, 51, 0.08) 0%, transparent 60%),
-        linear-gradient(to bottom, #030303 0%, #080808 100%);
-    color: var(--text-white);
-    font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
+.heroContent h1 {
+    font-family: var(--font-space-grotesk), sans-serif !important;
+    /* ... */
+}
+
+.sectionHeader h2 {
+    font-family: var(--font-space-grotesk), sans-serif !important;
+    /* ... */
+}
+
+.problemCard h3 {
+    font-family: var(--font-space-grotesk), sans-serif !important;
+    /* ... */
+}
+
+.featureCardLarge h2 {
+    font-family: var(--font-space-grotesk), sans-serif !important;
+    /* ... */
+}
+
+.footerBottom {
+    /* ... */
+    font-family: var(--font-jetbrains-mono), monospace !important;
+    /* ... */
+}
+
+.bentoCard h3 {
+    font-family: var(--font-space-grotesk), sans-serif !important;
 }
 
 .container {
@@ -44,168 +54,7 @@
     }
 }
 
-/* Navbar */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
-    padding: 1.2rem 0;
-    backdrop-filter: blur(20px);
-    /* Strict Black/Red Gradient Background */
-    background: linear-gradient(90deg, #030303 0%, #1a0505 50%, #030303 100%);
-    background-size: 200% 100%;
-    animation: gradientShift 8s ease infinite;
-    border-bottom: 1px solid rgba(255, 51, 51, 0.1);
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-.navbar::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
-    background-size: 200% 100%;
-    animation: gradientMove 3s linear infinite;
-    opacity: 0.5;
-}
-
-@keyframes gradientMove {
-    0% {
-        background-position: 100% 0;
-    }
-
-    100% {
-        background-position: -100% 0;
-    }
-}
-
-/* ... (scanned animation kept if needed, or removed if conflicting) */
-.navbar.scanned::after {
-    height: 2px;
-    opacity: 1;
-    background: var(--accent-red);
-    box-shadow: 0 0 15px var(--accent-red);
-}
-
-/* ... navScan keyframes ... */
-
-@keyframes navScan {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
-}
-
-.navbarContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: -0.5px;
-    text-decoration: none;
-    color: var(--text-white);
-}
-
-.redIcon {
-    color: var(--accent-red);
-    font-size: 1.2rem;
-    filter: drop-shadow(0 0 5px var(--accent-red-glow));
-}
-
-.navLinks {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-/* Nav Links as Pill Buttons */
-.navLink {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1.2rem;
-    border-radius: 9999px;
-    /* Round shape */
-    /* Dark theme gradient fill */
-    background: linear-gradient(135deg, rgba(40, 10, 10, 0.8), rgba(10, 10, 10, 0.9));
-    border: 1px solid rgba(255, 51, 51, 0.2);
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.navLink:hover,
-.navLink.active {
-    /* Multi-color red fill on hover */
-    background: linear-gradient(90deg, #990000, #ff3333);
-    border-color: transparent;
-    box-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
-    transform: translateY(-2px);
-    color: white;
-}
-
-.mobileToggle {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.mobileToggle span {
-    display: block;
-    width: 25px;
-    height: 2px;
-    background: white;
-    transition: all 0.3s;
-}
-
-@media (max-width: 768px) {
-    .navLinks {
-        display: none;
-    }
-
-    .mobileToggle {
-        display: flex;
-    }
-}
+/* Navbar styles removed - Replaced by Tailwind in CyberNavbar.tsx */
 
 /* Buttons - Universal "Moving Mild Red Theme" */
 .btn {
@@ -280,10 +129,10 @@
 
 /* Hero Section */
 .hero {
-    padding: 14rem 0 10rem;
+    padding: 4rem 0 4rem;
     position: relative;
     overflow: hidden;
-    min-height: 100vh;
+    min-height: 50vh;
 }
 
 .heroCanvas {
@@ -306,6 +155,7 @@
 }
 
 .heroContent h1 {
+    font-family: var(--font-space-grotesk), sans-serif;
     font-size: 5rem;
     font-weight: 700;
     line-height: 1;
@@ -392,7 +242,7 @@
 
 /* Problem Statement */
 .problemStatement {
-    padding: 8rem 0;
+    padding: 4rem 0;
 }
 
 .sectionHeader {
@@ -401,6 +251,7 @@
 }
 
 .sectionHeader h2 {
+    font-family: var(--font-space-grotesk), sans-serif;
     font-size: 3rem;
     margin-bottom: 1.5rem;
 }
@@ -440,6 +291,7 @@
 }
 
 .problemCard h3 {
+    font-family: var(--font-space-grotesk), sans-serif;
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -450,8 +302,8 @@
 
 /* Product Highlight */
 .productHighlight {
-    padding: 10rem 0;
-    background: radial-gradient(circle at top, rgba(255, 51, 51, 0.03) 0%, transparent 70%);
+    padding: 4rem 0;
+    background: transparent;
 }
 
 .gridLayout {
@@ -481,6 +333,7 @@
 }
 
 .featureCardLarge h2 {
+    font-family: var(--font-space-grotesk), sans-serif;
     font-size: 2.8rem;
     margin-bottom: 1.5rem;
     line-height: 1.1;
@@ -516,7 +369,7 @@
 
 /* Trust Section */
 .trustSection {
-    padding: 6rem 0;
+    padding: 4rem 0;
     text-align: center;
 }
 
@@ -547,9 +400,11 @@
 
 /* Footer */
 .footer {
-    background: #050505;
+    background: transparent;
     padding: 8rem 0 4rem;
     border-top: 1px solid var(--border-color);
+    position: relative;
+    z-index: 10;
 }
 
 .footerGrid {
@@ -599,13 +454,13 @@
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     color: var(--text-grey);
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-jetbrains-mono), monospace !important;
     font-size: 0.85rem;
 }
 
 .statusSecure {
-    color: #00ff00;
-    text-shadow: 0 0 5px #00ff00;
+    color: #ff3333;
+    text-shadow: 0 0 5px #ff3333;
 }
 
 /* Bento Grid System */
@@ -636,6 +491,10 @@
     background: rgba(15, 15, 15, 0.8);
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.bentoCard h3 {
+    font-family: var(--font-space-grotesk), sans-serif !important;
 }
 
 .bentoCard::before {

@@ -1,116 +1,158 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../CyberFortress.module.css';
-import gsap from 'gsap';
+import React, { useState } from 'react';
 import Link from 'next/link';
-
-import { Shield, Box } from 'lucide-react';
+import { Box, Shield, Menu, X, LayoutGrid, Server, ShieldCheck, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CyberFloatingDock } from "@/components/cyberfortress/new/CyberFloatingDock";
 
 export function CyberNavbar() {
-    const navbarRef = useRef<HTMLElement>(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const mobileMenuRef = useRef<HTMLDivElement>(null);
-    const mobileToggleRef = useRef<HTMLButtonElement>(null);
 
-    useEffect(() => {
-        const navbar = navbarRef.current;
-        if (!navbar) return;
+    // Navigation items for FloatingDock
+    const navItems = [
+        {
+            title: "Features",
+            icon: <LayoutGrid className="h-5 w-5" />,
+            href: "/products/cyberfortress/features"
+        },
+        {
+            title: "Architecture",
+            icon: <Server className="h-5 w-5" />,
+            href: "/products/cyberfortress/architecture"
+        },
+        {
+            title: "Security",
+            icon: <ShieldCheck className="h-5 w-5" />,
+            href: "/products/cyberfortress/security"
+        },
+        {
+            title: "Use Cases",
+            icon: <FileText className="h-5 w-5" />,
+            href: "/products/cyberfortress/use-cases"
+        },
+    ];
 
-        const handleScroll = () => {
-            if (window.scrollY > 50) {
-                if (!navbar.classList.contains(styles.scanned)) {
-                    navbar.classList.add(styles.scanned);
-                }
-                // Background handling is now done via CSS animation 'gradientShift'
-                gsap.to(navbar, { padding: '1rem 0', duration: 0.3 });
-            } else {
-                gsap.to(navbar, { padding: '1.2rem 0', duration: 0.3 });
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
-        const navLinks = mobileMenuRef.current;
-        const spans = mobileToggleRef.current?.querySelectorAll('span');
-
-        if (!isMobileMenuOpen) {
-            // Open menu
-            if (navLinks && spans) {
-                navLinks.style.display = 'flex';
-                // Animate items in
-                gsap.fromTo(navLinks.querySelectorAll(`.${styles.navLink}`),
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, stagger: 0.1, duration: 0.4, ease: "power2.out" }
-                );
-
-                gsap.to(spans[0], { rotation: 45, y: 8, duration: 0.3 });
-                gsap.to(spans[1], { opacity: 0, duration: 0.3 });
-                gsap.to(spans[2], { rotation: -45, y: -8, duration: 0.3 });
-            }
-        } else {
-            // Close menu
-            if (navLinks && spans) {
-                gsap.to(navLinks.querySelectorAll(`.${styles.navLink}`), {
-                    opacity: 0,
-                    y: 20,
-                    duration: 0.2,
-                    stagger: 0.05,
-                    onComplete: () => {
-                        navLinks.style.display = 'none';
-                    }
-                });
-
-                gsap.to(spans[0], { rotation: 0, y: 0, duration: 0.3 });
-                gsap.to(spans[1], { opacity: 1, duration: 0.3 });
-                gsap.to(spans[2], { rotation: 0, y: 0, duration: 0.3 });
-            }
-        }
-    };
+    const mobileNavLinks = [
+        { name: "Features", href: "/products/cyberfortress/features" },
+        { name: "Architecture", href: "/products/cyberfortress/architecture" },
+        { name: "Security", href: "/products/cyberfortress/security" },
+        { name: "Use Cases", href: "/products/cyberfortress/use-cases" },
+    ];
 
     return (
-        <header ref={navbarRef} className={styles.navbar}>
-            <div className={`${styles.container} ${styles.navbarContainer}`}>
-                {/* Left: AhiLight Brand + CyberFortress Shield */}
-                <div className="flex items-center gap-6">
-                    <Link href="/" className="flex items-center gap-2 group opacity-80 hover:opacity-100 transition-opacity">
-                        <div className="bg-gradient-to-br from-red-600 to-red-900 p-1.5 rounded-md">
-                            <Box className="w-5 h-5 text-white" />
-                        </div>
-                        <span className="text-lg font-bold text-white tracking-tight font-brand">AhiLight</span>
+        <>
+            {/* 1. Floating Logo (Top Left) */}
+            <div className="fixed top-6 left-6 z-[100] flex items-center gap-4 bg-black/40 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full hover:bg-black/60 transition-all">
+                {/* AhiLight Home Link */}
+                <Link href="/" className="flex items-center gap-2 group/brand hover:opacity-80 transition-opacity">
+                    <div className="bg-gradient-to-br from-blue-600 to-cyan-500 p-1.5 rounded-lg shadow-lg shadow-blue-500/20 group-hover/brand:scale-105 transition-transform">
+                        <Box className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="text-sm font-bold tracking-tight text-white hidden sm:inline-block">AhiLight</span>
+                </Link>
+
+                {/* Separator */}
+                <div className="h-6 w-px bg-white/10"></div>
+
+                {/* CyberFortress Product Link */}
+                <Link href="/products/cyberfortress" className="flex items-center gap-2 group/product hover:opacity-80 transition-opacity">
+                    <div className="bg-gradient-to-br from-red-600 to-red-900 p-1.5 rounded-full shadow-lg shadow-red-900/20 group-hover/product:scale-105 transition-transform">
+                        <Shield className="w-4 h-4 text-white fill-current/20" />
+                    </div>
+                    <span className="text-sm font-bold text-white tracking-wide">CyberFortress</span>
+                </Link>
+            </div>
+
+            {/* 2. Floating Nav Dock (Top Center) - Desktop Only */}
+            {/* 2. Floating Nav Dock (Top Center) - Desktop Only */}
+            <div className="hidden md:flex fixed z-[100] top-6 left-1/2 -translate-x-1/2 items-center gap-1 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full px-2 py-1.5 shadow-2xl shadow-black/20">
+                {navItems.map((item) => (
+                    <Link
+                        key={item.title}
+                        href={item.href}
+                        className="group flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-all duration-300 border border-transparent hover:border-yellow-500/50 hover:bg-gradient-to-br hover:from-black hover:via-red-900 hover:to-red-600 hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]"
+                    >
+                        <span className="text-gray-400 group-hover:text-yellow-50 transition-colors">
+                            {item.icon}
+                        </span>
+                        <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors hidden lg:block">
+                            {item.title}
+                        </span>
                     </Link>
+                ))}
+            </div>
 
-                    <div className="h-6 w-px bg-white/20"></div>
+            {/* 3. Floating CTA / Mobile Toggle (Top Right) */}
+            <div className="fixed top-6 right-6 z-[100] flex items-center gap-3">
+                {/* Desktop CTA */}
+                {/* Desktop CTA Removed - Moved to Footer */}
 
-                    <Link href="/products/cyberfortress" className={styles.logo}>
-                        <Shield className={`${styles.redIcon} w-6 h-6 fill-current`} />
-                        <span className="logo-text">CyberFortress</span>
-                    </Link>
-                </div>
-
-                <nav ref={mobileMenuRef} className={styles.navLinks}>
-                    {/* Overview link removed - linked via Logo */}
-                    <Link href="/products/cyberfortress/features" className={styles.navLink}>Features</Link>
-                    <Link href="/products/cyberfortress/architecture" className={styles.navLink}>Architecture</Link>
-                    <Link href="/products/cyberfortress/security" className={styles.navLink}>Security</Link>
-                    <Link href="/products/cyberfortress/use-cases" className={styles.navLink}>Use Cases</Link>
-                    <Link href="/products/cyberfortress/demo" className={styles.navLink}>Demo</Link>
-                </nav>
+                {/* Mobile Toggle */}
                 <button
-                    ref={mobileToggleRef}
-                    className={styles.mobileToggle}
-                    onClick={toggleMobileMenu}
-                    aria-label="Toggle Menu"
+                    className="md:hidden p-3 bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-black/60 hover:text-red-500 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                 </button>
             </div>
-        </header>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[90] bg-black/80 backdrop-blur-sm md:hidden"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        />
+
+                        {/* Slide-over Panel */}
+                        <motion.div
+                            initial={{ x: "100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="fixed right-0 top-0 bottom-0 w-[80%] max-w-sm z-[100] bg-neutral-950 border-l border-white/10 shadow-2xl p-6 flex flex-col md:hidden"
+                        >
+                            <div className="flex justify-end mb-8">
+                                <button
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="p-2 bg-white/5 rounded-full text-white hover:bg-white/10 transition-colors"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+                            </div>
+
+                            <nav className="flex flex-col gap-4">
+                                {mobileNavLinks.map((link) => (
+                                    <Link
+                                        key={link.name}
+                                        href={link.href}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-red-500/30 transition-all group"
+                                    >
+                                        <span className="text-lg font-medium text-white/90 group-hover:text-red-400">
+                                            {link.name}
+                                        </span>
+                                    </Link>
+                                ))}
+
+                                <div className="mt-4 pt-4 border-t border-white/10">
+                                    <Link href="/products/cyberfortress/demo" onClick={() => setIsMobileMenuOpen(false)}>
+                                        <button className="btn-premium w-full py-3 text-sm">
+                                            Request Demo
+                                        </button>
+                                    </Link>
+                                </div>
+                            </nav>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </>
     );
 }

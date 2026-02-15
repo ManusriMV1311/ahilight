@@ -39,7 +39,7 @@ export function ComplianceTrust() {
                             <h3 className="text-xl font-bold text-white mb-2">Security Whitepaper</h3>
                             <p className="text-slate-400 text-sm">Download the technical deep dive into our cryptographic architecture.</p>
                         </div>
-                        <button className="whitespace-nowrap px-6 py-3 bg-white text-deep-navy font-bold rounded-lg hover:bg-slate-200 transition-colors">
+                        <button className="btn-premium-dark whitespace-nowrap px-6 py-3">
                             Download PDF
                         </button>
                     </div>

@@ -2,6 +2,7 @@
 
 import { Section } from "@/components/ui/section"
 import { Button } from "@/components/ui/button"
+import Link from 'next/link';
 
 export function FinalCTA() {
     return (
@@ -14,17 +15,20 @@ export function FinalCTA() {
                     We like difficult problems throughout the stack. If you have one, or just want to see how we solve ours, get in touch.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mb-12">
-                    <Button size="lg" className="bg-gradient-to-r from-electric-blue to-cyan-accent text-white font-bold rounded-full h-14 px-8 shadow-[0_0_20px_rgba(125,95,255,0.4)] hover:shadow-[0_0_30px_rgba(125,95,255,0.6)]" onClick={() => window.location.href = '/products'}>
-                        See the work
-                    </Button>
-                    <Button
-                        size="lg"
-                        variant="outline"
-                        className="border-2 border-electric-blue/50 bg-gradient-to-r from-electric-blue/10 to-cyan-accent/10 hover:from-electric-blue/20 hover:to-cyan-accent/20 hover:border-electric-blue text-white font-bold rounded-full h-14 px-8 hover:shadow-lg hover:shadow-electric-blue/30 transition-all"
-                        onClick={() => window.location.href = '/research'}
-                    >
-                        Read the papers
-                    </Button>
+                    <Link href="/products">
+                        <Button size="lg" className="bg-gradient-to-r from-electric-blue to-cyan-accent text-white font-bold rounded-full h-14 px-8 shadow-[0_0_20px_rgba(125,95,255,0.4)] hover:shadow-[0_0_30px_rgba(125,95,255,0.6)] transition-all">
+                            See the work
+                        </Button>
+                    </Link>
+                    <Link href="/research">
+                        <Button
+                            size="lg"
+                            variant="outline"
+                            className="border-2 border-electric-blue/50 bg-gradient-to-r from-electric-blue/10 to-cyan-accent/10 hover:from-electric-blue/20 hover:to-cyan-accent/20 hover:border-electric-blue text-white font-bold rounded-full h-14 px-8 hover:shadow-lg hover:shadow-electric-blue/30 transition-all"
+                        >
+                            Read the papers
+                        </Button>
+                    </Link>
                 </div>
                 <div className="text-slate-500">
                     Questions? Reach us at <a href="mailto:contact@ahilight.com" className="text-electric-blue hover:underline">contact@ahilight.com</a>

@@ -22,8 +22,7 @@ export function CTA() {
                     Partner with AhiLight to bring research-grade engineering to your most complex enterprise challenges.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-
-                    <Button size="lg" variant="ghost" className="text-white border-white/30 hover:bg-white/10 h-14 px-8 text-lg hover:text-white">
+                    <Button size="lg" variant="ghost" className="text-white border-white/30 hover:bg-white/10 h-14 px-8 text-lg hover:text-white transition-all">
                         Read Our Manifesto <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
                 </div>

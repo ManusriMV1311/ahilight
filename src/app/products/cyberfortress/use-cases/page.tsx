@@ -7,10 +7,10 @@ export default function CyberUseCasesPage() {
         <div className={styles.pageContainer}>
             <div className="pt-20">
                 {/* HERO */}
-                <section className={`${styles.hero} !pb-20 !pt-32`}>
+                <section className={`${styles.hero} !pb-20 !pt-24 md:!pt-32`}>
                     <div className={styles.container}>
                         <p className={styles.trustLabel}>Use Cases</p>
-                        <h1 className={`${styles.heroContent} text-5xl font-bold mb-6 mt-4`}>
+                        <h1 className={`${styles.heroContent} text-3xl md:text-5xl font-bold font-heading mb-6 mt-4`}>
                             Designed for real security operations
                         </h1>
                         <p className={styles.subtitle}>
@@ -48,7 +48,7 @@ export default function CyberUseCasesPage() {
                             <div className={styles.problemCard}>
                                 <h3>Cloud & Hybrid Infrastructure Security</h3>
                                 <p className="mb-4">
-                                    Designed to operate across cloud-native, on-prem, and hybrid
+                                    Designed to operate across cloud native, on prem, and hybrid
                                     environments while maintaining consistent policy enforcement.
                                 </p>
                                 <ul className="list-disc pl-5 text-gray-400 space-y-2">
@@ -66,8 +66,8 @@ export default function CyberUseCasesPage() {
                                     while preserving analyst oversight and approval workflows.
                                 </p>
                                 <ul className="list-disc pl-5 text-gray-400 space-y-2">
-                                    <li>Policy-based response actions</li>
-                                    <li>Human-in-the-loop approvals</li>
+                                    <li>Policy based response actions</li>
+                                    <li>Human in the loop approvals</li>
                                     <li>Rollback and recovery support</li>
                                 </ul>
                             </div>
@@ -90,7 +90,7 @@ export default function CyberUseCasesPage() {
                 </section>
 
                 {/* CTA */}
-                <section className={`${styles.trustSection} bg-black/30`}>
+                <section className={`${styles.trustSection}`}>
                     <div className={styles.container}>
                         <h2 className="text-3xl font-bold mb-4">See how CyberFortress fits your environment</h2>
                         <p className={`${styles.subtitle} mx-auto mb-8`}>
@@ -98,10 +98,10 @@ export default function CyberUseCasesPage() {
                             compromising control.
                         </p>
                         <div className={styles.ctaButtons + " justify-center"}>
-                            <Link href="/products/cyberfortress/demo" className={styles.btnPrimary + " " + styles.btn}>
+                            <Link href="/products/cyberfortress/demo" className="btn-premium-dark">
                                 Request Demo
                             </Link>
-                            <Link href="/products/cyberfortress/features" className={styles.btnOutline + " " + styles.btn}>
+                            <Link href="/products/cyberfortress/features" className="btn-premium-outline">
                                 View Features
                             </Link>
                         </div>

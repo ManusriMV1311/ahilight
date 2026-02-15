@@ -31,7 +31,7 @@ export function CyberFortressPreview() {
 
                 <div className="text-center">
                     <Link href="/cyberfortress">
-                        <Button variant="ghost" className="text-white hover:text-electric-blue hover:bg-transparent group text-lg">
+                        <Button variant="ghost" className="text-white hover:text-electric-blue hover:bg-transparent group text-lg transition-colors">
                             Learn more about CyberFortress <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Button>
                     </Link>

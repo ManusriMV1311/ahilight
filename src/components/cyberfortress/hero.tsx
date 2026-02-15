@@ -34,10 +34,10 @@ export function CyberFortressHero() {
                     </p>
 
                     <div className="flex flex-wrap gap-4">
-                        <Button size="lg" className="h-14 px-8 text-lg bg-electric-blue hover:bg-electric-blue/90 shadow-[0_0_30px_-10px_theme(colors.electric-blue)]">
+                        <Button className="btn-premium-dark h-14 px-8 text-lg">
                             Schedule Demo
                         </Button>
-                        <Button size="lg" variant="ghost" className="h-14 px-8 text-lg text-white border border-white/20 hover:bg-white/10">
+                        <Button size="lg" variant="outline" className="h-14 px-8 text-lg text-white border-white/20 hover:bg-white/5 hover:text-red-500 hover:border-red-500/50 transition-colors">
                             Download Sheet
                         </Button>
                     </div>

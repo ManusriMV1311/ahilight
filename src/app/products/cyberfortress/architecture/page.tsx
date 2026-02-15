@@ -3,9 +3,12 @@ import styles from '@/components/cyberfortress/CyberFortress.module.css';
 import Link from 'next/link';
 import { Shield, Server, Box, Cpu, Activity, Share2, Layers } from 'lucide-react';
 
+import { CyberArchitectureBackground } from '@/components/cyberfortress/new/CyberArchitectureBackground';
+
 export default function CyberArchitecturePage() {
     return (
         <div className={styles.pageContainer}>
+            <CyberArchitectureBackground />
             <div className="pt-24 pb-20">
                 <div className={styles.container}>
                     {/* Header */}
@@ -14,11 +17,11 @@ export default function CyberArchitecturePage() {
                             <Activity className="w-3 h-3" />
                             System Architecture
                         </div>
-                        <h1 className="text-5xl font-bold text-white mb-6">
+                        <h1 className="text-3xl md:text-5xl font-bold font-heading text-white mb-6">
                             Modular Defense Architecture
                         </h1>
                         <p className="text-xl text-neutral-400">
-                            A layered approach to autonomous security, decoupling detection from decision-making for maximum control and auditability.
+                            A layered approach to autonomous security, decoupling detection from decision making for maximum control and auditability.
                         </p>
                     </div>
 

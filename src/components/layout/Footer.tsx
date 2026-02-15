@@ -45,7 +45,7 @@ export function Footer() {
                                 placeholder="alice@example.com"
                                 className="w-full px-6 py-4 bg-transparent border border-white/10 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-electric-blue/50 focus:ring-2 focus:ring-electric-blue/20 transition-all backdrop-blur-sm"
                             />
-                            <button className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-electric-blue to-cyan-accent text-white rounded-full font-semibold hover:opacity-90 transition-all hover:scale-105">
+                            <button className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-electric-blue to-cyan-accent text-white rounded-full font-semibold hover:opacity-90 transition-all hover:scale-105 text-sm shadow-[0_0_10px_rgba(125,95,255,0.4)]">
                                 Join in
                             </button>
                         </div>
@@ -104,7 +104,7 @@ export function Footer() {
                     <div className="flex items-center gap-6">
                         <Link
                             href="/contact"
-                            className="px-6 py-2 bg-gradient-to-r from-electric-blue to-cyan-accent text-white rounded-full font-semibold font-ui hover:opacity-90 transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm"
+                            className="px-6 py-2 bg-gradient-to-r from-electric-blue to-cyan-accent text-white rounded-full font-semibold font-ui hover:opacity-90 transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm no-underline"
                         >
                             Talk to us
                         </Link>

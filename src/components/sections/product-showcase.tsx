@@ -38,11 +38,11 @@ export function ProductShowcase() {
 
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Link href="/cyberfortress">
-                                <Button className="bg-electric-blue hover:bg-cyan-accent text-deep-navy font-bold px-8 h-12">
+                                <Button className="bg-electric-blue hover:bg-cyan-accent text-deep-navy font-bold px-8 h-12 transition-colors">
                                     Explore CyberFortress
                                 </Button>
                             </Link>
-                            <Button variant="outline" className="text-white border-white/20 hover:bg-white/5 h-12 px-8">
+                            <Button variant="outline" className="text-white border-white/20 hover:bg-white/5 h-12 px-8 hover:border-electric-blue hover:text-electric-blue transition-colors">
                                 Request Demo
                             </Button>
                         </div>

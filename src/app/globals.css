@@ -6,11 +6,12 @@
 
 :root {
   /* Brand Palette (Deep Space & Neon) */
-  --deep-navy: #020B2D;
-  /* Deep Space Blue */
-  --navy-card: #0A143E;
-  /* Dark Blue Card */
-  --navy-card-hover: #12205a;
+  /* Brand Palette (Deep Space & Neon) */
+  --deep-navy: #030303;
+  /* Deep Space Blue -> Black */
+  --navy-card: #0a0a0a;
+  /* Dark Blue Card -> Dark Gray */
+  --navy-card-hover: #121212;
 
   --electric-blue: #7D5FFF;
   /* Cyber Purple (Primary) */
@@ -72,12 +73,12 @@
 .theme-cyberfortress {
   /* Purple/Pink Theme Overrides */
   /* Purple/Pink Theme Overrides */
-  --deep-navy: #020B2D;
-  /* Deep Space Blue */
-  --navy-card: #0A143E;
-  /* Dark Blue Card */
-  --navy-card-hover: #12205a;
-  /* Lighter Blue Hover */
+  --deep-navy: #030303;
+  /* Deep Space Blue -> Black */
+  --navy-card: #0a0a0a;
+  /* Dark Blue Card -> Dark Gray */
+  --navy-card-hover: #121212;
+  /* Lighter Blue Hover -> Gray */
 
   --electric-blue: #7D5FFF;
   /* Cyber Purple */
@@ -88,7 +89,7 @@
   /* Slightly lighter slate for contrast on purple */
 
   /* Semantic Re-mapping */
-  --background: var(--deep-navy);
+  --background: #030303;
 }
 
 @theme inline {
@@ -215,6 +216,15 @@ h6 {
     @apply bg-background text-foreground;
     font-family: var(--font-inter), sans-serif;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-space-grotesk), sans-serif;
+  }
 }
 
 /* Explicit override for UI font to ensure application */
@@ -228,6 +238,86 @@ h6 {
 }
 
 /* Explicit override for Brand font to ensure application */
+/* Explicit override for Brand font to ensure application */
 .font-brand {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Premium Red+Black+Gold Button Style (For Navbar) */
+.btn-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 9999px;
+  transition: all 0.2s;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.3);
+  cursor: pointer;
+  background-image: linear-gradient(to right, #7f1d1d, #dc2626, #7f1d1d);
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+.btn-premium:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.3);
+}
+
+/* Premium Dark Button Style (Red Dominant with subtle black edges: Dark Red/Black -> Vibrant Red -> Dark Red/Black) */
+.btn-premium-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 9999px;
+  transition: all 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Subtle white/glass border instead of gold */
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+  cursor: pointer;
+  /* Deep "Cloudy Red" Gradient to match user image */
+  background-image: linear-gradient(110deg, #450a0a 0%, #991b1b 45%, #dc2626 50%, #991b1b 55%, #450a0a 100%);
+  background-size: 200% 200%;
+  animation: gradient 5s ease infinite;
+}
+
+.btn-premium-dark:hover {
+  filter: brightness(1.2);
+  border-color: rgba(220, 38, 38, 0.6);
+  box-shadow: 0 0 30px rgba(185, 28, 28, 0.5);
+  background-position: right center;
+}
+
+/* Premium Outline Button Style (Thin red border, glass bg, red text) */
+.btn-premium-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  /* px-8 py-3 */
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: all 0.2s;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  /* border-red-500/30 */
+  color: #ef4444;
+  /* text-red-500 */
+  background: transparent;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.btn-premium-outline:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  /* bg-red-500/10 */
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.1);
 }

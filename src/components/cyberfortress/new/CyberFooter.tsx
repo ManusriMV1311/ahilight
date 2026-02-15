@@ -19,11 +19,9 @@ export function CyberFooter() {
             trigger: footer,
             start: "top 90%",
             onEnter: () => {
-                const linkGroups = footer.querySelectorAll(`.${styles.linkGroup}, .${styles.footerBrand}`);
-                gsap.from(linkGroups, { opacity: 0, x: -20, stagger: 0.2, duration: 0.8, ease: "power2.out" });
-
+                // Removed link animation to ensure visibility
                 if (shutdownMsgRef.current) {
-                    gsap.fromTo(shutdownMsgRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 1.5 });
+                    gsap.fromTo(shutdownMsgRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.5 });
                 }
             }
         });
@@ -60,9 +58,14 @@ export function CyberFooter() {
             </div>
             <div className={`${styles.container} ${styles.footerBottom}`}>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <p ref={shutdownMsgRef} id="shutdown-msg">&gt; SYSTEM STATUS: <span className={styles.statusSecure}>SECURE_</span></p>
+                    <p ref={shutdownMsgRef} id="shutdown-msg">&gt; SYSTEM STATUS: <span className={styles.statusSecure}>SECURE</span></p>
                 </div>
-                <p>&copy; 2026 CyberFortress. All rights reserved.</p>
+                <div className="flex items-center gap-6">
+                    <Link href="/products/cyberfortress/demo" className="btn-premium-dark text-xs px-6 py-2">
+                        Request Demo
+                    </Link>
+                    <p>&copy; 2026 CyberFortress. All rights reserved.</p>
+                </div>
             </div>
         </footer>
     );
