@@ -49,7 +49,7 @@ export function ProductNavigation() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 10 }}
                                 transition={{ duration: 0.2 }}
-                                className="absolute top-full left-0 mt-2 w-80 bg-[#0a0a0a]/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+                                className="absolute top-full left-0 mt-2 w-[calc(100vw-2rem)] md:w-80 bg-[#0a0a0a]/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
                             >
                                 <div className="p-2">
                                     {products.map((product) => (
