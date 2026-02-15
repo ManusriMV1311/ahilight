@@ -27,8 +27,8 @@ export default function ProductsPage() {
 
     return (
         <div className="min-h-screen relative -mt-20 md:-mt-24">
-            <div className="absolute top-0 left-0 w-full z-40 pointer-events-none pt-40 hidden md:block">
-                <div className="pointer-events-auto">
+            <div className="absolute top-0 left-0 w-full z-40 pointer-events-none pt-28 md:pt-40">
+                <div className="pointer-events-auto hidden md:block">
                     <ProductNavigation />
                 </div>
             </div>

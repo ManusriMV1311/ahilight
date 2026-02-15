@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
-import { Menu, X, Info, Eye, Package, Cpu, FlaskConical, Briefcase, ChevronDown } from "lucide-react";
+import { Menu, X, Info, Eye, Package, Cpu, FlaskConical, Briefcase } from "lucide-react";
 
 const navItems = [
     { title: "About", href: "/about", icon: <Info className="w-5 h-5" /> },
@@ -15,7 +15,6 @@ const navItems = [
 
 export function MobileNav() {
     const [isOpen, setIsOpen] = useState(false);
-    const [isProductsOpen, setIsProductsOpen] = useState(false);
 
     return (
         <div className="md:hidden">
@@ -58,95 +57,34 @@ export function MobileNav() {
                             </div>
 
                             <nav className="flex flex-col gap-4">
-                                <nav className="flex flex-col gap-4">
-                                    {navItems.map((item, idx) => {
-                                        if (item.title === "Products") {
-                                            return (
-                                                <motion.div
-                                                    key={item.href}
-                                                    initial={{ opacity: 0, x: 20 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    transition={{ delay: idx * 0.1 }}
-                                                    className="flex flex-col"
-                                                >
-                                                    <div className="flex items-center gap-2">
-                                                        <Link
-                                                            href={item.href}
-                                                            onClick={() => setIsOpen(false)}
-                                                            className="flex-1 flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-electric-blue/30 transition-all group"
-                                                        >
-                                                            <div className="p-2 rounded-lg bg-electric-blue/10 text-electric-blue group-hover:bg-electric-blue/20 transition-colors">
-                                                                {item.icon}
-                                                            </div>
-                                                            <span className="text-lg font-medium text-white/90 group-hover:text-white">
-                                                                {item.title}
-                                                            </span>
-                                                        </Link>
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                setIsProductsOpen(!isProductsOpen);
-                                                            }}
-                                                            className="p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all"
-                                                        >
-                                                            <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${isProductsOpen ? 'rotate-180' : ''}`} />
-                                                        </button>
-                                                    </div>
+                                {navItems.map((item, idx) => (
+                                    <motion.div
+                                        key={item.href}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: idx * 0.1 }}
+                                    >
+                                        <Link
+                                            href={item.href}
+                                            onClick={() => setIsOpen(false)}
+                                            className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-electric-blue/30 transition-all group"
+                                        >
+                                            <div className="p-2 rounded-lg bg-electric-blue/10 text-electric-blue group-hover:bg-electric-blue/20 transition-colors">
+                                                {item.icon}
+                                            </div>
+                                            <span className="text-lg font-medium text-white/90 group-hover:text-white">
+                                                {item.title}
+                                            </span>
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </nav>
 
-                                                    <AnimatePresence>
-                                                        {isProductsOpen && (
-                                                            <motion.div
-                                                                initial={{ height: 0, opacity: 0 }}
-                                                                animate={{ height: "auto", opacity: 1 }}
-                                                                exit={{ height: 0, opacity: 0 }}
-                                                                transition={{ duration: 0.2 }}
-                                                                className="overflow-hidden"
-                                                            >
-                                                                <div className="pl-4 pt-2 pb-2 flex flex-col gap-2 border-l border-white/10 ml-8 mt-2">
-                                                                    <Link
-                                                                        href="/products/cyberfortress"
-                                                                        onClick={() => setIsOpen(false)}
-                                                                        className="block p-3 rounded-lg hover:bg-white/5 text-slate-300 hover:text-white transition-colors text-sm"
-                                                                    >
-                                                                        <div className="font-medium text-electric-blue">CyberFortress</div>
-                                                                        <div className="text-xs opacity-60 mt-0.5">Enterprise Security Platform</div>
-                                                                    </Link>
-                                                                </div>
-                                                            </motion.div>
-                                                        )}
-                                                    </AnimatePresence>
-                                                </motion.div>
-                                            );
-                                        }
-                                        return (
-                                            <motion.div
-                                                key={item.href}
-                                                initial={{ opacity: 0, x: 20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: idx * 0.1 }}
-                                            >
-                                                <Link
-                                                    href={item.href}
-                                                    onClick={() => setIsOpen(false)}
-                                                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-electric-blue/30 transition-all group"
-                                                >
-                                                    <div className="p-2 rounded-lg bg-electric-blue/10 text-electric-blue group-hover:bg-electric-blue/20 transition-colors">
-                                                        {item.icon}
-                                                    </div>
-                                                    <span className="text-lg font-medium text-white/90 group-hover:text-white">
-                                                        {item.title}
-                                                    </span>
-                                                </Link>
-                                            </motion.div>
-                                        );
-                                    })}
-                                </nav>
-
-                                <div className="mt-auto pt-8 border-t border-white/10">
-                                    <p className="text-sm text-white/40 text-center">
-                                        © 2026 AhiLight Inc.
-                                    </p>
-                                </div>
+                            <div className="mt-auto pt-8 border-t border-white/10">
+                                <p className="text-sm text-white/40 text-center">
+                                    © 2026 AhiLight Inc.
+                                </p>
+                            </div>
                         </motion.div>
                     </>
                 )}
