@@ -1,7 +1,7 @@
 
-import styles from '@/components/cyberfortress/CyberFortress.module.css';
+import styles from '@/features/cyberfortress/components/CyberFortress.module.css';
 import Link from 'next/link';
-import { CyberBackground } from '@/components/cyberfortress/new/CyberBackground';
+import { CyberBackground } from '@/features/cyberfortress/components/new/CyberBackground';
 import { Shield, Lock, Eye, FileCheck, Server, Users, Activity, FileText, Fingerprint, Cloud, Scale } from 'lucide-react';
 
 export default function CyberSecurityPage() {

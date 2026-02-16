@@ -1,11 +1,11 @@
-import { CyberHero } from "@/components/cyberfortress/new/CyberHero";
-import { NewsTicker } from "@/components/cyberfortress/new/NewsTicker";
-import { ProblemStatement } from "@/components/cyberfortress/new/ProblemStatement";
-import { CyberFeatures } from "@/components/cyberfortress/new/CyberFeatures";
-import { ProductHighlight } from "@/components/cyberfortress/new/ProductHighlight";
-import { TrustSection } from "@/components/cyberfortress/new/TrustSection";
-import { CyberOverviewBackground } from "@/components/cyberfortress/new/CyberOverviewBackground";
-import styles from "@/components/cyberfortress/CyberFortress.module.css";
+import { CyberHero } from "@/features/cyberfortress/components/new/CyberHero";
+import { NewsTicker } from "@/features/cyberfortress/components/new/NewsTicker";
+import { ProblemStatement } from "@/features/cyberfortress/components/new/ProblemStatement";
+import { CyberFeatures } from "@/features/cyberfortress/components/new/CyberFeatures";
+import { ProductHighlight } from "@/features/cyberfortress/components/new/ProductHighlight";
+import { TrustSection } from "@/features/cyberfortress/components/new/TrustSection";
+import { CyberOverviewBackground } from "@/features/cyberfortress/components/new/CyberOverviewBackground";
+import styles from "@/features/cyberfortress/components/CyberFortress.module.css";
 
 export default function CyberFortressPage() {
     return (

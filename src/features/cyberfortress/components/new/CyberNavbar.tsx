@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Box, Shield, Menu, X, LayoutGrid, Server, ShieldCheck, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CyberFloatingDock } from "@/components/cyberfortress/new/CyberFloatingDock";
+import { CyberFloatingDock } from "@/features/cyberfortress/components/new/CyberFloatingDock";
 import { BrandIcon } from "@/components/ui/icons/BrandIcon";
 
 export function CyberNavbar() {

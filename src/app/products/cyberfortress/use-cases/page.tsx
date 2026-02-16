@@ -1,7 +1,7 @@
 
 'use client';
 
-import styles from '@/components/cyberfortress/CyberFortress.module.css';
+import styles from '@/features/cyberfortress/components/CyberFortress.module.css';
 import Link from 'next/link';
 import { Shield, Activity, Layers, Zap, Scale, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';

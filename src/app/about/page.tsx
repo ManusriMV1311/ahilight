@@ -14,9 +14,9 @@ import { ArrowRight, CheckCircle2, Globe, Lightbulb, Users } from "lucide-react"
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
-import { AboutTimeline } from "@/components/sections/about-timeline";
-import { AboutTeam } from "@/components/sections/about-team";
-import { AboutBacking } from "@/components/sections/about-backing";
+import { AboutTimeline } from "@/features/landing/components/about-timeline";
+import { AboutTeam } from "@/features/landing/components/about-team";
+import { AboutBacking } from "@/features/landing/components/about-backing";
 
 const fadeIn = {
     initial: { opacity: 0, y: 30 },

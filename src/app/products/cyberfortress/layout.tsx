@@ -5,8 +5,8 @@ export const metadata: Metadata = {
     description: 'The flagship security platform from AhiLight. Detection, Response, Deception, and Audit in one unified engine.',
 };
 
-import { CyberNavbar } from '@/components/cyberfortress/new/CyberNavbar';
-import { CyberFooter } from '@/components/cyberfortress/new/CyberFooter';
+import { CyberNavbar } from '@/features/cyberfortress/components/new/CyberNavbar';
+import { CyberFooter } from '@/features/cyberfortress/components/new/CyberFooter';
 
 export default function CyberFortressLayout({
     children,

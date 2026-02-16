@@ -1,6 +1,6 @@
 'use client';
 
-import styles from '@/components/cyberfortress/CyberFortress.module.css';
+import styles from '@/features/cyberfortress/components/CyberFortress.module.css';
 import { Mail, Shield, Building, User, FileText, Terminal, Activity, Lock, Cpu, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';

@@ -1,9 +1,9 @@
 
-import styles from '@/components/cyberfortress/CyberFortress.module.css';
+import styles from '@/features/cyberfortress/components/CyberFortress.module.css';
 import Link from 'next/link';
 import { Shield, Eye, Brain, Zap, Lock, Activity, Server, Database, Network } from 'lucide-react';
 
-import { CyberFeaturesBackground } from '@/components/cyberfortress/new/CyberFeaturesBackground';
+import { CyberFeaturesBackground } from '@/features/cyberfortress/components/new/CyberFeaturesBackground';
 
 export default function CyberFeaturesPage() {
     return (

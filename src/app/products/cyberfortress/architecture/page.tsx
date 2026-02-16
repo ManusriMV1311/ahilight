@@ -1,9 +1,9 @@
 
-import styles from '@/components/cyberfortress/CyberFortress.module.css';
+import styles from '@/features/cyberfortress/components/CyberFortress.module.css';
 import Link from 'next/link';
 import { Shield, Server, Box, Cpu, Activity, Share2, Layers } from 'lucide-react';
 
-import { CyberArchitectureBackground } from '@/components/cyberfortress/new/CyberArchitectureBackground';
+import { CyberArchitectureBackground } from '@/features/cyberfortress/components/new/CyberArchitectureBackground';
 
 export default function CyberArchitecturePage() {
     return (

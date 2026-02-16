@@ -1,11 +1,11 @@
 
 import { HomeBackground } from "@/components/backgrounds/HomeBackground";
-import { Hero } from "@/components/sections/hero"
-import { Problem } from "@/components/sections/problem"
-import { Principles } from "@/components/sections/principles"
-import { ResearchCredibility } from "@/components/sections/research-credibility"
-import { CompanyRoadmap } from "@/components/sections/company-roadmap"
-import { FinalCTA } from "@/components/sections/final-cta"
+import { Hero } from "@/features/landing/components/hero"
+import { Problem } from "@/features/landing/components/problem"
+import { Principles } from "@/features/landing/components/principles"
+import { ResearchCredibility } from "@/features/landing/components/research-credibility"
+import { CompanyRoadmap } from "@/features/landing/components/company-roadmap"
+import { FinalCTA } from "@/features/landing/components/final-cta"
 
 export default function Home() {
   return (

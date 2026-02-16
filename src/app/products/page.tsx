@@ -1,9 +1,9 @@
 "use client"
 
-import { DomainApproach } from "@/components/sections/domain-approach"
+import { DomainApproach } from "@/features/landing/components/domain-approach"
 import { useState, useEffect } from "react";
 
-import { ProductNavigation } from "@/components/products/product-navigation";
+import { ProductNavigation } from "@/features/products/components/product-navigation";
 
 export default function ProductsPage() {
     const [animationComplete, setAnimationComplete] = useState(false);
